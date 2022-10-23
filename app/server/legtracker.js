@@ -23,7 +23,7 @@ const app = express();
  *      gm:  Governer's Messages
  */
 
-app.get('/api/scrapeAll/:year/:mt', async (req, res) => {
+app.get('/api/scrapeMeasures/:year/:mt', async (req, res) => {
   const year = req.params.year;
   const mt = req.params.mt;
   const url = `https://www.capitol.hawaii.gov/advreports/advreport.aspx?year=${year}&report=deadline&active=true&rpt_type=&measuretype=${mt}`;
