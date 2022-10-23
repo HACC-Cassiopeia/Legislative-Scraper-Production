@@ -3,6 +3,8 @@
   "private": true,
   "dependencies": {
     "@babel/runtime": "^7.18.3",
+    "@fullcalendar/daygrid": "^5.11.3",
+    "@fullcalendar/react": "^5.11.2",
     "axios": "^1.1.3",
     "bootstrap": "^5.2.0",
     "cheerio": "^1.0.0-rc.12",
@@ -10,6 +12,7 @@
     "core-js": "^3.23.2",
     "express": "^4.18.2",
     "graphql": "^16.5.0",
+    "jspdf": "^2.5.1",
     "meteor-node-stubs": "^1.2.3",
     "prop-types": "^15.7.2",
     "react": "^18.2.0",
