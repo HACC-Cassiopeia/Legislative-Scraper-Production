@@ -5,8 +5,8 @@ import { NavLink } from 'react-router-dom';
 import { Roles } from 'meteor/alanning:roles';
 import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import { BoxArrowRight, CloudDownload, PersonFill, PersonPlusFill } from 'react-bootstrap-icons';
-import { ROLE } from '../../api/role/Role';
-import { COMPONENT_IDS } from '../utilities/ComponentIDs';
+import { ROLE } from '../../../api/role/Role';
+import { COMPONENT_IDS } from '../../utilities/ComponentIDs';
 
 const NavBar = () => {
   // useTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker

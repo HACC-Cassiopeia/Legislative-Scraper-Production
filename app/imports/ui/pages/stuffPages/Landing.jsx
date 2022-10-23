@@ -1,6 +1,6 @@
 import React from 'react';
 import { Col, Container, Image, Row } from 'react-bootstrap';
-import { PAGE_IDS } from '../utilities/PageIDs';
+import { PAGE_IDS } from '../../utilities/PageIDs';
 
 /* A simple static component to render some text for the landing page. */
 const Landing = () => (

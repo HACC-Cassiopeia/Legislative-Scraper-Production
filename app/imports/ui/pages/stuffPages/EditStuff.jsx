@@ -5,10 +5,10 @@ import { AutoForm, ErrorsField, HiddenField, NumField, SelectField, SubmitField,
 import { useTracker } from 'meteor/react-meteor-data';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import { useParams } from 'react-router';
-import { Stuffs } from '../../api/stuff/StuffCollection';
-import { updateMethod } from '../../api/base/BaseCollection.methods';
-import LoadingSpinner from '../components/LoadingSpinner';
-import { PAGE_IDS } from '../utilities/PageIDs';
+import { Stuffs } from '../../../api/stuff/StuffCollection';
+import { updateMethod } from '../../../api/base/BaseCollection.methods';
+import LoadingSpinner from '../../components/LoadingSpinner';
+import { PAGE_IDS } from '../../utilities/PageIDs';
 
 const bridge = new SimpleSchema2Bridge(Stuffs._schema);
 

@@ -1,10 +1,10 @@
 import React from 'react';
 import { Col, Container, Row, Table } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
-import { Stuffs } from '../../api/stuff/StuffCollection';
-import StuffItem from '../components/StuffItem';
-import LoadingSpinner from '../components/LoadingSpinner';
-import { PAGE_IDS } from '../utilities/PageIDs';
+import { Stuffs } from '../../../api/stuff/StuffCollection';
+import StuffItem from '../../components/stuffComponents/StuffItem';
+import LoadingSpinner from '../../components/LoadingSpinner';
+import { PAGE_IDS } from '../../utilities/PageIDs';
 
 /* Renders a table containing all of the Stuff documents. Use <StuffItem> to render each row. */
 const ListStuff = () => {

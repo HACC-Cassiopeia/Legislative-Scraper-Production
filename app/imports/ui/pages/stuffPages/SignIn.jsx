@@ -5,8 +5,8 @@ import { Alert, Card, Col, Container, Row } from 'react-bootstrap';
 import SimpleSchema from 'simpl-schema';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import { AutoForm, ErrorsField, SubmitField, TextField } from 'uniforms-bootstrap5';
-import { PAGE_IDS } from '../utilities/PageIDs';
-import { COMPONENT_IDS } from '../utilities/ComponentIDs';
+import { PAGE_IDS } from '../../utilities/PageIDs';
+import { COMPONENT_IDS } from '../../utilities/ComponentIDs';
 
 /**
  * Signin page overrides the form’s submit event and call Meteor’s loginWithPassword().

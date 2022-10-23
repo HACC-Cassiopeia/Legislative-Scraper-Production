@@ -5,9 +5,9 @@ import swal from 'sweetalert';
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
-import { Stuffs } from '../../api/stuff/StuffCollection';
-import { defineMethod } from '../../api/base/BaseCollection.methods';
-import { PAGE_IDS } from '../utilities/PageIDs';
+import { Stuffs } from '../../../api/stuff/StuffCollection';
+import { defineMethod } from '../../../api/base/BaseCollection.methods';
+import { PAGE_IDS } from '../../utilities/PageIDs';
 
 // Create a schema to specify the structure of the data to appear in the form.
 const formSchema = new SimpleSchema({
