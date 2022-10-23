@@ -1,10 +1,11 @@
 /* Use Open Sans as the default sans serif font. */
-@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,700|Source+Code+Pro:300,400,500,700");
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,700|Source+Code+Pro:300,400,500,700');
 
 /* Set up some CSS variables to theme the application. */
 :root {
-  --matr-navbar-bg: #ECECEC;
+  --matr-navbar-bg: #ececec;
   --matr-navbar-bg-rgb: 236, 236, 236;
+  --bs-body-font-family: 'Oswald', sans-serif !important;
 }
 
 /* Change bootstrap variable values.
@@ -14,15 +15,134 @@ body {
   --bs-light-rgb: var(--matr-navbar-bg-rgb);
 }
 
-/* Set the SignIn and SignUp alerts background. */
-#signin-page .alert-light, #signup-page .alert-light {
+h2 {
+}
+
+/* Set the alert background on the signin and signup pages. */
+
+#signin-page .alert-light,
+#signup-page .alert-light {
   --bs-alert-bg: var(--matr-navbar-bg);
+}
+
+/* Custom styles for the dashboard page */
+#dashboard-screen {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+}
+
+#dashboard-sideMenu {
+  max-width: 15%;
+  border-right-color: black;
+  border-right-style: solid;
+}
+
+#dashboard-sideMenu hr {
+  border-top: 2px solid black;
+}
+
+#dashboard-sideMenu Button {
+  color: black;
+}
+
+#dashboard-filter {
+}
+
+#dashboard-list thead {
+  position: sticky;
+  top: 0;
+  margin: 0 0 0 0;
+  background-color: white;
 }
 
 /* Define custom styles */
 .gray-background {
-  background-color: var(--bs-gray-200);
+  background-color: var(--matr-navbar-bg);
   color: var(--bs-dark);
   padding-top: 10px;
   padding-bottom: 20px;
+}
+
+.headerTopTitle {
+  background-image: url('../public/images/landing.png');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  background-color: #cccccc;
+  background-size: cover;
+  min-height: 35vh;
+}
+
+/*  not sure how to do the bootstrap attributes (eg --bs-accordion-active-bg) in the .jsx files so these stay here for now -Rob */
+.introducerAccordion .accordion-button {
+  --bs-accordion-active-color: black;
+  --bs-accordion-active-bg: transparent;
+  font-size: small;
+  text-align: center !important;
+  width: 75%;
+  margin: 0 auto;
+  padding-bottom: 0;
+  padding-top: 0;
+}
+
+.billAccordion .accordion-body {
+  --bs-accordion-active-color: black;
+  --bs-accordion-active-bg: transparent;
+  z-index: 0;
+  margin: 0 auto;
+  font-size: 13px;
+  padding: 0;
+}
+
+.billAccordion .accordion-button {
+  --bs-accordion-active-color: black;
+  --bs-accordion-active-bg: transparent;
+  z-index: 0;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.accordion {
+  --bs-accordion-bg: transparent !important;
+}
+
+.accordion-button:focus {
+  --bs-accordion-btn-focus-border-color: transparent;
+  --bs-accordion-btn-focus-box-shadow: transparent;
+}
+
+.accordion-body {
+  padding: 0 !important;
+}
+
+.starButton {
+  background-color: transparent !important;
+  color: black !important;
+  border-width: 0 !important;
+}
+
+#navBar {
+  width: 15%;
+  color: #418c5c;
+}
+
+#mainBody {
+  margin-left: 20%;
+  z-index: 0;
+  max-width: 65vw;
+}
+
+#mobileMainBody {
+  margin-left: 25%;
+  max-width: 60vw;
+  z-index: 0;
+}
+
+@media only screen and (max-width: 800px) {
+  #mainBody {
+    margin-left: 20%;
+    z-index: 0;
+    max-width: 60vw;
+  }
 }
