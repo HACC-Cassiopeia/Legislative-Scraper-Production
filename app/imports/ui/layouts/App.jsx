@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { Meteor } from 'meteor/meteor';
 import { Roles } from 'meteor/alanning:roles';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import Footer from '../components/stuffComponents/Footer';
-import Landing from '../pages/stuffPages/Landing';
+// import Footer from '../components/stuffComponents/Footer';
 import ListStuff from '../pages/stuffPages/ListStuff';
 import ListStuffAdmin from '../pages/stuffPages/ListStuffAdmin';
 import AddStuff from '../pages/stuffPages/AddStuff';
@@ -12,32 +11,68 @@ import EditStuff from '../pages/stuffPages/EditStuff';
 import NotFound from '../pages/stuffPages/NotFound';
 import SignUp from '../pages/stuffPages/SignUp';
 import SignOut from '../pages/stuffPages/SignOut';
-import NavBar from '../components/stuffComponents/NavBar';
+// import NavBar from '../components/stuffComponents/NavBar';
 import SignIn from '../pages/stuffPages/SignIn';
 import NotAuthorized from '../pages/stuffPages/NotAuthorized';
-import Test from '../Test';
 import { ROLE } from '../../api/role/Role';
+
+/*
+ * From Legislature-Tracker
+ * Imports that are commented out means that they're using unsecure methods
+ * instead of meteor methods
+ */
+import Landing from '../pages/Landing';
+import Home from '../pages/Home';
+// import AllDashboard from '../pages/AllDashboard';
+// import SavedDashboard from '../pages/SavedDashboard';
+// import BillResolutionTracker from '../pages/BillResolutionTracker';
+// import AddTestimony from '../pages/AddTestimony';
+import Test from '../Test';
+import Calendar from '../pages/Calendar';
+import SideNavBar from '../components/SideNavBar';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => (
   <Router>
+    {/* <div className="d-flex flex-column min-vh-100"> */}
+    {/*  <NavBar /> */}
+    {/*  <Routes> */}
+    {/*    <Route exact path="/" element={<Landing />} /> */}
+    {/*    <Route path="/signin" element={<SignIn />} /> */}
+    {/*    <Route path="/signup" element={<SignUp />} /> */}
+    {/*    <Route path="/signout" element={<SignOut />} /> */}
+    {/*    <Route path="/home" element={<ProtectedRoute><Landing /></ProtectedRoute>} /> */}
+    {/*    <Route path="/list" element={<ProtectedRoute><ListStuff /></ProtectedRoute>} /> */}
+    {/*    <Route path="/add" element={<ProtectedRoute><AddStuff /></ProtectedRoute>} /> */}
+    {/*    <Route path="/edit/:_id" element={<ProtectedRoute><EditStuff /></ProtectedRoute>} /> */}
+    {/*    <Route path="/admin" element={<AdminProtectedRoute><ListStuffAdmin /></AdminProtectedRoute>} /> */}
+    {/*    <Route path="/notauthorized" element={<NotAuthorized />} /> */}
+    {/*    <Route path="*" element={<NotFound />} /> */}
+    {/*    <Route path="/test" element={<Test />} /> */}
+    {/*  </Routes> */}
+    {/*  <Footer /> */}
+    {/* </div> */}
     <div className="d-flex flex-column min-vh-100">
-      <NavBar />
+      <SideNavBar />
       <Routes>
         <Route exact path="/" element={<Landing />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signout" element={<SignOut />} />
-        <Route path="/home" element={<ProtectedRoute><Landing /></ProtectedRoute>} />
+        {/* <Route path="/all-dashboard" element={<AllDashboard />} /> */}
+        {/* <Route path="/saved-dashboard" element={<SavedDashboard />} /> */}
+        {/* <Route path="/add-testimony" element={<AddTestimony />} /> */}
+        {/* <Route path="/view/:_code" element={<BillResolutionTracker />} /> */}
+        <Route path="/test" element={<Test />} />
+        <Route path="/calendar" element={<Calendar />} />
+        <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
         <Route path="/list" element={<ProtectedRoute><ListStuff /></ProtectedRoute>} />
-        <Route path="/add" element={<ProtectedRoute><AddStuff /></ProtectedRoute>} />
-        <Route path="/edit/:_id" element={<ProtectedRoute><EditStuff /></ProtectedRoute>} />
+        <Route path="/add" element={(<ProtectedRoute><AddStuff /></ProtectedRoute>)} />
+        <Route path="/edit/:_id" element={(<ProtectedRoute><EditStuff /></ProtectedRoute>)} />
         <Route path="/admin" element={<AdminProtectedRoute><ListStuffAdmin /></AdminProtectedRoute>} />
         <Route path="/notauthorized" element={<NotAuthorized />} />
         <Route path="*" element={<NotFound />} />
-        <Route path="/test" element={<Test />} />
       </Routes>
-      <Footer />
     </div>
   </Router>
 );
