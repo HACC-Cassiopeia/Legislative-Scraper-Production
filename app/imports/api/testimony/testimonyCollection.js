@@ -37,7 +37,7 @@ class TestimonyCollection extends BaseCollection {
    * @param introduction the introduction text.
    * @return {String} the docID of the new document.
    */
-  define({ committeeChair, committeeName, billNumber, draftNumber, hearingDate, hearingLocation, position, introduction }) {
+  define({ committeeChair, committeeName, billNumber, draftNumber, hearingDate, hearingLocation, position, introduction, owner }) {
     const docID = this._collection.insert({
       committeeChair,
       committeeName,
@@ -47,6 +47,7 @@ class TestimonyCollection extends BaseCollection {
       hearingLocation,
       position,
       introduction,
+      owner,
     });
     return docID;
   }
@@ -142,7 +143,7 @@ class TestimonyCollection extends BaseCollection {
   /**
    * Subscription method for testimony owned by the current user.
    */
-  subscribeStuff() {
+  subscribeTestimony() {
     if (Meteor.isClient) {
       return Meteor.subscribe(testimonyPublications.testimony);
     }

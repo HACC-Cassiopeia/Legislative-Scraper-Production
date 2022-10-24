@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { Accordion, Col, Container, Dropdown, DropdownButton, Row, Table } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
-import { SavedMeasures } from '../../api/savedMeasures/SavedMeasures';
+import { SavedMeasures } from '../../api/savedMeasure/SavedMeasures';
 import SavedBill from '../components/SavedBill';
 import LoadingSpinner from '../components/LoadingSpinner';
 import SideNavBar from '../components/SideNavBar';
