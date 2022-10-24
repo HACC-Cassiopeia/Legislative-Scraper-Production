@@ -37,6 +37,7 @@ app.get('/api/scrapeMeasures/:year/:mt', async (req, res) => {
   // if it's less than 10, add a zero in front to conform with format
   const getIndex = (num) => (num < 10 ? `0${index}` : index);
 
+  // eslint-disable-next-line consistent-return
   $('tr', html).each(function () {
     index += 1;
 
@@ -95,6 +96,7 @@ app.get('/api/scrapeMeasures/:year/:mt', async (req, res) => {
         companion: `${companion}`,
       });
     }
+    if (index === 11) return false;
   });
   res.status(200).json({ scrapedData });
 });
