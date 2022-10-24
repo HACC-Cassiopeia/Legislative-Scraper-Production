@@ -69,7 +69,7 @@ const DesktopSideBar = () => {
   return (
     <div>
       {show ? (
-        <Nav style={showSideBarStyle} activeKey='/home'>
+        <Nav style={showSideBarStyle} activeKey="/home">
           <Nav.Item>
             <Button
               style={{
@@ -77,27 +77,28 @@ const DesktopSideBar = () => {
                 color: 'white',
                 fontSize: '20px',
               }}
-              onClick={handleClose}>
+              onClick={handleClose}
+            >
               <Icon.ArrowBarLeft />
             </Button>
-            <Nav.Link href='/' style={{ color: 'black' }}>
+            <Nav.Link href="/" style={{ color: 'black' }}>
               <Icon.HouseDoor /> <b>HOME</b>
             </Nav.Link>
-            <Nav.Link href='/all-dashboard' style={{ color: 'black' }}>
+            <Nav.Link href="/all-dashboard" style={{ color: 'black' }}>
               <Icon.Clipboard /> <b>DASHBOARD</b>
             </Nav.Link>
 
             {currentUser
               ? [
-                  <>
-                    <Nav.Link href='/home' style={{ color: 'black' }}>
-                      <Icon.Inbox /> <b>NOTIFICATION</b>
-                    </Nav.Link>
-                    <Nav.Link href='/calendar' style={{ color: 'black' }}>
-                      <Icon.Calendar /> <b>CALENDAR</b>
-                    </Nav.Link>
-                  </>,
-                ]
+                <>
+                  <Nav.Link href="/home" style={{ color: 'black' }}>
+                    <Icon.Inbox /> <b>NOTIFICATION</b>
+                  </Nav.Link>
+                  <Nav.Link href="/calendar" style={{ color: 'black' }}>
+                    <Icon.Calendar /> <b>CALENDAR</b>
+                  </Nav.Link>
+                </>,
+              ]
               : ''}
             {currentUser === '' ? (
               <div style={{ lineHeight: '45pt' }}>
@@ -114,33 +115,34 @@ const DesktopSideBar = () => {
           </Nav.Item>
         </Nav>
       ) : (
-        <Nav style={closeSideBarStyle} activeKey='/home'>
+        <Nav style={closeSideBarStyle} activeKey="/home">
           <Nav.Item>
             <Button
               style={{
                 color: 'white',
                 fontSize: '20px',
               }}
-              onClick={handleShow}>
+              onClick={handleShow}
+            >
               <Icon.List />
             </Button>
-            <Nav.Link href='/' style={{ color: 'black' }}>
+            <Nav.Link href="/" style={{ color: 'black' }}>
               <Icon.HouseDoor />
             </Nav.Link>
-            <Nav.Link href='/all-dashboard' style={{ color: 'black' }}>
+            <Nav.Link href="/all-dashboard" style={{ color: 'black' }}>
               <Icon.Clipboard />
             </Nav.Link>
             {currentUser
               ? [
-                  <>
-                    <Nav.Link href='/home' style={{ color: 'black' }}>
-                      <Icon.Inbox />
-                    </Nav.Link>
-                    <Nav.Link href='/calendar' style={{ color: 'black' }}>
-                      <Icon.Calendar />
-                    </Nav.Link>
-                  </>,
-                ]
+                <>
+                  <Nav.Link href="/home" style={{ color: 'black' }}>
+                    <Icon.Inbox />
+                  </Nav.Link>
+                  <Nav.Link href="/calendar" style={{ color: 'black' }}>
+                    <Icon.Calendar />
+                  </Nav.Link>
+                </>,
+              ]
               : ''}
             {currentUser === '' ? (
               <div style={{ textAlign: 'center', lineHeight: '45pt' }}>
