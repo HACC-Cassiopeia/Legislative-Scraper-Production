@@ -4,9 +4,7 @@ import { useTracker } from 'meteor/react-meteor-data';
 import { Nav } from 'react-bootstrap';
 import * as Icon from 'react-bootstrap-icons';
 import './style/Component.css';
-import SignUpModal from './SignUpModal';
-import SignInModal from './SignInModal';
-import SignoutCheck from './SignoutCheck';
+import DesktopSideBar from './SideNavBar/DesktopSideBar';
 import MobileSignOutCheck from './MobileSignOutCheck';
 import MobileSignInModal from './MobileSignInModal';
 import MobileSignUpModal from './MobileSignUpModal';
@@ -25,18 +23,6 @@ const SideNavBar = () => {
     };
   }, []);
   const breakPoint = 800;
-
-  const sideBarStyle = {
-    position: 'fixed',
-    maxWidth: '25%',
-    minWidth: '14%',
-    minHeight: '100vh',
-    backgroundColor: 'cyan',
-    color: 'white',
-    fontSize: '16px',
-    textAlign: 'left',
-    zIndex: 100,
-  };
 
   const mobileSideBarStyle = {
     position: 'fixed',
@@ -58,62 +44,28 @@ const SideNavBar = () => {
   );
 
   if (width > breakPoint) {
-    return (
-      <Nav style={sideBarStyle} activeKey="/home">
-        <Nav.Item>
-          <Nav.Link href="/" style={{ color: 'black' }}>
-            <Icon.HouseDoor /> <b>HOME</b>
-          </Nav.Link>
-          <Nav.Link href="/view/DOE" style={{ color: 'black' }}>
-            <Icon.Clipboard /> <b>DASHBOARD</b>
-          </Nav.Link>
-
-          {currentUser
-            ? [
-              <>
-                <Nav.Link href="/home" style={{ color: 'black' }}>
-                  <Icon.Inbox /> <b>NOTIFICATION</b>
-                </Nav.Link>
-                <Nav.Link href="/calendar" style={{ color: 'black' }}>
-                  <Icon.Calendar /> <b>CALENDAR</b>
-                </Nav.Link>
-              </>,
-            ]
-            : ''}
-          {currentUser === '' ? (
-            <div style={{ textAlign: 'center', lineHeight: '45pt' }}>
-              <SignInModal />
-              <br />
-              <SignUpModal />
-            </div>
-          ) : (
-            <SignoutCheck />
-          )}
-          <Nav.Link />
-        </Nav.Item>
-      </Nav>
-    );
+    return <DesktopSideBar />;
   }
   return (
-    <Nav style={mobileSideBarStyle} activeKey="/home">
+    <Nav style={mobileSideBarStyle} activeKey='/home'>
       <Nav.Item>
-        <Nav.Link href="/" style={{ color: 'black' }}>
+        <Nav.Link href='/' style={{ color: 'black' }}>
           <Icon.HouseDoor />
         </Nav.Link>
-        <Nav.Link href="/view/all" style={{ color: 'black' }}>
+        <Nav.Link href='/view/all' style={{ color: 'black' }}>
           <Icon.Clipboard />
         </Nav.Link>
         {currentUser
           ? [
-            <>
-              <Nav.Link href="/home" style={{ color: 'black' }}>
-                <Icon.Inbox />
-              </Nav.Link>
-              <Nav.Link href="/calendar" style={{ color: 'black' }}>
-                <Icon.Calendar />
-              </Nav.Link>
-            </>,
-          ]
+              <>
+                <Nav.Link href='/home' style={{ color: 'black' }}>
+                  <Icon.Inbox />
+                </Nav.Link>
+                <Nav.Link href='/calendar' style={{ color: 'black' }}>
+                  <Icon.Calendar />
+                </Nav.Link>
+              </>,
+            ]
           : ''}
         {currentUser === '' ? (
           <div style={{ textAlign: 'center', lineHeight: '45pt' }}>

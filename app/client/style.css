@@ -65,11 +65,10 @@ h2 {
 }
 
 .headerTopTitle {
-  background-image: url('../public/images/landing.png');
+  background: url('images/landing.png') no-repeat center;
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
-  background-color: #cccccc;
   background-size: cover;
   min-height: 35vh;
 }
@@ -135,7 +134,6 @@ h2 {
 
 #mobileMainBody {
   margin-left: 25%;
-  max-width: 60vw;
   z-index: 0;
 }
 
@@ -143,6 +141,5 @@ h2 {
   #mainBody {
     margin-left: 20%;
     z-index: 0;
-    max-width: 60vw;
   }
 }
