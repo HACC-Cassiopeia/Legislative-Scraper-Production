@@ -25,7 +25,7 @@ import Landing from '../pages/Landing';
 import Home from '../pages/Home';
 import AllDashboard from '../pages/AllDashboard';
 // import SavedDashboard from '../pages/SavedDashboard';
-// import BillResolutionTracker from '../pages/BillResolutionTracker';
+import BillResolutionTracker from '../pages/BillResolutionTracker';
 // import AddTestimony from '../pages/AddTestimony';
 import Test from '../Test';
 import Calendar from '../pages/Calendar';
@@ -59,10 +59,10 @@ const App = () => (
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signout" element={<SignOut />} />
-        <Route path="/view/DOE" element={<AllDashboard />} />
+        <Route path="/all-dashboard" element={<AllDashboard />} />
         {/* <Route path="/saved-dashboard" element={<SavedDashboard />} /> */}
         {/* <Route path="/add-testimony" element={<AddTestimony />} /> */}
-        { /* <Route path="/view/:_code" element={<BillResolutionTracker />} /> */}
+        <Route path="/all-dashboard/:_code" element={<BillResolutionTracker />} />
         <Route path="/test" element={<Test />} />
         <Route path="/calendar" element={<Calendar />} />
         <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />

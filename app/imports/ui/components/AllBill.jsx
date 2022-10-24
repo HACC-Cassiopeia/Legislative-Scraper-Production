@@ -8,7 +8,6 @@ import { useTracker } from 'meteor/react-meteor-data';
 import { SavedMeasures } from '../../api/savedMeasure/SavedMeasureCollection';
 import SmallerSpinner from './SmallerSpinner';
 
-
 /* const { ready, stuffs } = useTracker(() => {
     // Note that this subscription will get cleaned up
     // when your component is unmounted or deps change.
@@ -35,7 +34,7 @@ const AllBill = ({ bill }) => {
     // Determine if the subscription is ready
     const rdy = subscription.ready();
     // Get the Stuff documents
-    const svd = SavedMeasures.find({}, { sort: { name: 1 } }).fetch();
+    const svd = SavedMeasures.find().fetch();
     return {
       saved: svd,
       ready: rdy,
@@ -78,7 +77,7 @@ const AllBill = ({ bill }) => {
         {ready ? checkSaved : <SmallerSpinner class="d-flex justify-content-center" />}
       </td>
       <td>
-        <div style={{ fontSize: '20px' }}><Link to={`/view/${bill.code}`}><strong>{bill.code}</strong></Link></div>
+        <div style={{ fontSize: '20px' }}><Link to={`/all-dashboard/${bill.code}`}><strong>{bill.code}</strong></Link></div>
         <Accordion flush className="billAccordion">
           <Accordion.Item eventKey="0">
             <Accordion.Header>{bill.measureTitle} </Accordion.Header>

@@ -5,7 +5,7 @@ import { useTracker } from 'meteor/react-meteor-data';
 import { useParams } from 'react-router';
 import { Meteor } from 'meteor/meteor';
 import LoadingSpinner from './LoadingSpinner';
-import { ScraperData } from '../../api/scraperData/ScraperData';
+import { SavedMeasures } from '../../api/savedMeasure/SavedMeasureCollection';
 
 const BillResolutionDetails = () => {
 
@@ -13,9 +13,9 @@ const BillResolutionDetails = () => {
 
   // useTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker
   const { ready, bill } = useTracker(() => {
-    const subscription = Meteor.subscribe(ScraperData.userPublicationName);
+    const subscription = Meteor.subscribe(SavedMeasures.userPublicationName);
     const rdy = subscription.ready();
-    const billItem = ScraperData.collection.find({ code: _code }).fetch();
+    const billItem = SavedMeasures.collection.find({ code: _code }).fetch();
     return {
       bill: billItem[0],
       ready: rdy,
