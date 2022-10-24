@@ -1,27 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Meteor } from 'meteor/meteor';
+// import { Meteor } from 'meteor/meteor';
 import { Link } from 'react-router-dom';
 import { CloudCheckFill } from 'react-bootstrap-icons';
 import { Accordion, Button } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
 import { SavedMeasures } from '../../api/savedMeasure/SavedMeasureCollection';
 import SmallerSpinner from './SmallerSpinner';
-
-/* const { ready, stuffs } = useTracker(() => {
-    // Note that this subscription will get cleaned up
-    // when your component is unmounted or deps change.
-    // Get access to Stuff documents.
-    const subscription = Stuffs.subscribeStuff();
-    // Determine if the subscription is ready
-    const rdy = subscription.ready();
-    // Get the Stuff documents
-    const stuffItems = Stuffs.find({}, { sort: { name: 1 } }).fetch();
-    return {
-      stuffs: stuffItems,
-      ready: rdy,
-    };
-  }, []); */
 
 /** Renders a single row in the List Stuff table. See pages/ListStuff.jsx. */
 const AllBill = ({ bill }) => {
