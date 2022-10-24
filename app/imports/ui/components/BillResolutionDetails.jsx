@@ -15,7 +15,7 @@ const BillResolutionDetails = () => {
   const { ready, bill } = useTracker(() => {
     const subscription = SavedMeasures.subscribeMeasureSaved();
     const rdy = subscription.ready();
-    const billItem = SavedMeasures.findDoc({ code: _code }).fetch();
+    const billItem = SavedMeasures.find({ code: _code }).fetch();
     return {
       bill: billItem[0],
       ready: rdy,
