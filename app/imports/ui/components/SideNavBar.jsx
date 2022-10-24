@@ -29,6 +29,7 @@ const SideNavBar = () => {
   const sideBarStyle = {
     position: 'fixed',
     maxWidth: '25%',
+    minWidth: '14%',
     minHeight: '100vh',
     backgroundColor: 'cyan',
     color: 'white',
@@ -63,7 +64,7 @@ const SideNavBar = () => {
           <Nav.Link href="/" style={{ color: 'black' }}>
             <Icon.HouseDoor /> <b>HOME</b>
           </Nav.Link>
-          <Nav.Link href="/all-dashboard" style={{ color: 'black' }}>
+          <Nav.Link href="/view/DOE" style={{ color: 'black' }}>
             <Icon.Clipboard /> <b>DASHBOARD</b>
           </Nav.Link>
 
@@ -86,9 +87,7 @@ const SideNavBar = () => {
               <SignUpModal />
             </div>
           ) : (
-            <>
-              &nbsp; <SignoutCheck />
-            </>
+            <SignoutCheck />
           )}
           <Nav.Link />
         </Nav.Item>
@@ -101,7 +100,7 @@ const SideNavBar = () => {
         <Nav.Link href="/" style={{ color: 'black' }}>
           <Icon.HouseDoor />
         </Nav.Link>
-        <Nav.Link href="/all-dashboard" style={{ color: 'black' }}>
+        <Nav.Link href="/view/all" style={{ color: 'black' }}>
           <Icon.Clipboard />
         </Nav.Link>
         {currentUser

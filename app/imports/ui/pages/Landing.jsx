@@ -2,7 +2,7 @@ import React from 'react';
 import { Col, Image, Row, Nav } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import * as Icon from 'react-bootstrap-icons';
-// added
+
 const landingBody = {
   marginLeft: '15%',
   fontSize: '16px',

@@ -7,62 +7,37 @@ import {
   Dropdown,
   DropdownButton,
 } from 'react-bootstrap';
-import { Meteor } from 'meteor/meteor';
-import { useTracker } from 'meteor/react-meteor-data';
-import { ScraperData } from '../../api/scraperData/ScraperData';
+import { Link } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
 import SideNavBar from '../components/SideNavBar';
 import AllBill from '../components/AllBill';
-// added
+import scrapers from '../utilities/scrapers';
+
 const AllDashboard = () => {
   /* states for item filtering */
   const [office, setOffice] = useState('Select an Office');
   const [action, setAction] = useState('Select a Status');
   const [status, setStatus] = useState('Select an Action');
 
-  // useTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker
-  const { ready, bills } = useTracker(() => {
-    // Note that this subscription will get cleaned up
-    // when your component is unmounted or deps change.
-    // Get access to Stuff documents.
-    const subscription = Meteor.subscribe(ScraperData.userPublicationName);
-    // Determine if the subscription is ready
-    const rdy = subscription.ready();
-    // Get the Stuff documents
-    const billItems = ScraperData.collection.find({}).fetch();
-    return {
-      bills: billItems,
-      ready: rdy,
-    };
-  }, []);
+  const [measures, setMeasures] = useState([]);
 
+  // TODO get year and type from filters
   useEffect(() => {
-    document.title = 'DOE Legislative Tracker - View Bills/Measures';
+    scrapers
+      .scrapeAll(2022, 'hb')
+      .then(initialMeasures => {
+        setMeasures(initialMeasures.scrapedData);
+      });
   });
 
-  /**
-  const returnSideMenu = () => (
-    <Row>
-      <Col className="pt-3">
-        <Button className="py-0" variant="link">
-          Create Tracking Document
-        </Button>
-        <hr />
-        <Button className="py-0" variant="link">
-          Another option here
-        </Button>
-        <hr />
-        <Button className="py-0" variant="link">
-          Idk maybe another option here
-        </Button>
-        <hr />
-      </Col>
-    </Row>
-  ); */
+  useEffect(() => {
+    document.title = 'DOE Legislative Tracker - View All Bills/Measures';
+  });
 
   const returnFilter = () => (
     <div className="pb-3">
-      <h2 className="pt-3 text-center"><b>Legislative Tracking System 2022: All Bills</b></h2>
+      <h2 className="pt-3 text-center"><b>2022: All House Bills</b></h2>
+      <Link className="d-flex justify-content-center pb-2" to="/view/DOE">View DOE-Tracked Bill/Measures</Link>
       <Accordion>
         <Accordion.Item eventKey="0">
           <Accordion.Header>Filter Options</Accordion.Header>
@@ -156,21 +131,18 @@ const AllDashboard = () => {
       <Table striped>
         <thead style={{ zIndex: 200 }}>
           <tr>
-            <th> </th>
+            <th>DOE DB</th>
             <th>Bill / Resolution</th>
-            <th>Office</th>
-            <th>Action</th>
             <th>Committee</th>
-            <th>Hearing</th>
-            <th>Position</th>
-            <th>Testifier</th>
+            <th>Companion</th>
+            <th>Introducer</th>
             <th>Status</th>
           </tr>
         </thead>
-        <tbody>
-          { ready ? bills.map((bill) => <AllBill key={bill._id} bill={bill} />) : <LoadingSpinner />}
+        <tbody>{ measures?.length === 0 ? ' ' : measures?.map((bill) => <AllBill key={bill._id} bill={bill} />) }
         </tbody>
       </Table>
+      { measures?.length === 0 ? <LoadingSpinner /> : ' ' }
     </div>
   );
 

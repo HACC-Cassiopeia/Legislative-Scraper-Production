@@ -7,7 +7,6 @@ import { Meteor } from 'meteor/meteor';
 import LoadingSpinner from './LoadingSpinner';
 import { ScraperData } from '../../api/scraperData/ScraperData';
 
-// added
 const BillResolutionDetails = () => {
 
   const { _code } = useParams();
@@ -67,7 +66,7 @@ const BillResolutionDetails = () => {
         <Col>
           <h3 className="pt-2">
             <a href={bill.measureArchiveUrl} target="_blank" rel="noreferrer"><b>{bill.code}</b></a>
-            &nbsp;
+              &nbsp;
             <a aria-label="PDF link" href={bill.measurePdfUrl} target="_blank" rel="noreferrer"><FilePdfFill className="pb-1" /></a>
           </h3>
         </Col>
