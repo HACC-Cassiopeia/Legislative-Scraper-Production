@@ -4,9 +4,9 @@ const scrapeMeasures = async (year, mt) => {
   try {
     const request = await axios.get(`/api/scrapeMeasures/${year}/${mt}`);
     return request.data;
-  } catch {
+  } catch (error) {
     // eslint-disable-next-line no-console
-    console.log('error: please use year and measure type as params');
+    console.log(error);
     return null;
   }
 };
@@ -15,7 +15,7 @@ const scrapeUpcomingHearings = async () => {
   try {
     const request = await axios.get('/api/scrapeUpcomingHearings');
     return request.data;
-  } catch {
+  } catch (error) {
     // eslint-disable-next-line no-console
     console.log('error!');
     return null;
