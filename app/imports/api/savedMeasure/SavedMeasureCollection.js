@@ -189,7 +189,7 @@ class SavedMeasureCollection extends BaseCollection {
       // get the StuffCollection instance.
       const instance = this;
       /** This subscription publishes only the documents associated with the logged in user */
-      Meteor.publish(savedMeasurePublications.stuff, function publish() {
+      Meteor.publish(savedMeasurePublications.savedMeasure, function publish() {
         if (this.userId) {
           const username = Meteor.users.findOne(this.userId).username;
           return instance._collection.find({ owner: username });
