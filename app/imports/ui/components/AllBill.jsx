@@ -62,7 +62,7 @@ const AllBill = ({ bill }) => {
         {ready ? checkSaved : <SmallerSpinner class="d-flex justify-content-center" />}
       </td>
       <td>
-        <div style={{ fontSize: '20px' }}><Link to={`/all-dashboard/${bill.code}`}><strong>{bill.code}</strong></Link></div>
+        <div style={{ fontSize: '20px' }}><Link to={`/view/${bill.code}`}><strong>{bill.code}</strong></Link></div>
         <Accordion flush className="billAccordion">
           <Accordion.Item eventKey="0">
             <Accordion.Header>{bill.measureTitle} </Accordion.Header>
