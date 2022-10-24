@@ -65,7 +65,7 @@ h2 {
 }
 
 .headerTopTitle {
-  background: url('images/landing.png') no-repeat center;
+  background-color: gray;
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
