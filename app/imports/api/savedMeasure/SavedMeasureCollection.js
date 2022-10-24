@@ -212,7 +212,7 @@ class SavedMeasureCollection extends BaseCollection {
    */
   subscribeMeasureSaved() {
     if (Meteor.isClient) {
-      return Meteor.subscribe(savedMeasurePublications.stuff);
+      return Meteor.subscribe(savedMeasurePublications.savedMeasure);
     }
     return null;
   }

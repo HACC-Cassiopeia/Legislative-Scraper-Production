@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
 import SideNavBar from '../components/SideNavBar';
 import AllBill from '../components/AllBill';
-import scrapers from '../utilities/scrapers';
+import legtracker from '../utilities/Legtracker';
 
 const AllDashboard = () => {
   /* states for item filtering */
@@ -23,8 +23,8 @@ const AllDashboard = () => {
 
   // TODO get year and type from filters
   useEffect(() => {
-    scrapers
-      .scrapeAll(2022, 'hb')
+    legtracker
+      .scrapeMeasures(2022, 'hb')
       .then(initialMeasures => {
         setMeasures(initialMeasures.scrapedData);
       });
