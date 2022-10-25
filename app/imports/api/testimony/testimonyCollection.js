@@ -52,7 +52,8 @@ class TestimonyCollection extends BaseCollection {
    * @param billPurpose the one-liner explaining the purpose of the bill
    * @param the department's position and explanation
    */
-  define({ governorName, governorTitle, testifier, testifierTitle, hearingDate, hearingTime, hearingLocation, committee, department, billTitle, billPurpose, position }) {
+  define({ governorName, governorTitle, testifier, testifierTitle, hearingDate, hearingTime, hearingLocation,
+    committee, department, billTitle, billPurpose, position, lastEditedBy }) {
     const docID = this._collection.insert({
       governorName,
       governorTitle,
@@ -66,6 +67,7 @@ class TestimonyCollection extends BaseCollection {
       billTitle,
       billPurpose,
       position,
+      lastEditedBy,
     });
     return docID;
   }
@@ -85,7 +87,7 @@ class TestimonyCollection extends BaseCollection {
    * @param billPurpose the one-liner explaining the purpose of the bill
    * @param the department's position and explanation
    */
-  update(docID, { governorName, governorTitle, testifier, testifierTitle, hearingDate, hearingTime, hearingLocation, committee, department, billTitle, billPurpose, position }) {
+  update(docID, { governorName, governorTitle, testifier, testifierTitle, hearingDate, hearingTime, hearingLocation, committee, department, billTitle, billPurpose, position, lastEditedBy }) {
     const updateData = {};
     if (governorName) {
       updateData.governorName = governorName;
@@ -133,6 +135,10 @@ class TestimonyCollection extends BaseCollection {
 
     if (position) {
       updateData.position = position;
+    }
+
+    if (lastEditedBy) {
+      updateData.lastEditedBy = lastEditedBy;
     }
 
     this._collection.update(docID, { $set: updateData });
@@ -227,7 +233,9 @@ class TestimonyCollection extends BaseCollection {
     const billTitle = doc.billTitle;
     const billPurpose = doc.billPurpose;
     const position = doc.position;
-    return { governorName, governorTitle, testifier, testifierTitle, hearingDate, hearingTime, hearingLocation, committee, department, billTitle, billPurpose, position };
+    const lastEditedBy = doc.lastEditedBy;
+    return { governorName, governorTitle, testifier, testifierTitle, hearingDate, hearingTime, hearingLocation,
+      committee, department, billTitle, billPurpose, position, lastEditedBy };
   }
 }
 
