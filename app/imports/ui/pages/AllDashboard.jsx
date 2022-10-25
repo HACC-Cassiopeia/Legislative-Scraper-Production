@@ -29,11 +29,8 @@ const AllDashboard = () => {
         setMeasures(initialMeasures.scrapedData);
         console.log(initialMeasures.scrapedData[0]);
       });
-  });
-
-  useEffect(() => {
     document.title = 'DOE Legislative Tracker - View All Bills/Measures';
-  });
+  }, []);
 
   const returnFilter = () => (
     <div className="pb-3">

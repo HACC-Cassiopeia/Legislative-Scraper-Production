@@ -24,7 +24,7 @@ const BillResolutionDetails = () => {
 
   useEffect(() => {
     document.title = `DOE Legislative Tracker - ${_code}`;
-  });
+  }, []);
 
   // TODO change depending on bill status
   const billStatusStyle = {

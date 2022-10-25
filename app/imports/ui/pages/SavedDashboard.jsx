@@ -24,7 +24,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     document.title = 'DOE Legislative Tracker - View DOE Bills/Measures';
-  });
+  }, []);
 
   const returnFilter = () => (
     <div className="pb-3">

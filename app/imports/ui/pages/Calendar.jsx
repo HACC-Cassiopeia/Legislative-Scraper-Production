@@ -28,7 +28,7 @@ const events = [
 const Calendar = () => {
   useEffect(() => {
     document.title = 'DOE Legislative Tracker - Calendar';
-  });
+  }, []);
 
   return (
     <div id="mainBody">
