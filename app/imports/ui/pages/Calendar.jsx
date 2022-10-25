@@ -35,11 +35,11 @@ const Calendar = () => {
       .then(initialData => {
         setUpcomingHearings(initialData.upcomingHearings);
       });
-  });
+  }, []);
 
   return (
     <div id="mainBody">
-      {console.log(...upcomingHearings)}
+      {console.log(upcomingHearings)}
       <Container className="p-lg-5">
         <FullCalendar
           defaultView="dayGridMonth"
