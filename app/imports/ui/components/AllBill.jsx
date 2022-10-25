@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import { Meteor } from 'meteor/meteor';
 import { Link } from 'react-router-dom';
 import { CloudCheckFill } from 'react-bootstrap-icons';
 import { Accordion, Button } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
-import { SavedMeasures } from '../../api/savedMeasure/SavedMeasureCollection';
+import { SavedMeasures } from '../../api/savedMeasures/SavedMeasuresCollection';
 import SmallerSpinner from './SmallerSpinner';
 
 /** Renders a single row in the List Stuff table. See pages/ListStuff.jsx. */

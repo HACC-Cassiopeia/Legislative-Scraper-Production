@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
 import SideNavBar from '../components/SideNavBar';
 import AllBill from '../components/AllBill';
-import legtracker from '../utilities/Legtracker';
+import LegTracker from '../utilities/Legtracker';
 
 const AllDashboard = () => {
   /* states for item filtering */
@@ -23,7 +23,7 @@ const AllDashboard = () => {
 
   // TODO get year and type from filters
   useEffect(() => {
-    legtracker
+    LegTracker
       .scrapeMeasures(2022, 'hb')
       .then(initialMeasures => {
         setMeasures(initialMeasures.scrapedData);
@@ -139,10 +139,10 @@ const AllDashboard = () => {
             <th>Status</th>
           </tr>
         </thead>
-        <tbody>{ measures?.length === 0 ? ' ' : measures?.map((bill) => <AllBill key={bill._id} bill={bill} />) }
+        <tbody>{ measures.length === 0 ? '' : measures.map((bill) => <AllBill key={bill._id} bill={bill} />) }
         </tbody>
       </Table>
-      { measures?.length === 0 ? <LoadingSpinner /> : ' ' }
+      { measures.length === 0 ? <LoadingSpinner /> : '' }
     </div>
   );
 

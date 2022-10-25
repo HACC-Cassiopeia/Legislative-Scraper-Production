@@ -12,7 +12,7 @@ export const savedMeasurePublications = {
   savedMeasureAdmin: 'SavedMeasureAdmin',
 };
 
-class SavedMeasureCollection extends BaseCollection {
+class SavedMeasuresCollection extends BaseCollection {
   constructor() {
     super('SavedMeasure', new SimpleSchema({
       office: { type: Array, optional: true },
@@ -275,4 +275,4 @@ class SavedMeasureCollection extends BaseCollection {
 /**
  * Provides the singleton instance of this class to all other entities.
  */
-export const SavedMeasures = new SavedMeasureCollection();
+export const SavedMeasures = new SavedMeasuresCollection();

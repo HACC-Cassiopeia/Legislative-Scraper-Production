@@ -13,5 +13,102 @@
   ],
   "public": {
     "development": true
-  }
+  },
+
+  "testimonies": [
+    {
+      "committeeChair": "Some name",
+      "committeeName": "Some comittee",
+      "billNumber": "HB1078",
+      "draftNumber": "HB107",
+      "hearingDate": "2022/10/14",
+      "hearingLocation": "Some location",
+      "position": "Some position",
+      "introduction": "Some introduction"
+    }
+  ],
+
+  "defaultSavedMeasures": [
+    {
+      "office": ["OSSS"],
+      "archive": false,
+      "code": "HB1438",
+      "measurePdfUrl": "https://www.capitol.hawaii.gov/session2022/bills/HB1438_.pdf",
+      "measureArchiveUrl": "https://www.capitol.hawaii.gov/measure_indiv.aspx?billtype=HB&billnumber=1438&year=2022",
+      "measureTitle": "RELATING TO UNLAWFUL CHOP SHOP ACTIVITY.",
+      "reportTitle": "Maui County Council Package; Penal Code; Chop Shops; Unlawful Chop Shop Activity",
+      "description": "Establishes the criminal offenses of unlawful chop shop activity in the first and second degrees.  Provides for the forfeiture of property connected with chop shop activity.  Defines \"chop shop.\"",
+      "statusHorS": "H",
+      "statusDescription": "Referred to CPC, JHA, referral sheet 1",
+      "statusDate": "1/26/2022",
+      "introducer": "SAIKI (Introduced by request of another party)",
+      "currentReferral": "CPC, JHA",
+      "companion": "SB2097"
+    },
+    {
+      "office": ["OFO"],
+      "archive": false,
+      "code": "HB1439",
+      "measurePdfUrl": "https://www.capitol.hawaii.gov/session2022/bills/HB1439_.pdf",
+      "measureArchiveUrl": "https://www.capitol.hawaii.gov/measure_indiv.aspx?billtype=HB&billnumber=1439&year=2022",
+      "measureTitle": "RELATING TO ENVIRONMENTAL PROTECTION.",
+      "reportTitle": "Maui County Council Package; Environmental Protection; Green Fees; Conservation; Workforce; Services; Transient Accommodations",
+      "description": "Establishes a green fee surcharge on transient accommodations for the purposes of funding workforce and services that promote certain environmental goals.  Repeals on June 30, 2032.",
+      "statusHorS": "H",
+      "statusDescription": "Referred to EEP/LAT, CPC, FIN, referral sheet 1",
+      "statusDate": "1/26/2022",
+      "introducer": "SAIKI (Introduced by request of another party)",
+      "currentReferral": "EEP/LAT, CPC, FIN",
+      "companion": "SB2098"
+    },
+    {
+      "office": ["OHE", "OITS"],
+      "archive": false,
+      "code": "HB1440",
+      "measurePdfUrl": "https://www.capitol.hawaii.gov/session2022/bills/HB1440_.pdf",
+      "measureArchiveUrl": "https://www.capitol.hawaii.gov/measure_indiv.aspx?billtype=HB&billnumber=1440&year=2022",
+      "measureTitle": "RELATING TO THE MINIMUM WAGE.",
+      "reportTitle": "Maui County Council Package; Minimum Wage",
+      "description": "Requires that beginning on 1/1/2026, and each year thereafter, the adjusted minimum wage rate to be recalculated using the most recent self-sufficiency income standard for one adult in the State of Hawaii.  Requires that the adjusted minimum wage go into effect starting 7/1/2026 and each year thereafter.  Repeals the tip credit.",
+      "statusHorS": "H",
+      "statusDescription": "Referred to LAT, FIN, referral sheet 1",
+      "statusDate": "1/26/2022",
+      "introducer": "SAIKI (Introduced by request of another party)",
+      "currentReferral": "LAT, FIN",
+      "companion": "SB2099"
+    },
+    {
+      "office": ["OFO"],
+      "archive": false,
+      "code": "HB1441",
+      "measurePdfUrl": "https://www.capitol.hawaii.gov/session2022/bills/HB1441_.pdf",
+      "measureArchiveUrl": "https://www.capitol.hawaii.gov/measure_indiv.aspx?billtype=HB&billnumber=1441&year=2022",
+      "measureTitle": "RELATING TO HIGHWAY IMPROVEMENTS IN THE COUNTY OF MAUI.",
+      "reportTitle": "CIP; Maui County Council Package; GO Bonds; Appropriation",
+      "description": "Authorizes issuance of general obligation bonds and appropriates funds for capital improvement projects for the benefit of the county of Maui.",
+      "statusHorS": "H",
+      "statusDescription": "Referred to TRN, FIN, referral sheet 1",
+      "statusDate": "1/26/2022",
+      "introducer": "SAIKI (Introduced by request of another party)",
+      "currentReferral": "TRN, FIN",
+      "companion": "SB2100"
+    },
+    {
+      "office": ["OCID", "OFS"],
+      "archive": false,
+      "code": "HB1442",
+      "measurePdfUrl": "https://www.capitol.hawaii.gov/session2022/bills/HB1442_.pdf",
+      "measureArchiveUrl": "https://www.capitol.hawaii.gov/measure_indiv.aspx?billtype=HB&billnumber=1442&year=2022",
+      "measureTitle": "RELATING TO THE COASTAL ZONE MANAGEMENT ACT.",
+      "reportTitle": "Maui County Council Package; Coastal Zone Management Act; Development; Floor Area; Definitions",
+      "description": "Amends the definition of \"development\" in the Coastal Zone Management Act to exclude construction or reconstruction of a single-family residence that is less than five thousand square feet of floor area and meets other criteria.  Defines \"floor area\" for purposes of the Act.",
+      "statusHorS": "H",
+      "statusDescription": "Referred to WAL, CPC, referral sheet 1",
+      "statusDate": "1/26/2022",
+      "introducer": "SAIKI (Introduced by request of another party)",
+      "currentReferral": "WAL, CPC",
+      "companion": "SB2101"
+    }
+  ]
 }
+
