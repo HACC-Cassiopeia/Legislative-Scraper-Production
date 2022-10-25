@@ -134,10 +134,10 @@ const AllDashboard = () => {
           <tr>
             <th>DOE DB</th>
             <th>Bill / Resolution</th>
-            <th>Committee</th>
-            <th>Companion</th>
-            <th>Introducer</th>
             <th>Status</th>
+            <th>Introducer(s)</th>
+            <th>Referral</th>
+            <th>Companion</th>
           </tr>
         </thead>
         <tbody>{ measures.length === 0 ? '' : measures.map((bill) => <AllBill key={bill._id} bill={bill} />) }

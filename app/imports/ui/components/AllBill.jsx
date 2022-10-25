@@ -92,8 +92,7 @@ const AllBill = ({ bill }) => {
           </Accordion.Item>
         </Accordion>
       </td>
-      <td>{bill.currentReferral}</td>
-      <td>{bill.companion}</td>
+      <td>{`(${bill.statusHorS}) ${bill.statusDate} - ${bill.statusDescription}`}</td>
       <td>
         <Accordion flush className="introducerAccordionList">
           <Accordion.Item eventKey="0">
@@ -102,7 +101,8 @@ const AllBill = ({ bill }) => {
           </Accordion.Item>
         </Accordion>
       </td>
-      <td>{`(${bill.statusHorS}) ${bill.statusDescription} ${bill.statusDate}`}</td>
+      <td>{bill.currentReferral}</td>
+      <td>{bill.companion}</td>
     </tr>
   );
 };
