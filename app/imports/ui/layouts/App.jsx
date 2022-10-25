@@ -24,7 +24,7 @@ import { ROLE } from '../../api/role/Role';
 import Landing from '../pages/Landing';
 import Home from '../pages/Home';
 import AllDashboard from '../pages/AllDashboard';
-// import SavedDashboard from '../pages/SavedDashboard';
+import SavedDashboard from '../pages/SavedDashboard';
 import BillResolutionTracker from '../pages/BillResolutionTracker';
 // import AddTestimony from '../pages/AddTestimony';
 import Test from '../Test';
@@ -60,6 +60,7 @@ const App = () => (
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signout" element={<SignOut />} />
         <Route path="/view/all" element={<AllDashboard />} />
+        <Route path="/view/DOE" element={<SavedDashboard />} />
         {/* <Route path="/saved-dashboard" element={<SavedDashboard />} /> */}
         {/* <Route path="/add-testimony" element={<AddTestimony />} /> */}
         <Route path="/view/:_code" element={<BillResolutionTracker />} />

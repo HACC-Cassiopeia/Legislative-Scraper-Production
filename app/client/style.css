@@ -32,21 +32,9 @@ h2 {
   margin: 0;
 }
 
-#dashboard-sideMenu {
-  max-width: 15%;
-  border-right-color: black;
-  border-right-style: solid;
-}
-
-#dashboard-sideMenu hr {
-  border-top: 2px solid black;
-}
-
-#dashboard-sideMenu Button {
-  color: black;
-}
-
-#dashboard-filter {
+#filter-border {
+  border-style: solid;
+  border-color: lightgray;
 }
 
 #dashboard-list thead {

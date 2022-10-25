@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { Meteor } from 'meteor/meteor';
 import { Accordion, Col, Dropdown, DropdownButton, Row, Table } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Link } from 'react-router-dom';
-import { SavedMeasures } from '../../api/savedMeasures/SavedMeasures';
+import { SavedMeasures } from '../../api/savedMeasure/SavedMeasureCollection';
 import SavedBill from '../components/SavedBill';
 import LoadingSpinner from '../components/LoadingSpinner';
 import SideNavBar from '../components/SideNavBar';
@@ -15,14 +14,14 @@ const Dashboard = () => {
   const [status, setStatus] = useState('Select an Action');
 
   const { ready, bills } = useTracker(() => {
-    const subscription = Meteor.subscribe(SavedMeasures.userPublicationName);
+    const subscription = SavedMeasures.subscribeMeasureSaved();
     const rdy = subscription.ready();
-    const billItems = SavedMeasures.collection.find({}).fetch();
+    const billItem = SavedMeasures.publish();
     return {
-      bills: billItems,
+      bills: billItem[0],
       ready: rdy,
     };
-  }, []);
+  }, false);
 
   const returnFilter = () => (
     <div className="pb-3">
