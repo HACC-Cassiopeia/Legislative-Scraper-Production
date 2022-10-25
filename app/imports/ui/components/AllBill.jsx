@@ -13,13 +13,8 @@ import { defineMethod } from '../../api/base/BaseCollection.methods';
 const AllBill = ({ bill }) => {
 
   const { ready, saved } = useTracker(() => {
-    // Note that this subscription will get cleaned up
-    // when your component is unmounted or deps change.
-    // Get access to Stuff documents.
     const subscription = SavedMeasures.subscribeMeasureSaved();
-    // Determine if the subscription is ready
     const rdy = subscription.ready();
-    // Get the Stuff documents
     const svd = SavedMeasures.findOne({ code: bill.code }) != null;
     return {
       saved: svd,
@@ -27,16 +22,13 @@ const AllBill = ({ bill }) => {
     };
   }, []);
 
-  const billToSave = bill;
-
   function save() {
-    // TODO add who saved the bill?
-    console.log('save clicked');
-    console.log(billToSave);
+    // TODO maybe add who saved the bill?
+    console.log(bill);
     let sad = false;
     // const owner = Meteor.user().username;
     const collectionName = SavedMeasures.getCollectionName();
-    defineMethod.callPromise({ collectionName, billToSave })
+    defineMethod.callPromise({ collectionName, bill })
       .catch(error => {
         swal('Error', error.message, 'error');
         sad = true;
