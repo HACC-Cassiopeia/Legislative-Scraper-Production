@@ -10,17 +10,15 @@ const introMessageStyle = {
   fontWeight: 'bolder',
   color: 'black',
   fontSize: '16px',
-  paddingLeft: '20%',
+  paddingLeft: '10%',
 };
 
 const landingStyleA = {
   backgroudnColor: 'whitesmoke',
-  textAlign: 'center',
 };
 
 const landingStyleB = {
   backgroundColor: 'cyan',
-  textAlign: 'center',
 };
 
 const centerBreak = {
@@ -31,12 +29,12 @@ const messageStyle = {
   display: 'block',
   textAlign: 'left',
   height: '50%',
-  paddingLeft: '20%',
+  paddingLeft: '15%',
 };
 
 /* A simple static component to render some text for the landing page. */
 const Landing = () => (
-  <div style={{ width: window.innerWidth, maxWidth: window.innerWidth }}>
+  <div>
     <div className="headerTopTitle">
       <div style={centerBreak} />
       <Container fluid style={introMessageStyle}>
