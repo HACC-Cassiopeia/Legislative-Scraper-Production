@@ -52,7 +52,7 @@ const SideNavBar = () => {
         <Nav.Link href="/" style={{ color: 'black' }}>
           <Icon.HouseDoor />
         </Nav.Link>
-        <Nav.Link href="/view/all" style={{ color: 'black' }}>
+        <Nav.Link href="/view/DOE" style={{ color: 'black' }}>
           <Icon.Clipboard />
         </Nav.Link>
         {currentUser
