@@ -47,30 +47,20 @@ class SavedMeasuresCollection extends BaseCollection {
    * Defines a new MeasureSaved item.
    */
   // eslint-disable-next-line max-len
-  define({ office, archive, code, measurePdfUrl, measureArchiveUrl, measureTitle, reportTitle, description, statusHorS, statusDescription, statusDate, introducer, currentReferral, companion, doeAction, hearingDate, hearingTime, hearingLocation, doePosition, testifier, doeInternalStatus, owner }) {
+  define({ code, companion, currentReferral, description, introducer, measureArchiveUrl, measurePdfUrl, measureTitle, reportTitle, statusDate, statusDescription, statusHorS }) {
     const docID = this._collection.insert({
-      office,
-      archive,
       code,
-      measurePdfUrl,
+      companion,
+      currentReferral,
+      description,
+      introducer,
       measureArchiveUrl,
+      measurePdfUrl,
       measureTitle,
       reportTitle,
-      description,
-      statusHorS,
-      statusDescription,
       statusDate,
-      introducer,
-      currentReferral,
-      companion,
-      doeAction,
-      hearingDate,
-      hearingTime,
-      hearingLocation,
-      doePosition,
-      testifier,
-      doeInternalStatus,
-      owner,
+      statusDescription,
+      statusHorS,
     });
     return docID;
   }

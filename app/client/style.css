@@ -102,6 +102,22 @@ h2 {
   padding: 0;
 }
 
+.introducerAccordionList .accordion-body {
+  --bs-accordion-active-color: black;
+  --bs-accordion-active-bg: transparent;
+  z-index: 0;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.introducerAccordionList .accordion-button {
+  --bs-accordion-active-color: black;
+  --bs-accordion-active-bg: transparent;
+  z-index: 0;
+  margin: 0 auto;
+  padding: 0;
+}
+
 .accordion {
   --bs-accordion-bg: transparent !important;
 }
@@ -113,12 +129,6 @@ h2 {
 
 .accordion-body {
   padding: 0 !important;
-}
-
-.starButton {
-  background-color: transparent !important;
-  color: black !important;
-  border-width: 0 !important;
 }
 
 #navBar {

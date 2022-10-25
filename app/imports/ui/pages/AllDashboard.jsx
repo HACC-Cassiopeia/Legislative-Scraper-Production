@@ -27,6 +27,7 @@ const AllDashboard = () => {
       .scrapeMeasures(2022, 'hb')
       .then(initialMeasures => {
         setMeasures(initialMeasures.scrapedData);
+        console.log(initialMeasures.scrapedData[0]);
       });
   });
 

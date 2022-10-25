@@ -4,8 +4,10 @@ import { Link } from 'react-router-dom';
 import { CloudCheckFill } from 'react-bootstrap-icons';
 import { Accordion, Button } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
+import swal from 'sweetalert';
 import { SavedMeasures } from '../../api/savedMeasures/SavedMeasuresCollection';
 import SmallerSpinner from './SmallerSpinner';
+import { defineMethod } from '../../api/base/BaseCollection.methods';
 
 /** Renders a single row in the List Stuff table. See pages/ListStuff.jsx. */
 const AllBill = ({ bill }) => {
@@ -18,19 +20,40 @@ const AllBill = ({ bill }) => {
     // Determine if the subscription is ready
     const rdy = subscription.ready();
     // Get the Stuff documents
-    const svd = SavedMeasures.find().fetch();
+    const svd = SavedMeasures.findOne({ code: bill.code }) != null;
     return {
       saved: svd,
       ready: rdy,
     };
   }, []);
 
+  const billToSave = bill;
+
+  function save() {
+    // TODO add who saved the bill?
+    console.log('save clicked');
+    console.log(billToSave);
+    let sad = false;
+    // const owner = Meteor.user().username;
+    const collectionName = SavedMeasures.getCollectionName();
+    defineMethod.callPromise({ collectionName, billToSave })
+      .catch(error => {
+        swal('Error', error.message, 'error');
+        sad = true;
+      })
+      .then(() => {
+        if (!sad) {
+          swal('Success', 'Saved to DOE database', 'success');
+        }
+      });
+  }
+
   const checkSaved = saved ?
     <div style={{ textAlign: 'center', fontSize: '20px' }}><CloudCheckFill /></div>
     : (
       <Button
         style={{ backgroundColor: '#418c5c', color: 'white', borderColor: '#297e4b' }}
-        onClick={() => SavedMeasures.collection.insert(bill)}
+        onClick={() => save()}
       >Save
       </Button>
     );
