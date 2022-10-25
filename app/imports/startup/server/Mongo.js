@@ -11,7 +11,7 @@ function addMeasures(measures) {
 
 // Initialize the SavedMeasures if empty.
 if (SavedMeasures.count() === 0) {
-  if (Meteor.settings.defaultData) {
+  if (Meteor.settings.defaultSavedMeasures) {
     console.log('Creating default measures.');
     Meteor.settings.defaultSavedMeasures.map(data => addMeasures(data));
   }
