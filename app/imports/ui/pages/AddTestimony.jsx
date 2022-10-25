@@ -16,6 +16,7 @@ const formSchema = new SimpleSchema({
   draftNumber: String,
   hearingDate: String,
   hearingLocation: String,
+  hearingTime: String,
   position: String,
   introduction: String,
 });
