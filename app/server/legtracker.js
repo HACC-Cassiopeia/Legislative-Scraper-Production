@@ -4,6 +4,7 @@ import axios from 'axios';
 import cheerio from 'cheerio';
 
 const app = express();
+const MEASURE_TYPE = ['hb', 'sb', 'hr', 'sr', 'hcr', 'scr', 'gm'];
 /*
  *   mandatory parameters:
  *
@@ -23,17 +24,21 @@ const app = express();
  *      gm:  Governer's Messages
  */
 
+// eslint-disable-next-line consistent-return
 app.get('/api/scrapeMeasures/:year/:mt', async (req, res) => {
   try {
     const year = req.params.year;
     const mt = req.params.mt;
+    if (year < 2010 || year > new Date().getFullYear || !MEASURE_TYPE.includes(mt)) {
+      console.log('Error: invalid parameters');
+      res.status(404);
+    }
     const url = `https://www.capitol.hawaii.gov/advreports/advreport.aspx?year=${year}&report=deadline&active=true&rpt_type=&measuretype=${mt}`;
     // connects to page
     const response = await axios.get(url);
     const html = response.data;
     const $ = cheerio.load(html);
     const scrapedData = [];
-
     let index = 0;
     // if it's less than 10, add a zero in front to conform with format
     const getIndex = (num) => (num < 10 ? `0${index}` : index);
@@ -100,8 +105,7 @@ app.get('/api/scrapeMeasures/:year/:mt', async (req, res) => {
     if (scrapedData.length === 0) {
       // eslint-disable-next-line no-console
       console.log('Error: page is not found, please use valid params.');
-      res.status(404).json({ error: 'page is not found' });
-      return null;
+      return res.status(404).json({ error: 'page is not found' });
     }
     res.status(200).json({ scrapedData });
   } catch (error) {
@@ -159,7 +163,6 @@ app.get('/api/scrapeUpcomingHearings', async (req, res) => {
         youtubeURL: youtubeURL,
       });
     });
-
   res.status(200).json({ upcomingHearings });
 
 });
