@@ -16,7 +16,7 @@ const Test = () => {
     // eslint-disable-next-line no-console
     console.log('rendered');
     Legtracker
-      .scrapeMeasures(2022, 'hb')
+      .scrapeMeasures(23, 'hb')
       .then(initialMeasures => {
         setMeasures(initialMeasures.scrapedData);
       });
@@ -26,7 +26,7 @@ const Test = () => {
         setHearings(initialHearings.upcomingHearings);
       });
     Legtracker
-      .scrapeBillDetails('HB', 137, 2022)
+      .scrapeBillDetails('HaffB', 137, 2022)
       .then(initialBillDet => {
         setBillDetails(initialBillDet);
       });
