@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { Container } from 'react-bootstrap';
+import Legtracker from '../utilities/Legtracker';
 // added
 function getDate(dayString) {
   const today = new Date();
@@ -26,16 +27,23 @@ const events = [
 ];
 
 const Calendar = () => {
+  const [upcomingHearings, setUpcomingHearings] = useState([]);
   useEffect(() => {
-    document.title = 'DOE Legislative Tracker - Calendar';
+    // document.title = 'DOE Legislative Tracker - Calendar';
+    Legtracker
+      .scrapeUpcomingHearings()
+      .then(initialData => {
+        setUpcomingHearings(initialData.upcomingHearings);
+      });
   });
 
   return (
     <div id="mainBody">
+      {console.log(...upcomingHearings)}
       <Container className="p-lg-5">
         <FullCalendar
           defaultView="dayGridMonth"
-          header={{
+          headerToolbar={{
             left: 'prev,next',
             center: 'title',
             right: 'dayGridMonth,timeGridWeek,timeGridDay',
