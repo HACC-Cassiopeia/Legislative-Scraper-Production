@@ -22,4 +22,13 @@ const scrapeUpcomingHearings = async () => {
   }
 };
 
-export default { scrapeMeasures, scrapeUpcomingHearings };
+const scrapeBillDetails = async (bt, bn, year) => {
+  try {
+    const request = await axios.get(`/api/scrapeBillDetails/${bt}/${bn}/${year}`);
+    return request.data;
+  } catch {
+    return (() => console.log('error! invalid request'));
+  }
+};
+
+export default { scrapeMeasures, scrapeUpcomingHearings, scrapeBillDetails };
