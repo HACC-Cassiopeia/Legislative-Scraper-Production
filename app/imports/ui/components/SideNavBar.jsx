@@ -52,12 +52,13 @@ const SideNavBar = () => {
         <Nav.Link href="/" style={{ color: 'black' }}>
           <Icon.HouseDoor />
         </Nav.Link>
-        <Nav.Link href="/view/all" style={{ color: 'black' }}>
-          <Icon.Clipboard />
-        </Nav.Link>
+
         {currentUser
           ? [
             <>
+              <Nav.Link href="/view/DOE" style={{ color: 'black' }}>
+                <Icon.Clipboard />
+              </Nav.Link>
               <Nav.Link href="/home" style={{ color: 'black' }}>
                 <Icon.Inbox />
               </Nav.Link>
