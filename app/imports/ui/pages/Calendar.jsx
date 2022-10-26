@@ -26,9 +26,24 @@ const Calendar = () => {
       });
   }, []);
 
+  const hasUpcomingHearings = () => {
+    if (upcomingHearings.length === 0) {
+      return [];
+    }
+    return upcomingHearings.map(data => (
+      {
+        title: data.measure,
+        start: data.dateTime,
+        room: data.room,
+        youtube: data.youtubeURL,
+        noticeLink: data.noticeURL,
+        noticePdfLink: data.noticePdfURL,
+      }
+    ));
+  };
+
   return (
     <div id="mainBody">
-      {console.log(room)}
       <CalModal
         show={show}
         handleClose={handleClose}
@@ -49,16 +64,7 @@ const Calendar = () => {
             right: 'dayGridMonth,timeGridWeek,timeGridDay',
           }}
           plugins={[dayGridPlugin]}
-          events={upcomingHearings.map(data => (
-            {
-              title: data.measure,
-              start: data.dateTime,
-              room: data.room,
-              youtube: data.youtubeURL,
-              noticeLink: data.noticeURL,
-              noticePdfLink: data.noticePdfURL,
-            }
-          ))}
+          events={hasUpcomingHearings()}
           /* eslint-disable-next-line react/jsx-no-bind */
           eventClick={function (info) {
             info.jsEvent.preventDefault();

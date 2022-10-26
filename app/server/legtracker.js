@@ -181,16 +181,17 @@ app.get('/api/scrapeUpcomingHearings', async (req, res) => {
       const youtubeURL = $(this)
         .find(`#ctl00_ContentPlaceHolderCol1_GridView1_ctl${getIndex(index)}_streamLink`)
         .attr('href');
-
-      upcomingHearings.push({
-        committee: committee,
-        dateTime: convertDate(dateTime),
-        room: room,
-        measure: measure,
-        noticeURL: noticeURL,
-        noticePdfURL: noticePdfURL,
-        youtubeURL: youtubeURL,
-      });
+      if (dateTime.length !== 0) {
+        upcomingHearings.push({
+          committee: committee,
+          dateTime: convertDate(dateTime),
+          room: room,
+          measure: measure,
+          noticeURL: noticeURL,
+          noticePdfURL: noticePdfURL,
+          youtubeURL: youtubeURL,
+        });
+      }
     });
   res.status(200).json({ upcomingHearings });
 
