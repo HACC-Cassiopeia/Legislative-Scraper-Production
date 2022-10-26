@@ -7,6 +7,10 @@ import CalModal from '../components/CalModal';
 
 const Calendar = () => {
   const [upcomingHearings, setUpcomingHearings] = useState([]);
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   useEffect(() => {
     document.title = 'DOE Legislative Tracker - Calendar';
     Legtracker
@@ -18,7 +22,11 @@ const Calendar = () => {
 
   return (
     <div id="mainBody">
-      <CalModal />
+      <CalModal
+        show={show}
+        handleClose={handleClose}
+        handleShow={handleShow}
+      />
       <Container className="p-lg-5">
         <FullCalendar
           defaultView="dayGridMonth"
@@ -34,6 +42,11 @@ const Calendar = () => {
               start: data.dateTime,
             }
           ))}
+          /* eslint-disable-next-line react/jsx-no-bind */
+          eventClick={function (info) {
+            info.jsEvent.preventDefault();
+            handleShow();
+          }}
         />
       </Container>
     </div>
