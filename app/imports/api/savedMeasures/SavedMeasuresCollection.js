@@ -225,7 +225,7 @@ class SavedMeasuresCollection extends BaseCollection {
    * @throws { Meteor.Error } If there is no logged in user, or the user is not an Admin or User.
    */
   assertValidRoleForMethod(userId) {
-    this.assertRole(userId, [ROLE.ADMIN, ROLE.USER]);
+    this.assertRole(userId, [ROLE.ADMIN, ROLE.USER, ROLE.SEC_ASSIGNER, ROLE.WRITER, ROLE.OFFICE_APPROVER, ROLE.PIPE_APPROVER, ROLE.FINAL_APPROVER, ROLE.SEC_SUBMITTER]);
   }
 
   /**

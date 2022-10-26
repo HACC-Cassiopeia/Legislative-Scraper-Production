@@ -88,7 +88,7 @@ export const loadFixtureMethod = new ValidatedMethod({
     // console.log('loadFixtureMethod', fixtureData);
     if (!this.userId) {
       throw new Meteor.Error('unauthorized', 'You must be logged in to load a fixture.', '');
-    } else if (!Roles.userIsInRole(this.userId, [ROLE.ADMIN, ROLE.FINAL_APPROVER, ROLE.PROCESSOR_SUBMITTER])) {
+    } else if (!Roles.userIsInRole(this.userId, [ROLE.ADMIN])) {
       throw new Meteor.Error('unauthorized', 'You must be an admin to load a fixture.', '');
     }
     if (Meteor.isServer) {
