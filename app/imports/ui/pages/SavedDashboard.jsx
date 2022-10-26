@@ -15,7 +15,7 @@ const Dashboard = () => {
   const { ready, bills } = useTracker(() => {
     const subscription = SavedMeasures.subscribeMeasureSaved();
     const rdy = subscription.ready();
-    const billItems = SavedMeasures.find().fetch();
+    const billItems = SavedMeasures.find({}, { sort: { measureTitle: 1 } }).fetch();
     return {
       bills: billItems,
       ready: rdy,
