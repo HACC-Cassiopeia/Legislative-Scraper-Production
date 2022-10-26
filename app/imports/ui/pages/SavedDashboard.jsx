@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { SavedMeasures } from '../../api/savedMeasures/SavedMeasuresCollection';
 import SavedBill from '../components/SavedBill';
 import LoadingSpinner from '../components/LoadingSpinner';
+import SideNavBar from '../components/SideNavBar';
 
 /* Renders a table containing all of the Stuff documents. Use <StuffItem> to render each row. */
 const Dashboard = () => {
@@ -142,7 +143,8 @@ const Dashboard = () => {
   );
 
   return (
-    <div>
+    <Row>
+      <SideNavBar />
       <div id="mainBody">
         <Row id="dashboard-screen">
           <Col>
@@ -152,7 +154,7 @@ const Dashboard = () => {
           </Col>
         </Row>
       </div>
-    </div>
+    </Row>
   );
 };
 

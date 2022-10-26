@@ -131,6 +131,16 @@ h2 {
   padding: 0 !important;
 }
 
+.logInButton .btn-primary {
+  width: 100%;
+  font-weight: bold;
+  --bs-btn-bg: #2e374f;
+  --bs-btn-border-color: #242c41;
+  --bs-btn-hover-border-color: #333f59;
+  --bs-btn-hover-bg: #37425e;
+}
+
+
 #navBar {
   width: 15%;
   color: #418c5c;
@@ -138,6 +148,7 @@ h2 {
 
 #mainBody {
   margin-left: 14%;
+  width: 86%;
   z-index: 0;
 }
 

@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import { Container } from 'react-bootstrap';
+import { Container, Row } from 'react-bootstrap';
+import SideNavBar from '../components/SideNavBar';
 // added
 function getDate(dayString) {
   const today = new Date();
@@ -31,20 +32,24 @@ const Calendar = () => {
   }, []);
 
   return (
-    <div id="mainBody">
-      <Container className="p-lg-5">
-        <FullCalendar
-          defaultView="dayGridMonth"
-          header={{
-            left: 'prev,next',
-            center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay',
-          }}
-          plugins={[dayGridPlugin]}
-          events={events}
-        />
-      </Container>
-    </div>
+    <Row>
+      <SideNavBar />
+      <div id="mainBody">
+        <Container className="p-lg-5">
+          <FullCalendar
+            defaultView="dayGridMonth"
+            header={{
+              left: 'prev,next',
+              center: 'title',
+              right: 'dayGridMonth,timeGridWeek,timeGridDay',
+            }}
+            plugins={[dayGridPlugin]}
+            events={events}
+          />
+        </Container>
+      </div>
+    </Row>
+
   );
 };
 

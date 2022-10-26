@@ -6,6 +6,7 @@ import { AutoForm, ErrorsField, LongTextField, SubmitField, TextField } from 'un
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
 import { jsPDF } from 'jspdf';
+import SideNavBar from '../components/SideNavBar';
 // import { Testimonies } from '../../api/testimony/TestimonyCollection';
 // ADDED
 // Create a schema to specify the structure of the data to appear in the form.
@@ -160,43 +161,47 @@ const AddTestimony = () => {
   // Render the form. Use Uniforms: https://github.com/vazco/uniforms
   let fRef = null;
   return (
-    <Container className="py-3">
-      <Row className="justify-content-center">
-        <Col xs={5}>
-          <Col className="text-center"><h2>New Testimony</h2></Col>
-          <AutoForm ref={ref => { fRef = ref; }} schema={bridge} onSubmit={data => submit(data, fRef)}>
-            <Card>
-              <Card.Body>
-                <Row>
-                  <Col><TextField name="committeeChair" /></Col>
-                  <Col><TextField name="committeeName" /></Col>
-                </Row>
-                <Row>
-                  <Col><TextField name="billNumber" /></Col>
-                  <Col><TextField name="draftNumber" /></Col>
-                </Row>
-                <Row>
-                  <Col><TextField name="hearingLocation" /></Col>
-                  <Col><TextField name="hearingDate" /></Col>
-                </Row>
-                <TextField name="position" />
-                <LongTextField name="introduction" />
-                <SubmitField value="Submit" />
-                <ErrorsField />
-              </Card.Body>
-            </Card>
-          </AutoForm>
-          <Col className="text-center">
-            <Button
-              className="my-3"
-              onClick={() => savePdf()}
-            >
-              Generate Testimony PDF
-            </Button>
+    <Row>
+      <SideNavBar />
+      <Container id="mainBody" className="py-3">
+        <Row className="justify-content-center">
+          <Col xs={5}>
+            <Col className="text-center"><h2>New Testimony</h2></Col>
+            <AutoForm ref={ref => { fRef = ref; }} schema={bridge} onSubmit={data => submit(data, fRef)}>
+              <Card>
+                <Card.Body>
+                  <Row>
+                    <Col><TextField name="committeeChair" /></Col>
+                    <Col><TextField name="committeeName" /></Col>
+                  </Row>
+                  <Row>
+                    <Col><TextField name="billNumber" /></Col>
+                    <Col><TextField name="draftNumber" /></Col>
+                  </Row>
+                  <Row>
+                    <Col><TextField name="hearingLocation" /></Col>
+                    <Col><TextField name="hearingDate" /></Col>
+                  </Row>
+                  <TextField name="position" />
+                  <LongTextField name="introduction" />
+                  <SubmitField value="Submit" />
+                  <ErrorsField />
+                </Card.Body>
+              </Card>
+            </AutoForm>
+            <Col className="text-center">
+              <Button
+                className="my-3"
+                onClick={() => savePdf()}
+              >
+                Generate Testimony PDF
+              </Button>
+            </Col>
           </Col>
-        </Col>
-      </Row>
-    </Container>
+        </Row>
+      </Container>
+
+    </Row>
   );
 };
 
