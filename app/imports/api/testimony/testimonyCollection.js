@@ -1,7 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 import { check } from 'meteor/check';
-// import { _ } from 'meteor/underscore';
 import { Roles } from 'meteor/alanning:roles';
 import BaseCollection from '../base/BaseCollection';
 import { ROLE } from '../role/Role';
@@ -14,88 +13,132 @@ export const testimonyPublications = {
 class TestimonyCollection extends BaseCollection {
   constructor() {
     super('Testimonies', new SimpleSchema({
-      committeeChair: String,
-      committeeName: String,
-      billNumber: String,
-      draftNumber: String,
+      governorName: {
+        type: String,
+        defaultValue: 'DAVID Y. IGE',
+      },
+      governorTitle: {
+        type: String,
+        defaultValue: 'GOVERNOR',
+      },
+      testifier: String,
+      testifierTitle: String,
       hearingDate: String,
+      hearingTime: String,
       hearingLocation: String,
+      committee: String,
+      department: {
+        type: String,
+        defaultValue: 'Education',
+      },
+      billTitle: String,
+      billPurpose: String,
       position: String,
-      introduction: String,
     }));
   }
 
   /**
    * Defines a new Testimony item.
-   * @param committeeChair the chair.
-   * @param committeeName the committee name.
-   * @param billNumber the number of the bill.
-   * @param draftNumber the number of the draft.
-   * @param hearingDate the date of the hearing.
-   * @param hearingLocation the location of the hearing.
-   * @param position the position.
-   * @param introduction the introduction text.
-   * @return {String} the docID of the new document.
+   * @param governorName name of current governor
+   * @param governorTitle title of governor (in case it's deputy governor something sometimes)
+   * @param testifier the person testifying
+   * @param testifierTitle the title of the person testifying
+   * @param hearingDate the date of the hearing (this date needs to be on the testimony)
+   * @param hearingTime same
+   * @param hearingLocation same
+   * @param committee committee on testimony page
+   * @param department should always be education, but just in case
+   * @param billTitle the entire title of the bill, including the 'code', draft number, and title
+   * @param billPurpose the one-liner explaining the purpose of the bill
+   * @param the department's position and explanation
    */
-  define({ committeeChair, committeeName, billNumber, draftNumber, hearingDate, hearingLocation, position, introduction, owner }) {
+  define({ governorName, governorTitle, testifier, testifierTitle, hearingDate, hearingTime, hearingLocation,
+    committee, department, billTitle, billPurpose, position, lastEditedBy }) {
     const docID = this._collection.insert({
-      committeeChair,
-      committeeName,
-      billNumber,
-      draftNumber,
+      governorName,
+      governorTitle,
+      testifier,
+      testifierTitle,
       hearingDate,
+      hearingTime,
       hearingLocation,
+      committee,
+      department,
+      billTitle,
+      billPurpose,
       position,
-      introduction,
-      owner,
+      lastEditedBy,
     });
     return docID;
   }
 
   /**
    * Updates the given document.
-   * @param docID the id of the document to update.
-   * @param committeeChair the chair (optional).
-   * @param committeeName the committee name (optional).
-   * @param billNumber the number of the bill (optional).
-   * @param draftNumber the number of the draft (optional).
-   * @param hearingDate the date of the hearing (optional).
-   * @param hearingLocation the location of the hearing (optional).
-   * @param position the position (optional).
-   * @param introduction the introduction text (optional).
+   * @param governorName name of current governor
+   * @param governorTitle title of governor (in case it's deputy governor something sometimes)
+   * @param testifier the person testifying
+   * @param testifierTitle the title of the person testifying
+   * @param hearingDate the date of the hearing (this date needs to be on the testimony)
+   * @param hearingTime same
+   * @param hearingLocation same
+   * @param committee committee on testimony page
+   * @param department should always be education, but just in case
+   * @param billTitle the entire title of the bill, including the 'code', draft number, and title
+   * @param billPurpose the one-liner explaining the purpose of the bill
+   * @param the department's position and explanation
    */
-  update(docID, { committeeChair, committeeName, billNumber, draftNumber, hearingDate, hearingLocation, position, introduction }) {
+  update(docID, { governorName, governorTitle, testifier, testifierTitle, hearingDate, hearingTime, hearingLocation, committee, department, billTitle, billPurpose, position, lastEditedBy }) {
     const updateData = {};
-    if (committeeChair) {
-      updateData.committeeChair = committeeChair;
+    if (governorName) {
+      updateData.governorName = governorName;
     }
 
-    if (committeeName) {
-      updateData.committeeName = committeeName;
+    if (governorTitle) {
+      updateData.governorTitle = governorTitle;
     }
 
-    if (billNumber) {
-      updateData.billNumber = billNumber;
+    if (testifier) {
+      updateData.testifier = testifier;
     }
 
-    if (draftNumber) {
-      updateData.draftNumber = draftNumber;
+    if (testifierTitle) {
+      updateData.testifierTitle = testifierTitle;
     }
 
     if (hearingDate) {
       updateData.hearingDate = hearingDate;
     }
 
+    if (hearingTime) {
+      updateData.hearingTime = hearingTime;
+    }
+
     if (hearingLocation) {
       updateData.hearingLocation = hearingLocation;
+    }
+
+    if (committee) {
+      updateData.committee = committee;
+    }
+
+    if (department) {
+      updateData.department = department;
+    }
+
+    if (billTitle) {
+      updateData.billTitle = billTitle;
+    }
+
+    if (billPurpose) {
+      updateData.billPurpose = billPurpose;
     }
 
     if (position) {
       updateData.position = position;
     }
 
-    if (introduction) {
-      updateData.introduction = introduction;
+    if (lastEditedBy) {
+      updateData.lastEditedBy = lastEditedBy;
     }
 
     this._collection.update(docID, { $set: updateData });
@@ -178,16 +221,21 @@ class TestimonyCollection extends BaseCollection {
    */
   dumpOne(docID) {
     const doc = this.findDoc(docID);
-    const committeeChair = doc.committeeChair;
-    const committeeName = doc.committeeName;
-    const billNumber = doc.billNumber;
-    const draftNumber = doc.draftNumber;
+    const governorName = doc.governorName;
+    const governorTitle = doc.governorTitle;
+    const testifier = doc.testifier;
+    const testifierTitle = doc.testifierTitle;
     const hearingDate = doc.hearingDate;
+    const hearingTime = doc.hearingTime;
     const hearingLocation = doc.hearingLocation;
+    const committee = doc.committee;
+    const department = doc.department;
+    const billTitle = doc.billTitle;
+    const billPurpose = doc.billPurpose;
     const position = doc.position;
-    const introduction = doc.introduction;
-    const owner = doc.owner;
-    return { committeeChair, committeeName, billNumber, draftNumber, hearingDate, hearingLocation, position, introduction, owner };
+    const lastEditedBy = doc.lastEditedBy;
+    return { governorName, governorTitle, testifier, testifierTitle, hearingDate, hearingTime, hearingLocation,
+      committee, department, billTitle, billPurpose, position, lastEditedBy };
   }
 }
 

@@ -84,13 +84,13 @@ const DesktopSideBar = () => {
             <Nav.Link href="/" style={{ color: 'black' }}>
               <Icon.HouseDoor /> <b>HOME</b>
             </Nav.Link>
-            <Nav.Link href="/all-dashboard" style={{ color: 'black' }}>
-              <Icon.Clipboard /> <b>DASHBOARD</b>
-            </Nav.Link>
 
             {currentUser
               ? [
                 <>
+                  <Nav.Link href="/view/DOE" style={{ color: 'black' }}>
+                    <Icon.Clipboard /> <b>DASHBOARD</b>
+                  </Nav.Link>
                   <Nav.Link href="/home" style={{ color: 'black' }}>
                     <Icon.Inbox /> <b>NOTIFICATION</b>
                   </Nav.Link>
@@ -129,12 +129,13 @@ const DesktopSideBar = () => {
             <Nav.Link href="/" style={{ color: 'black' }}>
               <Icon.HouseDoor />
             </Nav.Link>
-            <Nav.Link href="/all-dashboard" style={{ color: 'black' }}>
-              <Icon.Clipboard />
-            </Nav.Link>
+
             {currentUser
               ? [
                 <>
+                  <Nav.Link href="/view/DOE" style={{ color: 'black' }}>
+                    <Icon.Clipboard />
+                  </Nav.Link>
                   <Nav.Link href="/home" style={{ color: 'black' }}>
                     <Icon.Inbox />
                   </Nav.Link>

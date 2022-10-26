@@ -5,7 +5,7 @@ import { useTracker } from 'meteor/react-meteor-data';
 import { useParams } from 'react-router';
 // import { Meteor } from 'meteor/meteor';
 import LoadingSpinner from './LoadingSpinner';
-import { SavedMeasures } from '../../api/savedMeasure/SavedMeasureCollection';
+import { SavedMeasures } from '../../api/savedMeasures/SavedMeasuresCollection';
 
 const BillResolutionDetails = () => {
 
@@ -24,7 +24,7 @@ const BillResolutionDetails = () => {
 
   useEffect(() => {
     document.title = `DOE Legislative Tracker - ${_code}`;
-  });
+  }, []);
 
   // TODO change depending on bill status
   const billStatusStyle = {
