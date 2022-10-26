@@ -1,8 +1,9 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { Container, Navbar, Nav } from 'react-bootstrap';
 import { PencilSquare, FileEarmarkPlusFill, BoxArrowInDown } from 'react-bootstrap-icons';
 import BillResolutionDetails from '../components/BillResolutionDetails';
+import { COMPONENT_IDS } from '../utilities/ComponentIDs';
 
 const navBarStyle = {
   backgroundColor: '#FFFFFF',

@@ -6,6 +6,8 @@ import { useParams } from 'react-router';
 // import { Meteor } from 'meteor/meteor';
 import LoadingSpinner from './LoadingSpinner';
 import { SavedMeasures } from '../../api/savedMeasures/SavedMeasuresCollection';
+import { COMPONENT_IDS } from '../utilities/ComponentIDs';
+import { Link } from 'react-router-dom';
 
 const BillResolutionDetails = () => {
 
@@ -62,6 +64,7 @@ const BillResolutionDetails = () => {
       <Row style={{ backgroundColor: '#ddf3dd' }}>
         <Col>
           {/* EMPTY COL FOR ALIGNMENT */}
+          <Link className={COMPONENT_IDS.LIST_STUFF_EDIT} to={`/edit/${bill._id}`}>Edit</Link>
         </Col>
         <Col>
           <h3 className="pt-2">

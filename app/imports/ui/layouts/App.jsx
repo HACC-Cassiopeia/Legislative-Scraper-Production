@@ -7,7 +7,7 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import ListStuff from '../pages/stuffPages/ListStuff';
 import ListStuffAdmin from '../pages/stuffPages/ListStuffAdmin';
 import AddStuff from '../pages/stuffPages/AddStuff';
-import EditStuff from '../pages/stuffPages/EditStuff';
+// import EditStuff from '../pages/stuffPages/EditStuff';
 import NotFound from '../pages/stuffPages/NotFound';
 import SignUp from '../pages/stuffPages/SignUp';
 import SignOut from '../pages/stuffPages/SignOut';
@@ -30,6 +30,7 @@ import AddTestimony from '../pages/AddTestimony';
 import Test from '../Test';
 import Calendar from '../pages/Calendar';
 import SideNavBar from '../components/SideNavBar';
+import EditMeasure from '../pages/EditMeasure';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => (
@@ -68,7 +69,7 @@ const App = () => (
         <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
         <Route path="/list" element={<ProtectedRoute><ListStuff /></ProtectedRoute>} />
         <Route path="/add" element={(<ProtectedRoute><AddStuff /></ProtectedRoute>)} />
-        <Route path="/edit/:_id" element={(<ProtectedRoute><EditStuff /></ProtectedRoute>)} />
+        <Route path="/edit/:_id" element={(<ProtectedRoute><EditMeasure /></ProtectedRoute>)} />
         <Route path="/admin" element={<AdminProtectedRoute><ListStuffAdmin /></AdminProtectedRoute>} />
         <Route path="/notauthorized" element={<NotAuthorized />} />
         <Route path="*" element={<NotFound />} />
