@@ -26,7 +26,7 @@ import Home from '../pages/Home';
 import AllDashboard from '../pages/AllDashboard';
 import SavedDashboard from '../pages/SavedDashboard';
 import BillResolutionTracker from '../pages/BillResolutionTracker';
-// import AddTestimony from '../pages/AddTestimony';
+import AddTestimony from '../pages/AddTestimony';
 import Test from '../Test';
 import Calendar from '../pages/Calendar';
 import SideNavBar from '../components/SideNavBar';
@@ -61,7 +61,7 @@ const App = () => (
         <Route path="/signout" element={<SignOut />} />
         <Route path="/view/all" element={<AllDashboard />} />
         <Route path="/view/DOE" element={<SavedDashboard />} />
-        {/* <Route path="/add-testimony" element={<AddTestimony />} /> */}
+        <Route path="/add-testimony" element={<AddTestimony />} />
         <Route path="/view/:_code" element={<BillResolutionTracker />} />
         <Route path="/test" element={<Test />} />
         <Route path="/calendar" element={<Calendar />} />

@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { SavedMeasures } from '../../api/savedMeasures/SavedMeasuresCollection';
-import { Testimonies } from '../../api/testimony/testimonyCollection';
+import { Testimonies } from '../../api/testimony/TestimonyCollection';
 /* eslint-disable no-console */
 
 // Initialize the database with a default data document.
