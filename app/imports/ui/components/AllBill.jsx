@@ -24,11 +24,11 @@ const AllBill = ({ bill }) => {
 
   function save() {
     // TODO maybe add who saved the bill?
-    // const owner = Meteor.user().username;
+    console.log(bill);
     let sad = false;
+    // const owner = Meteor.user().username;
     const collectionName = SavedMeasures.getCollectionName();
-    const definitionData = bill;
-    defineMethod.callPromise({ collectionName, definitionData })
+    defineMethod.callPromise({ collectionName, bill })
       .catch(error => {
         swal('Error', error.message, 'error');
         sad = true;

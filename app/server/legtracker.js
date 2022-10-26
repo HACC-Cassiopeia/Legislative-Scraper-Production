@@ -122,36 +122,6 @@ app.get('/api/scrapeUpcomingHearings', async (req, res) => {
 
   const getIndex = (num) => (num < 10 ? `0${index}` : index);
 
-  const convertDate = (dateStr) => {
-    // split by space
-    const splitDateAndTime = dateStr.split(/\s+/ig);
-    // replace '/' with space and split again
-    const tempDate = splitDateAndTime[0].replace(/\//ig, ' ').split(/\s+/ig);
-    // add the the year to the front of first array item
-    tempDate.unshift(tempDate[tempDate.length - 1]);
-    // remove year from the back
-    tempDate.pop();
-    // edge cases if month/day is single digits
-    const date = tempDate.map(d => (d.length < 2 ? `0${d}` : d)).join('-');
-    // get the time and check if it's PM or AM
-    const tempTime = splitDateAndTime[1]
-      .replace(/:/ig, ' ')
-      .split(/\s+/ig)
-      .map(d => (d.length < 2 ? `0${d}` : d));
-    // if the time is PM, add 12 hours to it
-    if (splitDateAndTime[2] === 'PM') {
-      if (tempTime[0] !== '12') {
-        tempTime[0] = (parseInt(tempTime[0], 10) + 12).toString();
-      }
-    }
-    if (splitDateAndTime[2] === 'AM' && tempTime[0] === '12') {
-      tempTime[0] = '00';
-    }
-    // add colon back and join date and time with T
-    const time = tempTime.join(':');
-    return [date, time].join('T');
-  };
-
   $('table#ctl00_ContentPlaceHolderCol1_GridView1 > tbody > tr', html)
     .has('td') // checks if 'td' element is inside of 'tr' element
     .each(function () {
@@ -184,7 +154,7 @@ app.get('/api/scrapeUpcomingHearings', async (req, res) => {
 
       upcomingHearings.push({
         committee: committee,
-        dateTime: convertDate(dateTime),
+        dateTime: dateTime,
         room: room,
         measure: measure,
         noticeURL: noticeURL,

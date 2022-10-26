@@ -1,7 +1,5 @@
 import React from 'react';
-import { Button, Container } from 'react-bootstrap';
-import * as Icon from 'react-bootstrap-icons';
-import SignInModal from '../components/SignInModal';
+import { Col, Image, Row, Container } from 'react-bootstrap';
 
 // added
 
@@ -9,16 +7,18 @@ const introMessageStyle = {
   textAlign: 'center',
   fontWeight: 'bolder',
   color: 'black',
+  marginLeft: '10%',
   fontSize: '16px',
-  paddingLeft: '10%',
 };
 
 const landingStyleA = {
   backgroudnColor: 'whitesmoke',
+  textAlign: 'center',
 };
 
 const landingStyleB = {
   backgroundColor: 'cyan',
+  textAlign: 'center',
 };
 
 const centerBreak = {
@@ -27,9 +27,9 @@ const centerBreak = {
 
 const messageStyle = {
   display: 'block',
-  textAlign: 'left',
+  textAlign: 'center',
   height: '50%',
-  paddingLeft: '15%',
+  marginLeft: '20%',
 };
 
 /* A simple static component to render some text for the landing page. */
@@ -38,54 +38,41 @@ const Landing = () => (
     <div className="headerTopTitle">
       <div style={centerBreak} />
       <Container fluid style={introMessageStyle}>
-        <h3 style={{ top: '50%' }}>DOELT</h3>
-        <b>
-          <hr />
-        </b>
-        <h4>Department Of Education Legislation Tracker</h4>
+        <h3 style={{ top: '50%' }}>Track & Monitor your proposals</h3>
         <p>
           Have an idea to improve Hawaii <br />
           Keep a track of it here!
         </p>
       </Container>
     </div>
-    <div style={landingStyleB}>
-      <Container fluid style={messageStyle}>
-        <h3 style={{ textAlign: 'center' }}>LOGIN TO YOUR ACCOUNT </h3>
-        <div style={{ textAlign: 'center' }}>
-          <SignInModal />
-        </div>
-        <div style={{ textAlign: 'center' }}>
-          <b>If you are experiencing login difficulties</b>
-        </div>
-        If you have are having difficulty with logging in, please contact the
-        following.
-        <div style={{ textAlign: 'center' }}>
-          <Button variant="primary">
-            <b>
-              <Icon.EnvelopePaper /> <b>Contact Assistance</b>
-            </b>
-          </Button>
-        </div>
-      </Container>
-      <br />
-    </div>
 
-    <div style={landingStyleA}>
-      <Container fluid style={messageStyle}>
-        <h3 style={{ textAlign: 'center' }}>NOTICES</h3>
-        <ul>
-          <li>
-            <b>Daily Down Time</b>
-            <br />
-          </li>
-          <li>
-            <b>Upcoming Scheduled Maintenance</b>
-          </li>
-        </ul>
-      </Container>
-    </div>
+    <Row style={landingStyleA}>
+      <Col style={messageStyle}>
+        <h3>Check the different proposals</h3>
+        <p>See what kind of ideas are being proposed.</p>
+      </Col>
+      <Col>
+        <Image
+          style={{ maxWidth: '45%' }}
+          src="https://1.bp.blogspot.com/-C6vAsZfl8ic/Xq5vGe5oFpI/AAAAAAABYtE/DPvun2JQUYI7iLNp__Q2zZX5gitobZwyACEwYBhgL/s1600/computer_document_spreadsheet.png"
+        />
+      </Col>
+    </Row>
+    <Row style={landingStyleB}>
+      <Col style={messageStyle}>
+        <h3>Organize Decisions Neatly</h3>
+        <p>
+          Based on your position, add comments, approve, or deny the proposals.
+        </p>
+      </Col>
 
+      <Col>
+        <Image
+          style={{ maxWidth: '35%' }}
+          src="https://4.bp.blogspot.com/-n39YthHIJDY/Wn1VskGy9MI/AAAAAAABKEU/600dCV5x4uINvIyB_1a2xI82mxzA5kOZACLcBGAs/s350/computer_businessman1_smile.png"
+        />
+      </Col>
+    </Row>
     <div style={messageStyle}>
       <p>Created for DOE</p>
     </div>
