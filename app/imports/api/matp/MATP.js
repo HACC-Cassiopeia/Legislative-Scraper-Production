@@ -3,7 +3,7 @@ import { Stuffs } from '../stuff/StuffCollection';
 import { Testimonies } from '../testimony/testimonyCollection';
 import { AdminProfiles } from '../user/AdminProfileCollection';
 import { UserProfiles } from '../user/UserProfileCollection';
-import { SavedMeasures } from '../savedMeasure/SavedMeasureCollection';
+import { SavedMeasures } from '../savedMeasures/SavedMeasuresCollection';
 
 class MATPClass {
   collections;

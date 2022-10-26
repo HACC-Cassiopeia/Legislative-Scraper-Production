@@ -16,6 +16,7 @@ const formSchema = new SimpleSchema({
   draftNumber: String,
   hearingDate: String,
   hearingLocation: String,
+  hearingTime: String,
   position: String,
   introduction: String,
 });
@@ -27,7 +28,7 @@ const AddTestimony = () => {
 
   useEffect(() => {
     document.title = 'DOE Legislative Tracker - Add Testimony';
-  });
+  }, []);
 
   // On submit, insert the data.
   const submit = (data, formRef) => {

@@ -61,7 +61,6 @@ const App = () => (
         <Route path="/signout" element={<SignOut />} />
         <Route path="/view/all" element={<AllDashboard />} />
         <Route path="/view/DOE" element={<SavedDashboard />} />
-        {/* <Route path="/saved-dashboard" element={<SavedDashboard />} /> */}
         {/* <Route path="/add-testimony" element={<AddTestimony />} /> */}
         <Route path="/view/:_code" element={<BillResolutionTracker />} />
         <Route path="/test" element={<Test />} />

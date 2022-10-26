@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Accordion, Col, Dropdown, DropdownButton, Row, Table } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Link } from 'react-router-dom';
-import { SavedMeasures } from '../../api/savedMeasure/SavedMeasureCollection';
+import { SavedMeasures } from '../../api/savedMeasures/SavedMeasuresCollection';
 import SavedBill from '../components/SavedBill';
 import LoadingSpinner from '../components/LoadingSpinner';
-import SideNavBar from '../components/SideNavBar';
 
 /* Renders a table containing all of the Stuff documents. Use <StuffItem> to render each row. */
 const Dashboard = () => {
@@ -16,12 +15,16 @@ const Dashboard = () => {
   const { ready, bills } = useTracker(() => {
     const subscription = SavedMeasures.subscribeMeasureSaved();
     const rdy = subscription.ready();
-    const billItem = SavedMeasures.publish();
+    const billItem = SavedMeasures.find({}, { sort: { measureTitle: 1 } }).fetch();
     return {
       bills: billItem[0],
       ready: rdy,
     };
   }, false);
+
+  useEffect(() => {
+    document.title = 'DOE Legislative Tracker - View DOE Bills/Measures';
+  }, []);
 
   const returnFilter = () => (
     <div className="pb-3">
@@ -131,25 +134,26 @@ const Dashboard = () => {
           </tr>
         </thead>
         <tbody>
-          { bills.length === 0 ? <LoadingSpinner /> : bills.map((bill) => <SavedBill key={bill._id} bill={bill} />) }
+          { bills.length === 0 ? '' : bills.map((bill) => <SavedBill key={bill._id} bill={bill} />)}
         </tbody>
       </Table>
+      { bills.length === 0 ? <div className="d-flex justify-content-center">No bills/measures found in DOE database</div> : '' }
     </div>
   );
 
-  return (ready ? (
+  return (
     <div>
-      <SideNavBar />
       <div id="mainBody">
         <Row id="dashboard-screen">
           <Col>
             <Row id="dashboard-filter">{returnFilter()}</Row>
-            <Row id="dashboard-list">{returnList()}</Row>
+            { ready ? <Row id="dashboard-list">{returnList()}</Row> : '' }
+            { ready ? '' : <LoadingSpinner /> }
           </Col>
         </Row>
       </div>
     </div>
-  ) : <LoadingSpinner />);
+  );
 };
 
 export default Dashboard;

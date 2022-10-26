@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
 import SideNavBar from '../components/SideNavBar';
 import AllBill from '../components/AllBill';
-import legtracker from '../utilities/Legtracker';
+import LegTracker from '../utilities/Legtracker';
 
 const AllDashboard = () => {
   /* states for item filtering */
@@ -29,16 +29,20 @@ const AllDashboard = () => {
   /* When the filtered data needs to call the api */
   useEffect(() => {
     setLoading(true);
-    legtracker
+    Legtracker
       .scrapeMeasures(year, type)
       .then(initialMeasures => {
         setMeasures(initialMeasures.scrapedData);
+        console.log(initialMeasures.scrapedData[0]);
+
         setFilteredMeasures(initialMeasures.scrapedData);
         setBillNum('');
         setStatus('');
         setStatusDate('');
         setTitle('');
         setLoading(false);
+
+        document.title = 'DOE Legislative Tracker - View All Bills/Measures';
       });
   }, [year, type]);
 
@@ -59,10 +63,6 @@ const AllDashboard = () => {
     }
     setFilteredMeasures(filtered);
   }, [status, billNum, title, statusDate]);
-
-  useEffect(() => {
-    document.title = 'DOE Legislative Tracker - View All Bills/Measures';
-  });
 
   const returnFilter = () => (
     <div className="pb-3">
@@ -175,10 +175,10 @@ const AllDashboard = () => {
           <tr>
             <th>DOE DB</th>
             <th>Bill / Resolution</th>
-            <th>Committee</th>
-            <th>Companion</th>
-            <th>Introducer</th>
             <th>Status</th>
+            <th>Introducer(s)</th>
+            <th>Referral</th>
+            <th>Companion</th>
           </tr>
         </thead>
         <tbody>

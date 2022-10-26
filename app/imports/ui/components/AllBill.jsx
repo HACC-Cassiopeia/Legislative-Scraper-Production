@@ -1,37 +1,51 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import { Meteor } from 'meteor/meteor';
 import { Link } from 'react-router-dom';
 import { CloudCheckFill } from 'react-bootstrap-icons';
 import { Accordion, Button } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
-import { SavedMeasures } from '../../api/savedMeasure/SavedMeasureCollection';
+import swal from 'sweetalert';
+import { SavedMeasures } from '../../api/savedMeasures/SavedMeasuresCollection';
 import SmallerSpinner from './SmallerSpinner';
+import { defineMethod } from '../../api/base/BaseCollection.methods';
 
 /** Renders a single row in the List Stuff table. See pages/ListStuff.jsx. */
 const AllBill = ({ bill }) => {
 
   const { ready, saved } = useTracker(() => {
-    // Note that this subscription will get cleaned up
-    // when your component is unmounted or deps change.
-    // Get access to Stuff documents.
     const subscription = SavedMeasures.subscribeMeasureSaved();
-    // Determine if the subscription is ready
     const rdy = subscription.ready();
-    // Get the Stuff documents
-    const svd = SavedMeasures.find().fetch();
+    const svd = SavedMeasures.findOne({ code: bill.code }) != null;
     return {
       saved: svd,
       ready: rdy,
     };
   }, []);
 
+  function save() {
+    // TODO maybe add who saved the bill?
+    // const owner = Meteor.user().username;
+    let sad = false;
+    const collectionName = SavedMeasures.getCollectionName();
+    const definitionData = bill;
+    defineMethod.callPromise({ collectionName, definitionData })
+      .catch(error => {
+        swal('Error', error.message, 'error');
+        sad = true;
+      })
+      .then(() => {
+        if (!sad) {
+          swal('Success', 'Saved to DOE database', 'success');
+        }
+      });
+  }
+
   const checkSaved = saved ?
     <div style={{ textAlign: 'center', fontSize: '20px' }}><CloudCheckFill /></div>
     : (
       <Button
         style={{ backgroundColor: '#418c5c', color: 'white', borderColor: '#297e4b' }}
-        onClick={() => SavedMeasures.collection.insert(bill)}
+        onClick={() => save()}
       >Save
       </Button>
     );
@@ -70,8 +84,7 @@ const AllBill = ({ bill }) => {
           </Accordion.Item>
         </Accordion>
       </td>
-      <td>{bill.currentReferral}</td>
-      <td>{bill.companion}</td>
+      <td>{`(${bill.statusHorS}) ${bill.statusDate} - ${bill.statusDescription}`}</td>
       <td>
         <Accordion flush className="introducerAccordionList">
           <Accordion.Item eventKey="0">
@@ -80,7 +93,8 @@ const AllBill = ({ bill }) => {
           </Accordion.Item>
         </Accordion>
       </td>
-      <td>{`(${bill.statusHorS}) ${bill.statusDescription} ${bill.statusDate}`}</td>
+      <td>{bill.currentReferral}</td>
+      <td>{bill.companion}</td>
     </tr>
   );
 };

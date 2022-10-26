@@ -3,7 +3,7 @@ import { Accounts } from 'meteor/accounts-base';
 import { Roles } from 'meteor/alanning:roles';
 import _ from 'lodash';
 // import { Stuffs } from '../stuff/StuffCollection';
-import { SavedMeasures } from '../savedMeasure/SavedMeasureCollection';
+import { SavedMeasures } from '../savedMeasures/SavedMeasuresCollection';
 
 /**
  * Represents a user, which is someone who has a Meteor account.

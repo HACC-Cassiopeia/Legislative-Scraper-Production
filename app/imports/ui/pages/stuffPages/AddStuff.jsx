@@ -28,9 +28,14 @@ const AddStuff = () => {
   // On submit, insert the data.
   const submit = (data, formRef) => {
     const { name, quantity, condition } = data;
+    console.log('data');
+    console.log(data);
     const owner = Meteor.user().username;
     const collectionName = Stuffs.getCollectionName();
     const definitionData = { name, quantity, condition, owner };
+    console.log('definitionData');
+    console.log(definitionData);
+
     defineMethod.callPromise({ collectionName, definitionData })
       .catch(error => swal('Error', error.message, 'error'))
       .then(() => {

@@ -31,7 +31,7 @@ app.get('/api/scrapeMeasures/:year/:mt', async (req, res) => {
     const mt = req.params.mt;
     if (year < 2010 || year > new Date().getFullYear || !MEASURE_TYPE.includes(mt)) {
       console.log('Error: invalid parameters');
-      res.status(404);
+      throw new Error('Your year or measure type is invalid');
     }
     const url = `https://www.capitol.hawaii.gov/advreports/advreport.aspx?year=${year}&report=deadline&active=true&rpt_type=&measuretype=${mt}`;
     // connects to page
@@ -104,12 +104,11 @@ app.get('/api/scrapeMeasures/:year/:mt', async (req, res) => {
     });
     if (scrapedData.length === 0) {
       // eslint-disable-next-line no-console
-      console.log('Error: page is not found, please use valid params.');
-      return res.status(404).json({ error: 'page is not found' });
+      throw new Error('invalid page');
     }
     res.status(200).json({ scrapedData });
   } catch (error) {
-    console.log(error);
+    res.status(404).json({ error: 'Invalid year or measure type' });
   }
 });
 
@@ -165,6 +164,122 @@ app.get('/api/scrapeUpcomingHearings', async (req, res) => {
     });
   res.status(200).json({ upcomingHearings });
 
+});
+
+/* ************************************************************************************* */
+// gets the bill details via url
+app.get('/api/scrapeBillDetails/:bt/:bn/:year', async (req, res) => {
+  try {
+    const bt = req.params.bt;
+    const bn = req.params.bn;
+    const year = req.params.year;
+    const url = `https://www.capitol.hawaii.gov/measure_indiv.aspx?billtype=${bt}&billnumber=${bn}&year=${year}`;
+    const response = await axios.get(url);
+    const html = response.data;
+    const $ = cheerio.load(html);
+    let index = 1;
+    const lastStatusTextData = [];
+    const billDetails = {
+      lastStatusText: '',
+      measureVersions: [],
+      committeeReports: [],
+      testimonies: [],
+      hearingNotices: [],
+    };
+
+    // if it's less than 10, add a zero in front to conform with format
+    const getIndex = (num) => (num < 10 ? `0${index}` : index);
+
+    // last status
+    $('table#ctl00_ContentPlaceHolderCol1_GridViewStatus > tbody > tr', html).each(function () {
+      const lastStatusText = $(this)
+        .find('td')
+        .append(' ')
+        .text();
+      lastStatusTextData.push({
+        lastStatusText: lastStatusText,
+      });
+    });
+    billDetails.lastStatusText = `${lastStatusTextData.pop().lastStatusText.trim()}`;
+
+    $('table#ctl00_ContentPlaceHolder1_GridViewVersions > tbody > tr', html).has('a').each(function () {
+      index += 1;
+
+      const measureVersionsText = $(this)
+        .find('td > a')
+        .text();
+      const measureVersionsUrl = $(this)
+        .find('td > a')
+        .attr('href');
+      const measureVersionsPdf = $(`#ctl00_ContentPlaceHolder1_GridViewVersions_ctl${getIndex(index)}_PdfLink`)
+        .attr('href');
+      billDetails.measureVersions.push({
+        measureVersionsText: measureVersionsText,
+        measureVersionsUrl: measureVersionsUrl,
+        measureVersionsPdf: measureVersionsPdf,
+      });
+    });
+    index = 1; // reset index
+
+    $('table#ctl00_ContentPlaceHolder1_GridViewCommRpt > tbody > tr', html).has('a').each(function () {
+      index += 1;
+      const committeeReportsText = $(this)
+        .find('td > a')
+        .text();
+      const committeeReportsUrl = $(this)
+        .find('td > a')
+        .attr('href');
+      const committeeReportsPdf = $(this)
+        .find(`#ctl00_ContentPlaceHolder1_GridViewCommRpt_ctl${getIndex(index)}_PdfLink`)
+        .attr('href');
+
+      billDetails.committeeReports.push({
+        committeeReportsText: committeeReportsText,
+        committeeReportsUrl: committeeReportsUrl,
+        committeeReportsPdf: committeeReportsPdf,
+      });
+    });
+
+    $('table#ctl00_ContentPlaceHolder1_GridViewTestimony > tbody > tr').has('a').each(function () {
+      const testimonyText = $(this)
+        .find('a')
+        .text();
+      const testimonyUrl = $(this)
+        .find('a')
+        .attr('href');
+      billDetails.testimonies.push({
+        testimonyText: testimonyText,
+        testimonyUrl: testimonyUrl,
+      });
+    });
+    index = 1;
+
+    $('table#ctl00_ContentPlaceHolder1_GridView1 > tbody > tr', html).has('a').each(function () {
+      index += 1;
+      const dateTime = $(this)
+        .find(`#ctl00_ContentPlaceHolder1_GridView1_ctl${getIndex(index)}_Label27`)
+        .text();
+
+      const room = $(this)
+        .find(`span#ctl00_ContentPlaceHolder1_GridView1_ctl${getIndex(index)}_Label27`)
+        .next()
+        .next()
+        .text();
+
+      const youtubeUrl = $(this)
+        .find(`#ctl00_ContentPlaceHolder1_GridView1_ctl${getIndex(index)}_streamLink`)
+        .attr('href');
+
+      billDetails.hearingNotices.push({
+        dateTime: dateTime,
+        room: room,
+        youtubeUrl: youtubeUrl,
+      });
+    });
+    res.status(200).json(billDetails);
+  } catch (e) {
+    res.status(404).json({ error: 'not found' });
+  }
 });
 
 WebApp.connectHandlers.use(app);
