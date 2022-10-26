@@ -7,10 +7,16 @@ import CalModal from '../components/CalModal';
 
 const Calendar = () => {
   const [upcomingHearings, setUpcomingHearings] = useState([]);
+  // modal states
   const [show, setShow] = useState(false);
+  const [measure, setMeasures] = useState('');
+  const [time, setTime] = useState('');
+  const [room, setRoom] = useState('');
+  const [youtube, setYoutube] = useState('');
+  const [noticeLink, setNoticeLink] = useState('');
+  const [noticeLinkPdf, setNoticeLinkPdf] = useState('');
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
   useEffect(() => {
     document.title = 'DOE Legislative Tracker - Calendar';
     Legtracker
@@ -22,10 +28,17 @@ const Calendar = () => {
 
   return (
     <div id="mainBody">
+      {console.log(room)}
       <CalModal
         show={show}
         handleClose={handleClose}
         handleShow={handleShow}
+        measure={measure}
+        time={time}
+        room={room}
+        youtube={youtube}
+        noticeUrl={noticeLink}
+        noticePdf={noticeLinkPdf}
       />
       <Container className="p-lg-5">
         <FullCalendar
@@ -40,11 +53,21 @@ const Calendar = () => {
             {
               title: data.measure,
               start: data.dateTime,
+              room: data.room,
+              youtube: data.youtubeURL,
+              noticeLink: data.noticeURL,
+              noticePdfLink: data.noticePdfURL,
             }
           ))}
           /* eslint-disable-next-line react/jsx-no-bind */
           eventClick={function (info) {
             info.jsEvent.preventDefault();
+            setMeasures(info.event.title);
+            setTime(info.event.start.toLocaleString());
+            setRoom(info.event.extendedProps.room);
+            setYoutube(info.event.extendedProps.youtube);
+            setNoticeLink(info.event.extendedProps.noticeLink);
+            setNoticeLinkPdf(info.event.extendedProps.noticePdfLink);
             handleShow();
           }}
         />
