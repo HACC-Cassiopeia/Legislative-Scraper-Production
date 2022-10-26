@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { SavedMeasures } from '../../api/savedMeasures/SavedMeasuresCollection';
-import { Testimonies } from '../../api/testimony/testimonyCollection';
+import { Testimonies } from '../../api/testimony/TestimonyCollection';
 /* eslint-disable no-console */
 
 // Initialize the database with a default data document.
@@ -11,7 +11,7 @@ function addMeasures(measures) {
 
 // Initialize the SavedMeasures if empty.
 if (SavedMeasures.count() === 0) {
-  if (Meteor.settings.defaultData) {
+  if (Meteor.settings.defaultSavedMeasures) {
     console.log('Creating default measures.');
     Meteor.settings.defaultSavedMeasures.map(data => addMeasures(data));
   }

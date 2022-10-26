@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { expect } from 'chai';
 import faker from 'faker';
-import { Testimonies } from './testimonyCollection';
+import { Testimonies } from './TestimonyCollection';
 import { defineTestUser, withLoggedInUser, withSubscriptions } from '../../test-utilities/test-utilities';
 import { defineMethod, updateMethod, removeItMethod } from '../base/BaseCollection.methods';
 
