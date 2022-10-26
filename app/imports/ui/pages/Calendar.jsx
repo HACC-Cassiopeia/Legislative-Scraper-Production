@@ -3,6 +3,7 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { Container } from 'react-bootstrap';
 import Legtracker from '../utilities/Legtracker';
+import CalModal from '../components/CalModal';
 
 const Calendar = () => {
   const [upcomingHearings, setUpcomingHearings] = useState([]);
@@ -17,7 +18,7 @@ const Calendar = () => {
 
   return (
     <div id="mainBody">
-      {console.log(upcomingHearings)}
+      <CalModal />
       <Container className="p-lg-5">
         <FullCalendar
           defaultView="dayGridMonth"
