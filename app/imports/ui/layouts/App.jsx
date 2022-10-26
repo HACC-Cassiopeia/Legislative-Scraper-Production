@@ -4,7 +4,6 @@ import { Meteor } from 'meteor/meteor';
 import { Roles } from 'meteor/alanning:roles';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 // import Footer from '../components/stuffComponents/Footer';
-import { Col } from 'react-bootstrap';
 import ListStuff from '../pages/stuffPages/ListStuff';
 import ListStuffAdmin from '../pages/stuffPages/ListStuffAdmin';
 import AddStuff from '../pages/stuffPages/AddStuff';
@@ -13,6 +12,7 @@ import NotFound from '../pages/stuffPages/NotFound';
 import SignUp from '../pages/stuffPages/SignUp';
 import SignOut from '../pages/stuffPages/SignOut';
 // import NavBar from '../components/stuffComponents/NavBar';
+import SignIn from '../pages/stuffPages/SignIn';
 import NotAuthorized from '../pages/stuffPages/NotAuthorized';
 import { ROLE } from '../../api/role/Role';
 
@@ -21,7 +21,7 @@ import { ROLE } from '../../api/role/Role';
  * Imports that are commented out means that they're using unsecure methods
  * instead of meteor methods
  */
-import SignIn from '../pages/SignIn';
+import Landing from '../pages/Landing';
 import Home from '../pages/Home';
 import AllDashboard from '../pages/AllDashboard';
 import SavedDashboard from '../pages/SavedDashboard';
@@ -29,6 +29,7 @@ import BillResolutionTracker from '../pages/BillResolutionTracker';
 import AddTestimony from '../pages/AddTestimony';
 import Test from '../Test';
 import Calendar from '../pages/Calendar';
+import SideNavBar from '../components/SideNavBar';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => (
@@ -51,18 +52,19 @@ const App = () => (
     {/*  </Routes> */}
     {/*  <Footer /> */}
     {/* </div> */}
-    <Col className="d-flex flex-column min-vh-100">
+    <div className="d-flex flex-column min-vh-100">
+      <SideNavBar />
       <Routes>
-        <Route exact path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+        <Route exact path="/" element={<Landing />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signout" element={<SignOut />} />
-        <Route path="/view/all" element={<ProtectedRoute><AllDashboard /></ProtectedRoute>} />
-        <Route path="/view/DOE" element={<ProtectedRoute><SavedDashboard /></ProtectedRoute>} />
-        <Route path="/add-testimony" element={<ProtectedRoute><AddTestimony /></ProtectedRoute>} />
-        <Route path="/view/:_code" element={<ProtectedRoute><BillResolutionTracker /></ProtectedRoute>} />
+        <Route path="/view/all" element={<AllDashboard />} />
+        <Route path="/view/DOE" element={<SavedDashboard />} />
+        <Route path="/add-testimony" element={<AddTestimony />} />
+        <Route path="/view/:_code" element={<BillResolutionTracker />} />
         <Route path="/test" element={<Test />} />
-        <Route path="/calendar" element={<ProtectedRoute><Calendar /></ProtectedRoute>} />
+        <Route path="/calendar" element={<Calendar />} />
         <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
         <Route path="/list" element={<ProtectedRoute><ListStuff /></ProtectedRoute>} />
         <Route path="/add" element={(<ProtectedRoute><AddStuff /></ProtectedRoute>)} />
@@ -71,7 +73,7 @@ const App = () => (
         <Route path="/notauthorized" element={<NotAuthorized />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-    </Col>
+    </div>
   </Router>
 );
 
@@ -107,7 +109,7 @@ ProtectedRoute.propTypes = {
 };
 
 ProtectedRoute.defaultProps = {
-  children: <SignIn />,
+  children: <Landing />,
 };
 
 // Require a component and location to be passed to each AdminProtectedRoute.
@@ -116,7 +118,7 @@ AdminProtectedRoute.propTypes = {
 };
 
 AdminProtectedRoute.defaultProps = {
-  children: <SignIn />,
+  children: <Landing />,
 };
 
 export default App;

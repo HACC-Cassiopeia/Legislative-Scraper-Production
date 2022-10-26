@@ -8,6 +8,12 @@ import { Users } from './UserCollection';
 const rolesToCollectionNames = {};
 rolesToCollectionNames[ROLE.ADMIN] = 'AdminProfileCollection';
 rolesToCollectionNames[ROLE.USER] = 'UserProfileCollection';
+rolesToCollectionNames[ROLE.SEC_ASSIGNER] = 'SecAssignerProfileCollection';
+rolesToCollectionNames[ROLE.WRITER] = 'WriterProfileCollection';
+rolesToCollectionNames[ROLE.OFFICE_APPROVER] = 'OfficeApproverProfileCollection';
+rolesToCollectionNames[ROLE.PIPE_APPROVER] = 'PIPEApproverProfileCollection';
+rolesToCollectionNames[ROLE.FINAL_APPROVER] = 'FinalApproverUserProfileCollection';
+rolesToCollectionNames[ROLE.SEC_SUBMITTER] = 'SecSubmitterProfileCollection';
 
 class BaseProfileCollection extends BaseCollection {
   constructor(type, schema) {
