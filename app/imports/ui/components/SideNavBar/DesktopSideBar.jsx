@@ -21,6 +21,7 @@ const DesktopSideBar = () => {
     return () => {
       // unsubscribe "onComponentDestroy"
       window.removeEventListener('resize', handleResizeWindow);
+      console.log(width);
     };
   }, []);
 

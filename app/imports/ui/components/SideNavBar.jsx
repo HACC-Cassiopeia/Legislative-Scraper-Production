@@ -27,12 +27,12 @@ const SideNavBar = () => {
   const mobileSideBarStyle = {
     position: 'fixed',
     width: 0.09 * width,
-    maxWidth: 0.09 * width,
+    maxWidth: 0.1 * width,
     minHeight: '100vh',
     backgroundColor: 'cyan',
     color: 'white',
-    fontSize: '16px',
-    textAlign: 'center',
+    fontSize: '13px',
+    textAlign: 'left',
     zIndex: 10,
   };
 
