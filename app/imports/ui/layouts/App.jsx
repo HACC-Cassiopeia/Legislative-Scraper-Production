@@ -12,7 +12,7 @@ import NotFound from '../pages/stuffPages/NotFound';
 import SignUp from '../pages/stuffPages/SignUp';
 import SignOut from '../pages/stuffPages/SignOut';
 // import NavBar from '../components/stuffComponents/NavBar';
-import SignIn from '../pages/stuffPages/SignIn';
+import SignIn from '../pages/SignIn';
 import NotAuthorized from '../pages/stuffPages/NotAuthorized';
 import { ROLE } from '../../api/role/Role';
 
@@ -29,7 +29,6 @@ import BillResolutionTracker from '../pages/BillResolutionTracker';
 import AddTestimony from '../pages/AddTestimony';
 import Test from '../Test';
 import Calendar from '../pages/Calendar';
-import SideNavBar from '../components/SideNavBar';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => (
@@ -53,18 +52,17 @@ const App = () => (
     {/*  <Footer /> */}
     {/* </div> */}
     <div className="d-flex flex-column min-vh-100">
-      <SideNavBar />
       <Routes>
-        <Route exact path="/" element={<Landing />} />
+        <Route exact path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signout" element={<SignOut />} />
-        <Route path="/view/all" element={<AllDashboard />} />
-        <Route path="/view/DOE" element={<SavedDashboard />} />
-        <Route path="/add-testimony" element={<AddTestimony />} />
-        <Route path="/view/:_code" element={<BillResolutionTracker />} />
+        <Route path="/view/all" element={<ProtectedRoute><AllDashboard /></ProtectedRoute>} />
+        <Route path="/view/DOE" element={<ProtectedRoute><SavedDashboard /></ProtectedRoute>} />
+        <Route path="/add-testimony" element={<ProtectedRoute><AddTestimony /></ProtectedRoute>} />
+        <Route path="/view/:_code" element={<ProtectedRoute><BillResolutionTracker /></ProtectedRoute>} />
         <Route path="/test" element={<Test />} />
-        <Route path="/calendar" element={<Calendar />} />
+        <Route path="/calendar" element={<ProtectedRoute><Calendar /></ProtectedRoute>} />
         <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
         <Route path="/list" element={<ProtectedRoute><ListStuff /></ProtectedRoute>} />
         <Route path="/add" element={(<ProtectedRoute><AddStuff /></ProtectedRoute>)} />

@@ -68,7 +68,7 @@ const Home = () => {
   }
   return (
     <div>
-      <SideNavBar />
+      <SideNavBar id="nav" />
       <div style={mainBodyStyle}>
         <h2
           style={{

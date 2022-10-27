@@ -25,7 +25,7 @@ const saveStyle = {
 
 const BillResolutionTracker = () => (
   <Row>
-    <SideNavBar />
+    <SideNavBar id="nav" />
     <div id="mainBody">
       {/* TODO add functionality to edit, create monitoring report, and save to db buttons */}
       <Navbar className="fixed-top justify-content-center" style={navBarStyle}>

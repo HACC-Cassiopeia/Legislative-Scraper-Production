@@ -144,7 +144,7 @@ const Dashboard = () => {
 
   return (
     <Row>
-      <SideNavBar />
+      <SideNavBar id="nav" />
       <div id="mainBody">
         <Row id="dashboard-screen">
           <Col>

@@ -15,7 +15,8 @@ body {
   --bs-light-rgb: var(--matr-navbar-bg-rgb);
 }
 
-h2 {
+html, body {
+  height: 100%;
 }
 
 /* Set the alert background on the signin and signup pages. */
@@ -140,6 +141,12 @@ h2 {
   --bs-btn-hover-bg: #37425e;
 }
 
+.halpButton .btn-primary {
+  --bs-btn-bg: #2e374f;
+  --bs-btn-border-color: #242c41;
+  --bs-btn-hover-border-color: #333f59;
+  --bs-btn-hover-bg: #37425e;
+}
 
 #navBar {
   width: 15%;
