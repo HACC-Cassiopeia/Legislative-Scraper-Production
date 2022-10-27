@@ -26,7 +26,8 @@ const SideNavBar = () => {
 
   const mobileSideBarStyle = {
     position: 'fixed',
-    minWidth: '15%',
+    width: 0.09 * width,
+    maxWidth: 0.09 * width,
     minHeight: '100vh',
     backgroundColor: 'cyan',
     color: 'white',
