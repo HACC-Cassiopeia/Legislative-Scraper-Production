@@ -29,7 +29,7 @@ const bridge = new SimpleSchema2Bridge(formSchema);
 const AddTestimony = () => {
 
   useEffect(() => {
-    document.title = 'DOE Legislative Tracker - Add Testimony';
+    document.title = 'DOELT - Add/Edit Testimony';
   }, []);
 
   // On submit, insert the data.

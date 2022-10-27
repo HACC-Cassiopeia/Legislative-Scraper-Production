@@ -28,7 +28,7 @@ const AllDashboard = () => {
       setMeasures(initialMeasures.scrapedData);
       console.log(initialMeasures.scrapedData[0]);
     });
-    document.title = 'DOE Legislative Tracker - View All Bills/Measures';
+    document.title = 'DOELT - View All Bills/Measures';
   }, []);
   const rowNumber = 45;
   const totalPageIndex = Math.ceil(measures.length / rowNumber);

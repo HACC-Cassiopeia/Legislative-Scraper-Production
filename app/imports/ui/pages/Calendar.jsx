@@ -19,7 +19,7 @@ const Calendar = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   useEffect(() => {
-    document.title = 'DOE Legislative Tracker - Calendar';
+    document.title = 'DOELT - Calendar';
     Legtracker
       .scrapeUpcomingHearings()
       .then(initialData => {

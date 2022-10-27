@@ -24,12 +24,12 @@ const Dashboard = () => {
   }, []);
 
   useEffect(() => {
-    document.title = 'DOE Legislative Tracker - View DOE Bills/Measures';
+    document.title = 'DOELT - View DOE Bills/Measures';
   }, []);
 
   const returnFilter = () => (
     <div className="pb-3">
-      <h2 className="pt-3 text-center"><b>DOE-Tracked Bills and Measures</b></h2>
+      <h2 className="pt-3 text-center"><b>DOE Bills/Measures</b></h2>
       <Link className="d-flex justify-content-center pb-2" to="/view/all">View All Bill/Measures</Link>
       <Accordion>
         <Accordion.Item eventKey="0">

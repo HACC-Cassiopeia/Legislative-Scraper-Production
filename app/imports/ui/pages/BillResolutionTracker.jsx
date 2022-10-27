@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Container, Navbar, Nav, Row } from 'react-bootstrap';
 import { PencilSquare, FileEarmarkPlusFill, BoxArrowInDown } from 'react-bootstrap-icons';
@@ -23,23 +23,30 @@ const saveStyle = {
   'a:hover': 'blue',
 };
 
-const BillResolutionTracker = () => (
-  <Row>
-    <SideNavBar id="nav" />
-    <div id="mainBody">
-      {/* TODO add functionality to edit, create monitoring report, and save to db buttons */}
-      <Navbar className="fixed-top justify-content-center" style={navBarStyle}>
-        <Nav.Link className="m-4" as={NavLink} to="#"> <PencilSquare className="mb-1" />&nbsp;&nbsp;Edit</Nav.Link>
-        <Nav.Link className="m-4" as={NavLink} to="/add-testimony"> <FileEarmarkPlusFill className="mb-1" />&nbsp;&nbsp;Create Testimony</Nav.Link>
-        <Nav.Link className="m-4" as={NavLink} to="#"> <FileEarmarkPlusFill className="mb-1" />&nbsp;&nbsp;Create Monitoring Report</Nav.Link>
-        <Nav.Link className="m-4" style={saveStyle} as={NavLink} to="#"> <BoxArrowInDown className="mb-1" />&nbsp;&nbsp;Save to Database</Nav.Link>
-      </Navbar>
-      <div className="mt-5">
-        <BillResolutionDetails />
+const BillResolutionTracker = () => {
+  // TODO add bill name to title?
+  useEffect(() => {
+    document.title = 'DOELT - View Bill Details';
+  }, []);
+
+  return (
+    <Row>
+      <SideNavBar id="nav" />
+      <div id="mainBody">
+        {/* TODO add functionality to edit, create monitoring report, and save to db buttons */}
+        <Navbar className="fixed-top justify-content-center" style={navBarStyle}>
+          <Nav.Link className="m-4" as={NavLink} to="#"> <PencilSquare className="mb-1" />&nbsp;&nbsp;Edit</Nav.Link>
+          <Nav.Link className="m-4" as={NavLink} to="/add-testimony"> <FileEarmarkPlusFill className="mb-1" />&nbsp;&nbsp;Create Testimony</Nav.Link>
+          <Nav.Link className="m-4" as={NavLink} to="#"> <FileEarmarkPlusFill className="mb-1" />&nbsp;&nbsp;Create Monitoring Report</Nav.Link>
+          <Nav.Link className="m-4" style={saveStyle} as={NavLink} to="#"> <BoxArrowInDown className="mb-1" />&nbsp;&nbsp;Save to Database</Nav.Link>
+        </Navbar>
+        <div className="mt-5">
+          <BillResolutionDetails />
+        </div>
+        <Container className="text-center"><h3>TODO: Bottom section (list of hearings w/ more info)</h3></Container>
       </div>
-      <Container className="text-center"><h3>TODO: Bottom section (list of hearings w/ more info)</h3></Container>
-    </div>
-  </Row>
-);
+    </Row>
+  );
+};
 
 export default BillResolutionTracker;
