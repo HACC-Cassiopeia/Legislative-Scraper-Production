@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
-import { Card, Row, Col, Button, Container, Table } from 'react-bootstrap';
+import { Card, Row, Container, Table } from 'react-bootstrap';
 import * as Icon from 'react-bootstrap-icons';
 import SideNavBar from '../components/SideNavBar';
 import { SavedMeasures } from '../../api/savedMeasures/SavedMeasuresCollection';
@@ -131,8 +131,8 @@ const Home = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {bills.map((bills) => (
-                        <NotificationBill key={bills._id} bills={bills} />
+                      {bills.map((bill) => (
+                        <NotificationBill key={bill._id} bills={bill} />
                       ))}
                     </tbody>
                   </Table>
