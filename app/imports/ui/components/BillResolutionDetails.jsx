@@ -79,6 +79,14 @@ const BillResolutionDetails = () => {
     return bill.introducer;
   }
 
+  // Hearing Date and Time
+  const billDateAndTime = () => {
+    if (billDetails.hearingNotices !== undefined) {
+      return billDetails.hearingNotices[billDetails.hearingNotices.length - 1].dateTime;
+    }
+    return 'N/A';
+  };
+
   // TODO if bill not found, need to redirect to 404
   return (ready ? (
     <Container className="text-center border border-1 small mb-5">
@@ -199,11 +207,10 @@ const BillResolutionDetails = () => {
                 <Accordion.Item eventKey="0">
                   <Accordion.Header> {introducerShortened()} </Accordion.Header>
                   <Accordion.Body>
-                    {`${theRestOfIntroducers()} \n**00/00/0000**`}
+                    {`${theRestOfIntroducers()} \n${billDetails.initialDate}`}
                   </Accordion.Body>
                 </Accordion.Item>
               </Accordion>
-              {/* TODO have to scrap the date somehow? didn't see it on the bill page */}
             </Col>
           </Row>
         </Col>
@@ -250,26 +257,13 @@ const BillResolutionDetails = () => {
         <Col className="border border-top-0 border-bottom-0 border-start-0">
           <Row>
             <Col className="border border-start-0 border-end-0">
-              <b>Hearing Date</b>
+              <b>Hearing Date and Time</b>
             </Col>
           </Row>
           <Row className="py-2">
             <Col>
               {/* TODO hearing date, it looks like this is scraped from the 'hearing notices' section on the bill page */}
-              **Tue 03/02/2021**
-            </Col>
-          </Row>
-        </Col>
-        <Col className="border border-top-0 border-bottom-0 border-start-0">
-          <Row>
-            <Col className="border border-start-0 border-end-0">
-              <b>Hearing Time</b>
-            </Col>
-          </Row>
-          <Row className="py-2">
-            <Col>
-              {/* TODO hearing time, same as above */}
-              **11:00 AM**
+              {billDateAndTime()}
             </Col>
           </Row>
         </Col>
