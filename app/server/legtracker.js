@@ -289,6 +289,10 @@ app.get('/api/scrapeBillDetails/:bt/:bn/:year', async (req, res) => {
 
     $('table#ctl00_ContentPlaceHolder1_GridView1 > tbody > tr', html).has('a').each(function () {
       index += 1;
+      const committee = $(this)
+        .find(`#ctl00_ContentPlaceHolder1_GridView1_ctl${getIndex(index)}_Label17 > b`)
+        .text();
+
       const dateTime = $(this)
         .find(`#ctl00_ContentPlaceHolder1_GridView1_ctl${getIndex(index)}_Label27`)
         .text();
@@ -304,6 +308,7 @@ app.get('/api/scrapeBillDetails/:bt/:bn/:year', async (req, res) => {
         .attr('href');
 
       billDetails.hearingNotices.push({
+        committee: committee,
         dateTime: dateTime,
         room: room,
         youtubeUrl: youtubeUrl,
