@@ -23,7 +23,7 @@ const BillResolutionDetails = () => {
 
   // eslint-disable-next-line consistent-return
   const getScraperParams = (billData) => {
-    if (ready) {
+    if (ready && billData !== undefined) {
       const billInfo = billData.code.split(' ');
       const year = billData.statusDate;
       return ({
@@ -40,7 +40,7 @@ const BillResolutionDetails = () => {
   const [billDetails, setBillDetails] = useState({});
   useEffect(() => {
     document.title = `DOE Legislative Tracker - ${_code}`;
-    if (ready) {
+    if (ready && bill !== undefined) {
       Legtracker
         .scrapeBillDetails(billObj.bt, billObj.bn, billObj.year)
         .then(initialData => {
@@ -81,21 +81,21 @@ const BillResolutionDetails = () => {
 
   // Hearing Date and Time
   const billDateAndTime = () => {
-    if (billDetails.hearingNotices !== undefined) {
+    if (billDetails.hearingNotices !== undefined && billDetails.hearingNotices.length !== 0) {
       return billDetails.hearingNotices[billDetails.hearingNotices.length - 1].dateTime;
     }
     return 'N/A';
   };
   // Hearing Location
   const billLocation = () => {
-    if (billDetails.hearingNotices !== undefined) {
+    if (billDetails.hearingNotices !== undefined && billDetails.hearingNotices.length !== 0) {
       return billDetails.hearingNotices[billDetails.hearingNotices.length - 1].room;
     }
     return 'N/A';
   };
   // All Versions
   const versions = () => {
-    if (billDetails.measureVersions !== undefined) {
+    if (billDetails.measureVersions !== undefined && billDetails.measureVersions.length !== 0) {
       return billDetails.measureVersions.map(data => (
         <div>
           <a href={data.measureVersionsUrl} target="_blank" rel="noreferrer noopener">
@@ -108,10 +108,23 @@ const BillResolutionDetails = () => {
   };
   // Committee Reports
   const committeeReports = () => {
-    if (billDetails.committeeReports !== undefined) {
+    if (billDetails.committeeReports !== undefined && billDetails.committeeReports.length !== 0) {
       return billDetails.committeeReports.map(data => (
         <div>
           <a href={data.committeeReportsPdf}>{data.committeeReportsText}</a>
+        </div>
+      ));
+    }
+    return 'N/A';
+  };
+  // Youtube
+  const youtube = () => {
+    if (billDetails.hearingNotices !== undefined && billDetails.hearingNotices.length !== 0) {
+      return billDetails.hearingNotices.map(data => (
+        <div>
+          <a href={data.youtubeUrl} target="_blank" rel="noreferrer noopener">
+            {`${data.committee} ${data.dateTime}`}
+          </a>
         </div>
       ));
     }
@@ -386,8 +399,7 @@ const BillResolutionDetails = () => {
           <Row className="py-1">
             <Col>
               {/* TODO add YouTube links, same as above */}
-              <div style={fakeLink4Rob}>**HEARING EDN 02-16-21 2:00P**</div>
-              <div style={fakeLink4Rob}>**HEARING FIN 03-02-21 1 11:00A**</div>
+              {youtube()}
             </Col>
           </Row>
         </Col>
