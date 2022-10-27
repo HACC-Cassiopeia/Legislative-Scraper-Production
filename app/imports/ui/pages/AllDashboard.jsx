@@ -44,6 +44,24 @@ const AllDashboard = () => {
       });
   }, [year, type]);
 
+  /* When the filtered data can just search the current array */
+  useEffect(() => {
+    let filtered = measures;
+    if (chamber) {
+      filtered = filtered.filter(function (obj) { return obj.statusHorS === chamber; });
+    }
+    if (billNum) {
+      filtered = filtered.filter(function (obj) { return obj.code.toLowerCase().includes(billNum.toLowerCase()); });
+    }
+    if (title) {
+      filtered = filtered.filter(function (obj) { return obj.measureTitle.toLowerCase().includes(title.toLowerCase()); });
+    }
+    if (statusDate) {
+      filtered = filtered.filter(function (obj) { return obj.statusDate.toLowerCase().includes(statusDate.toLowerCase()); });
+    }
+    setFilteredMeasures(filtered);
+  }, [chamber, billNum, title, statusDate]);
+
   const rowNumber = 50;
   const totalPageIndex = Math.ceil(measures.length / rowNumber);
   console.log(totalPageIndex);
@@ -77,28 +95,14 @@ const AllDashboard = () => {
     );
   }
 
-  /* When the filtered data can just search the current array */
-  useEffect(() => {
-    let filtered = measures;
-    if (chamber) {
-      filtered = filtered.filter(function (obj) { return obj.statusHorS === chamber; });
-    }
-    if (billNum) {
-      filtered = filtered.filter(function (obj) { return obj.code.toLowerCase().includes(billNum.toLowerCase()); });
-    }
-    if (title) {
-      filtered = filtered.filter(function (obj) { return obj.measureTitle.toLowerCase().includes(title.toLowerCase()); });
-    }
-    if (statusDate) {
-      filtered = filtered.filter(function (obj) { return obj.statusDate.toLowerCase().includes(statusDate.toLowerCase()); });
-    }
-    setFilteredMeasures(filtered);
-  }, [chamber, billNum, title, statusDate]);
-
   const returnFilter = () => (
     <div className="pb-3">
-      <h2 className="pt-3 text-center"><b>2022: All House Bills</b></h2>
-      <Link className="d-flex justify-content-center pb-2" to="/view/DOE">View DOE-Tracked Bill/Measures</Link>
+      <h2 className="pt-3 text-center">
+        <b>2022: All House Bills</b>
+      </h2>
+      <Link className="d-flex justify-content-center pb-2" to="/view/DOE">
+        View DOE-Tracked Bill/Measures
+      </Link>
       <div id="filter-border">
         <Row className="py-3 px-3">
           <Col>
@@ -196,6 +200,7 @@ const AllDashboard = () => {
           </Accordion.Item>
         </Accordion>
       </div>
+      <Pagination className="pt-3">{items}</Pagination>
     </div>
   );
 
@@ -216,7 +221,7 @@ const AllDashboard = () => {
         <tbody>
           { filteredMeasures.length === 0 || loading
             ? ''
-            : measures
+            : filteredMeasures
               .map((bill) => <AllBill key={bill._id} bill={bill} />)
               .slice(firstIndex, lastIndex)}
         </tbody>
