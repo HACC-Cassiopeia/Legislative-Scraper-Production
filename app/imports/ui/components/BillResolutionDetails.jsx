@@ -21,8 +21,9 @@ const BillResolutionDetails = () => {
     };
   }, false);
 
+  // eslint-disable-next-line consistent-return
   const getScraperParams = (billData) => {
-    if (billData !== undefined) {
+    if (ready) {
       const billInfo = billData.code.split(' ');
       const year = billData.statusDate;
       return ({
@@ -37,15 +38,16 @@ const BillResolutionDetails = () => {
   const billObj = getScraperParams(bill);
 
   const [billDetails, setBillDetails] = useState({});
-
   useEffect(() => {
     document.title = `DOE Legislative Tracker - ${_code}`;
-    Legtracker
-      .scrapeBillDetails(`${billObj.bt}`, `${billObj.bn}`, `${billObj.year}`)
-      .then(initialData => {
-        setBillDetails(initialData);
-      });
-  }, []);
+    if (ready) {
+      Legtracker
+        .scrapeBillDetails(billObj.bt, billObj.bn, billObj.year)
+        .then(initialData => {
+          setBillDetails(initialData);
+        });
+    }
+  }, [ready]);
 
   // TODO change depending on bill status
   const billStatusStyle = {
@@ -82,6 +84,7 @@ const BillResolutionDetails = () => {
     <Container className="text-center border border-1 small mb-5">
       <Row style={{ backgroundColor: '#ddf3dd' }}>
         <Col>
+          {console.log(bill)}
           {console.log(billDetails)}
           {/* EMPTY COL FOR ALIGNMENT */}
         </Col>
