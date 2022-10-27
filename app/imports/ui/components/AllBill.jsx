@@ -7,12 +7,14 @@ import { useTracker } from 'meteor/react-meteor-data';
 import swal from 'sweetalert';
 import { SavedMeasures } from '../../api/savedMeasures/SavedMeasuresCollection';
 import SmallerSpinner from './SmallerSpinner';
+import SaveBillModal from './SaveBillModal';
 import { defineMethod } from '../../api/base/BaseCollection.methods';
 
 /** Renders a single row in the List Stuff table. See pages/ListStuff.jsx. */
 const AllBill = ({ bill }) => {
 
   const [saveStatus, setSaveStatus] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   const { ready } = useTracker(() => {
     const subscription = SavedMeasures.subscribeMeasureSaved();
@@ -25,7 +27,6 @@ const AllBill = ({ bill }) => {
   useTracker(() => {
     const svd = SavedMeasures.findOne({ code: bill.code }) != null;
     setSaveStatus(svd);
-    console.log('status update');
   }, [bill]);
 
   function save() {
@@ -51,7 +52,7 @@ const AllBill = ({ bill }) => {
     : (
       <Button
         style={{ backgroundColor: '#418c5c', color: 'white', borderColor: '#297e4b' }}
-        onClick={() => save()}
+        onClick={() => setShowModal(true)}
       >Save
       </Button>
     );
@@ -101,6 +102,10 @@ const AllBill = ({ bill }) => {
       </td>
       <td>{bill.currentReferral}</td>
       <td>{bill.companion}</td>
+      <SaveBillModal
+        show={showModal}
+        onHide={() => setShowModal(false)}
+      />
     </tr>
   );
 };
