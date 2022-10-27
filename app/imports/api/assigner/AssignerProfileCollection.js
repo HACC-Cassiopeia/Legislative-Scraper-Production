@@ -4,9 +4,9 @@ import BaseProfileCollection from './BaseProfileCollection';
 import { ROLE } from '../role/Role';
 import { Users } from './UserCollection';
 
-class SecSubmitterProfileCollection extends BaseProfileCollection {
+class AssignerProfileCollection extends BaseProfileCollection {
   constructor() {
-    super('SecApproverProfile', new SimpleSchema({}));
+    super('AssignerProfile', new SimpleSchema({}));
   }
 
   /**
@@ -22,7 +22,7 @@ class SecSubmitterProfileCollection extends BaseProfileCollection {
       const username = email;
       const user = this.findOne({ email, firstName, lastName });
       if (!user) {
-        const role = ROLE.SEC_SUBMITTER;
+        const role = ROLE.ASSIGNER;
         const profileID = this._collection.insert({ email, firstName, lastName, userID: this.getFakeUserId(), role });
         const userID = Users.define({ username, role, password });
         this._collection.update(profileID, { $set: { userID } });
@@ -70,7 +70,7 @@ class SecSubmitterProfileCollection extends BaseProfileCollection {
    * @throws { Meteor.Error } If there is no logged in user, or the user is not an Admin or Admin.
    */
   assertValidRoleForMethod(userId) {
-    this.assertRole(userId, [ROLE.SEC_SUBMITTER]);
+    this.assertRole(userId, [ROLE.ASSIGNER]);
   }
 
   /**
@@ -82,7 +82,7 @@ class SecSubmitterProfileCollection extends BaseProfileCollection {
   checkIntegrity() {
     const problems = [];
     this.find().forEach((doc) => {
-      if (doc.role !== ROLE.SEC_SUBMITTER) {
+      if (doc.role !== ROLE.ASSIGNER) {
         problems.push(`AdminProfile instance does not have ROLE.ADMIN: ${doc}`);
       }
     });
@@ -105,6 +105,6 @@ class SecSubmitterProfileCollection extends BaseProfileCollection {
 
 /**
  * Profides the singleton instance of this class to all other entities.
- * @type {SecSubmitterProfileCollection}
+ * @type {AssignerProfileCollection}
  */
-export const SecSubmitterProfiles = new SecSubmitterProfileCollection();
+export const AssignerProfiles = new AssignerProfileCollection();

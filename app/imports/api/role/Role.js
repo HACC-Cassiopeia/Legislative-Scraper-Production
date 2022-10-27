@@ -3,12 +3,12 @@ import _ from 'lodash';
 import { Meteor } from 'meteor/meteor';
 
 export const ROLE = {
-  SEC_ASSIGNER: 'SEC_ASSIGNER',
+  ASSIGNER: 'ASSIGNER',
   WRITER: 'WRITER',
   OFFICE_APPROVER: 'OFFICE_APPROVER',
   PIPE_APPROVER: 'PIPE_APPROVER',
   FINAL_APPROVER: 'FINAL_APPROVER',
-  SEC_SUBMITTER: 'SEC_SUBMITTER',
+  SUBMITTER: 'SUBMITTER',
   ADMIN: 'ADMIN',
   USER: 'USER',
 };
