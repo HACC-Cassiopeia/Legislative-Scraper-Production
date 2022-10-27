@@ -86,7 +86,37 @@ const BillResolutionDetails = () => {
     }
     return 'N/A';
   };
-
+  // Hearing Location
+  const billLocation = () => {
+    if (billDetails.hearingNotices !== undefined) {
+      return billDetails.hearingNotices[billDetails.hearingNotices.length - 1].room;
+    }
+    return 'N/A';
+  };
+  // All Versions
+  const versions = () => {
+    if (billDetails.measureVersions !== undefined) {
+      return billDetails.measureVersions.map(data => (
+        <div>
+          <a href={data.measureVersionsUrl} target="_blank" rel="noreferrer noopener">
+            {data.measureVersionsText}
+          </a>
+        </div>
+      ));
+    }
+    return 'N/A';
+  };
+  // Committee Reports
+  const committeeReports = () => {
+    if (billDetails.committeeReports !== undefined) {
+      return billDetails.committeeReports.map(data => (
+        <div>
+          <a href={data.committeeReportsPdf}>{data.committeeReportsText}</a>
+        </div>
+      ));
+    }
+    return 'N/A';
+  };
   // TODO if bill not found, need to redirect to 404
   return (ready ? (
     <Container className="text-center border border-1 small mb-5">
@@ -188,8 +218,8 @@ const BillResolutionDetails = () => {
           </Row>
           <Row>
             <Col className="py-2">
-              {/* LEG TYPE TODO aren't these all bills? */}
-              **Bill**
+              {/* LEG TYPE TODO aren't these all bills? Putting this as bill temp. */}
+              Bill
             </Col>
           </Row>
         </Col>
@@ -276,7 +306,7 @@ const BillResolutionDetails = () => {
           <Row className="py-2">
             <Col>
               {/* TODO hearing location, same as above */}
-              **308 Via Videoconference**
+              {billLocation()}
             </Col>
           </Row>
         </Col>
@@ -330,8 +360,7 @@ const BillResolutionDetails = () => {
           <Row className="py-1">
             <Col>
               {/* TODO 'versions,' needs to be scraped from bill page */}
-              <div style={fakeLink4Rob}>**HB1078 HD1**</div>
-              <div style={fakeLink4Rob}>**HB1078**</div>
+              {versions()}
             </Col>
           </Row>
         </Col>
@@ -344,8 +373,7 @@ const BillResolutionDetails = () => {
           <Row className="py-1">
             <Col>
               {/* TODO 'committee reports,' same as above */}
-              <div style={fakeLink4Rob}>**HB1078 HD1 HSCR479**</div>
-              <div style={fakeLink4Rob}>**HB1078 HD1 HSCR784**</div>
+              {committeeReports()}
             </Col>
           </Row>
         </Col>
