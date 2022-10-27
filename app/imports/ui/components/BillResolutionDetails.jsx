@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Card, Accordion } from 'react-bootstrap';
 import { Archive, FilePdfFill, Youtube } from 'react-bootstrap-icons';
 import { useTracker } from 'meteor/react-meteor-data';
@@ -6,11 +6,10 @@ import { useParams } from 'react-router';
 // import { Meteor } from 'meteor/meteor';
 import LoadingSpinner from './LoadingSpinner';
 import { SavedMeasures } from '../../api/savedMeasures/SavedMeasuresCollection';
+import Legtracker from '../utilities/Legtracker';
 
 const BillResolutionDetails = () => {
-
   const { _code } = useParams();
-
   // useTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker
   const { ready, bill } = useTracker(() => {
     const subscription = SavedMeasures.subscribeMeasureSaved();
@@ -22,8 +21,30 @@ const BillResolutionDetails = () => {
     };
   }, false);
 
+  const getScraperParams = (billData) => {
+    if (billData !== undefined) {
+      const billInfo = billData.code.split(' ');
+      const year = billData.statusDate;
+      return ({
+        bt: `${billInfo[0].slice(0, 2)}`,
+        bn: `${billInfo[0].slice(2)}`,
+        year: `${year.slice(year.length - 4, year.length)}`,
+      });
+    }
+    return undefined;
+  };
+
+  const billObj = getScraperParams(bill);
+
+  const [billDetails, setBillDetails] = useState({});
+
   useEffect(() => {
     document.title = `DOE Legislative Tracker - ${_code}`;
+    Legtracker
+      .scrapeBillDetails(`${billObj.bt}`, `${billObj.bn}`, `${billObj.year}`)
+      .then(initialData => {
+        setBillDetails(initialData);
+      });
   }, []);
 
   // TODO change depending on bill status
@@ -61,6 +82,7 @@ const BillResolutionDetails = () => {
     <Container className="text-center border border-1 small mb-5">
       <Row style={{ backgroundColor: '#ddf3dd' }}>
         <Col>
+          {console.log(billDetails)}
           {/* EMPTY COL FOR ALIGNMENT */}
         </Col>
         <Col>
