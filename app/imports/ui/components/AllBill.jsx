@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { CloudCheckFill } from 'react-bootstrap-icons';
@@ -12,15 +12,21 @@ import { defineMethod } from '../../api/base/BaseCollection.methods';
 /** Renders a single row in the List Stuff table. See pages/ListStuff.jsx. */
 const AllBill = ({ bill }) => {
 
-  const { ready, saved } = useTracker(() => {
+  const [saveStatus, setSaveStatus] = useState(null);
+
+  const { ready } = useTracker(() => {
     const subscription = SavedMeasures.subscribeMeasureSaved();
     const rdy = subscription.ready();
-    const svd = SavedMeasures.findOne({ code: bill.code }) != null;
     return {
-      saved: svd,
       ready: rdy,
     };
   }, []);
+
+  useTracker(() => {
+    const svd = SavedMeasures.findOne({ code: bill.code }) != null;
+    setSaveStatus(svd);
+    console.log('status update');
+  }, [bill]);
 
   function save() {
     // TODO maybe add who saved the bill?
@@ -40,7 +46,7 @@ const AllBill = ({ bill }) => {
       });
   }
 
-  const checkSaved = saved ?
+  const checkSaved = saveStatus ?
     <div style={{ textAlign: 'center', fontSize: '20px' }}><CloudCheckFill /></div>
     : (
       <Button
