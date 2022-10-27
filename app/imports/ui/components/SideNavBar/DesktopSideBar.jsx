@@ -21,13 +21,14 @@ const DesktopSideBar = () => {
     return () => {
       // unsubscribe "onComponentDestroy"
       window.removeEventListener('resize', handleResizeWindow);
+      console.log(width);
     };
   }, []);
 
   const minWidth = 0.1 * width;
   const maxWidth = 0.3 * width;
-  const closeminWidth = 0.1 * width;
-  const closemaxWidth = 0.12 * width;
+  const closeminWidth = 0.04 * width;
+  const closemaxWidth = 0.05 * width;
 
   const showSideBarStyle = {
     position: 'fixed',
@@ -38,19 +39,19 @@ const DesktopSideBar = () => {
     color: 'white',
     fontSize: '16px',
     textAlign: 'center',
-    zIndex: 100,
+    zIndex: 300,
   };
 
   const closeSideBarStyle = {
     position: 'fixed',
-    maxWidth: closemaxWidth,
-    minWidth: closeminWidth,
+    maxWidth: closeminWidth,
+    width: closemaxWidth,
     minHeight: '100vh',
     backgroundColor: 'cyan',
     color: 'white',
-    fontSize: '16px',
+    fontSize: '14px',
     textAlign: 'left',
-    zIndex: 10,
+    zIndex: 100,
   };
 
   const [show, setShow] = useState('false');

@@ -15,7 +15,8 @@ body {
   --bs-light-rgb: var(--matr-navbar-bg-rgb);
 }
 
-h2 {
+html, body {
+  height: 100%;
 }
 
 /* Set the alert background on the signin and signup pages. */
@@ -119,6 +120,22 @@ h2 {
   padding: 0 !important;
 }
 
+.logInButton .btn-primary {
+  width: 100%;
+  font-weight: bold;
+  --bs-btn-bg: #2e374f;
+  --bs-btn-border-color: #242c41;
+  --bs-btn-hover-border-color: #333f59;
+  --bs-btn-hover-bg: #37425e;
+}
+
+.halpButton .btn-primary {
+  --bs-btn-bg: #2e374f;
+  --bs-btn-border-color: #242c41;
+  --bs-btn-hover-border-color: #333f59;
+  --bs-btn-hover-bg: #37425e;
+}
+
 #navBar {
   width: 15%;
   color: #418c5c;
@@ -126,12 +143,14 @@ h2 {
 
 #mainBody {
   margin-left: 14%;
+  width: 86%;
   z-index: 0;
 }
 
 #mobileMainBody {
   margin-left: 25%;
   z-index: 0;
+  font-size: 12px;
 }
 
 @media only screen and (max-width: 800px) {

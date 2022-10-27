@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { SavedMeasures } from '../../api/savedMeasures/SavedMeasuresCollection';
 import SavedBill from '../components/SavedBill';
 import LoadingSpinner from '../components/LoadingSpinner';
+import SideNavBar from '../components/SideNavBar';
 
 /* Renders a table containing all of the Stuff documents. Use <StuffItem> to render each row. */
 const Dashboard = () => {
@@ -30,7 +31,7 @@ const Dashboard = () => {
   }, false);
 
   useEffect(() => {
-    document.title = 'DOE Legislative Tracker - View DOE Bills/Measures';
+    document.title = 'DOELT - View DOE Bills/Measures';
   }, []);
 
   useEffect(() => {
@@ -49,7 +50,7 @@ const Dashboard = () => {
 
   const returnFilter = () => (
     <div className="pb-3">
-      <h2 className="pt-3 text-center"><b>DOE-Tracked Bills and Measures</b></h2>
+      <h2 className="pt-3 text-center"><b>DOE Bills/Measures</b></h2>
       <Link className="d-flex justify-content-center pb-2" to="/view/all">View All Bill/Measures</Link>
       <div id="filter-border">
         <Accordion>
@@ -181,7 +182,8 @@ const Dashboard = () => {
   );
 
   return (
-    <div>
+    <Row>
+      <SideNavBar id="nav" />
       <div id="mainBody">
         <Row id="dashboard-screen">
           <Col>
@@ -191,7 +193,7 @@ const Dashboard = () => {
           </Col>
         </Row>
       </div>
-    </div>
+    </Row>
   );
 };
 

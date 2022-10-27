@@ -6,6 +6,7 @@ import {
   Accordion,
   Dropdown,
   DropdownButton,
+  Pagination,
 } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -21,7 +22,6 @@ const AllDashboard = () => {
   const [title, setTitle] = useState('');
   const [type, setType] = useState('hb');
   const [year, setYear] = useState('2022');
-
   const [measures, setMeasures] = useState([]);
   const [filteredMeasures, setFilteredMeasures] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -40,9 +40,42 @@ const AllDashboard = () => {
         setTitle('');
         setLoading(false);
 
-        document.title = 'DOE Legislative Tracker - View All Bills/Measures';
+        document.title = 'DOELT - View All Bills/Measures';
       });
   }, [year, type]);
+
+  const rowNumber = 50;
+  const totalPageIndex = Math.ceil(measures.length / rowNumber);
+  console.log(totalPageIndex);
+
+  const [currentPage, setCurrentPage] = React.useState(1);
+  const [firstIndex, setFirstIndex] = useState(
+    currentPage * rowNumber - rowNumber,
+  );
+  const [lastIndex, setLastIndex] = useState(currentPage * rowNumber);
+
+  const items = [];
+
+  const handleClick = (page) => {
+    setCurrentPage(page);
+
+    setFirstIndex(page * rowNumber - rowNumber);
+    setLastIndex(page * rowNumber);
+    console.log({ firstIndex });
+    console.log({ lastIndex });
+  };
+
+  for (let number = 1; number <= totalPageIndex; number++) {
+    items.push(
+      <Pagination.Item
+        key={number}
+        active={number === currentPage}
+        onClick={() => handleClick(number)}
+      >
+        {number}
+      </Pagination.Item>,
+    );
+  }
 
   /* When the filtered data can just search the current array */
   useEffect(() => {
@@ -168,6 +201,7 @@ const AllDashboard = () => {
 
   const returnList = () => (
     <div style={{ height: '100vh', overflowY: 'auto' }}>
+      <div style={{ textAlign: 'center' }} />
       <Table striped>
         <thead style={{ zIndex: 200 }}>
           <tr>
@@ -180,10 +214,14 @@ const AllDashboard = () => {
           </tr>
         </thead>
         <tbody>
-          { filteredMeasures.length === 0 || loading ? ' ' : filteredMeasures.map((bill) => <AllBill key={bill._id} bill={bill} />) }
+          { filteredMeasures.length === 0 || loading
+            ? ''
+            : measures
+              .map((bill) => <AllBill key={bill._id} bill={bill} />)
+              .slice(firstIndex, lastIndex)}
         </tbody>
       </Table>
-      { filteredMeasures.length === 0 || loading ? <LoadingSpinner /> : ' ' }
+      { filteredMeasures.length === 0 || loading ? <LoadingSpinner /> : ''}
     </div>
   );
 

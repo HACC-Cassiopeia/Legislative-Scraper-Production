@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Stuffs } from '../stuff/StuffCollection';
-import { Testimonies } from '../testimony/testimonyCollection';
+import { Testimonies } from '../testimony/TestimonyCollection';
 import { AdminProfiles } from '../user/AdminProfileCollection';
 import { UserProfiles } from '../user/UserProfileCollection';
 import { SavedMeasures } from '../savedMeasures/SavedMeasuresCollection';
