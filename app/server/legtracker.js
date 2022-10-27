@@ -211,6 +211,7 @@ app.get('/api/scrapeBillDetails/:bt/:bn/:year', async (req, res) => {
     let index = 1;
     const lastStatusTextData = [];
     const billDetails = {
+      initialDate: '',
       lastStatusText: '',
       measureVersions: [],
       committeeReports: [],
@@ -232,6 +233,7 @@ app.get('/api/scrapeBillDetails/:bt/:bn/:year', async (req, res) => {
       });
     });
     billDetails.lastStatusText = `${lastStatusTextData.pop().lastStatusText.trim()}`;
+    billDetails.initialDate = `${lastStatusTextData[1].lastStatusText.split(' ')[0]}`;
 
     $('table#ctl00_ContentPlaceHolder1_GridViewVersions > tbody > tr', html).has('a').each(function () {
       index += 1;
