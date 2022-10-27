@@ -20,10 +20,12 @@ const formSchema = new SimpleSchema({
   hearingDate: Date,
   hearingTime: String,
   hearingLocation: String,
-  billNumber: String,
-  draftNumber: String,
+  committee: String,
+  department: String,
+  testifierNameAndTitle: String,
+  billTitle: String,
+  billPurpose: String,
   position: String,
-  introduction: String,
 });
 
 const bridge = new SimpleSchema2Bridge(formSchema);
@@ -136,27 +138,49 @@ const AddTestimony = () => {
                   <Row style={{ top: '-35px', position: 'relative' }}>
                     <Col className="d-flex justify-content-start">
                       <b style={lilPadding}>Location:</b>
-                      <TextField className="m-0 ps-2" name="hearingTime" label="" placeholder="Hearing Location" />
+                      <TextField className="m-0 ps-2" name="hearingLocation" label="" placeholder="Hearing Location" />
                     </Col>
                   </Row>
                   <Row style={{ top: '-52px', position: 'relative' }}>
                     <Col className="d-flex justify-content-start">
                       <b style={lilPadding}>Committee:</b>
-                      <TextField className="m-0 ps-2" name="hearingTime" label="" placeholder="Committee Name" />
+                      <LongTextField style={{ width: '60%' }} className="m-0 ps-2" name="committee" label="" placeholder="Committee Name" />
                     </Col>
                   </Row>
                 </Col>
               </Row>
-              <Row>
-                <Col><TextField name="billNumber" /></Col>
-                <Col><TextField name="draftNumber" /></Col>
+              <Row style={{ top: '-60px', position: 'relative' }} className="mx-5">
+                <Col className="col-3">
+                  <b>Department:</b>
+                </Col>
+                <Col>
+                  <TextField style={{ width: '40%' }} name="department" label="" placeholder="Education" />
+                </Col>
               </Row>
-              <Col><TextField name="hearingLocation" /></Col>
-              <Row>
-                <Col><TextField name="hearingTime" /></Col>
+              <Row style={{ top: '-62px', position: 'relative' }} className="mx-5">
+                <Col className="col-3">
+                  <b>Person Testifying:</b>
+                </Col>
+                <Col>
+                  <TextField style={{ width: '94%' }} name="testifierNameAndTitle" label="" placeholder="Keith T. Hayashi, Superintendent of Education" />
+                </Col>
               </Row>
-              <TextField name="position" />
-              <LongTextField name="introduction" />
+              <Row style={{ top: '-62px', position: 'relative' }} className="mx-5">
+                <Col className="col-3">
+                  <b>Title of Bill:</b>
+                </Col>
+                <Col>
+                  <TextField style={{ width: '94%' }} name="billTitle" label="" placeholder="Bill Title Goes Here" />
+                </Col>
+              </Row>
+              <Row style={{ top: '-62px', position: 'relative' }} className="mx-5">
+                <Col className="col-3">
+                  <b>Purpose of Bill:</b>
+                </Col>
+                <Col>
+                  <LongTextField style={{ width: '94%' }} name="billPurpose" label="" placeholder="Bill Purpose Goes Here" />
+                </Col>
+              </Row>
               <SubmitField value="Submit" />
               <ErrorsField />
             </Card.Body>
