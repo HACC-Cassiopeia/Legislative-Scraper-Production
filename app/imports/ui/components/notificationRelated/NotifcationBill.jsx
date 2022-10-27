@@ -13,7 +13,12 @@ const NotificationBill = ({ bills }) => (
 );
 
 NotificationBill.propTypes = {
-  bills: PropTypes.object,
+  bills: PropTypes.shape({
+    code: PropTypes.string,
+    measureTitle: PropTypes.string,
+    currentReferral: PropTypes.string,
+    statusDate: PropTypes.string,
+  }).isRequired,
 };
 
 export default NotificationBill;

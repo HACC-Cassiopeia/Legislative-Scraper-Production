@@ -38,7 +38,7 @@ const DesktopSideBar = () => {
     color: 'white',
     fontSize: '16px',
     textAlign: 'center',
-    zIndex: 100,
+    zIndex: 300,
   };
 
   const closeSideBarStyle = {

@@ -6,6 +6,7 @@ import {
   Accordion,
   Dropdown,
   DropdownButton,
+  Pagination,
 } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -15,27 +16,62 @@ import LegTracker from '../utilities/Legtracker';
 
 const AllDashboard = () => {
   /* states for item filtering */
+
   const [office, setOffice] = useState('Select an Office');
   const [action, setAction] = useState('Select a Status');
   const [status, setStatus] = useState('Select an Action');
-
   const [measures, setMeasures] = useState([]);
 
   // TODO get year and type from filters
   useEffect(() => {
-    LegTracker
-      .scrapeMeasures(2022, 'hb')
-      .then(initialMeasures => {
-        setMeasures(initialMeasures.scrapedData);
-        console.log(initialMeasures.scrapedData[0]);
-      });
+    LegTracker.scrapeMeasures(2022, 'hb').then((initialMeasures) => {
+      setMeasures(initialMeasures.scrapedData);
+      console.log(initialMeasures.scrapedData[0]);
+    });
     document.title = 'DOE Legislative Tracker - View All Bills/Measures';
   }, []);
+  const rowNumber = 45;
+  const totalPageIndex = Math.ceil(measures.length / rowNumber);
+  console.log(totalPageIndex);
+
+  const [currentPage, setCurrentPage] = React.useState(1);
+  const [firstIndex, setFirstIndex] = useState(
+    currentPage * rowNumber - rowNumber,
+  );
+  const [lastIndex, setLastIndex] = useState(currentPage * rowNumber);
+
+  const items = [];
+
+  const handleClick = (page) => {
+    setCurrentPage(page);
+
+    setFirstIndex(page * rowNumber - rowNumber);
+    setLastIndex(page * rowNumber);
+    console.log({ firstIndex });
+    console.log({ lastIndex });
+  };
+
+  for (let number = 1; number <= totalPageIndex; number++) {
+    items.push(
+      <Pagination.Item
+        key={number}
+        active={number === currentPage}
+        onClick={() => handleClick(number)}
+      >
+        {number}
+      </Pagination.Item>,
+    );
+  }
 
   const returnFilter = () => (
     <div className="pb-3">
-      <h2 className="pt-3 text-center"><b>2022: All House Bills</b></h2>
-      <Link className="d-flex justify-content-center pb-2" to="/view/DOE">View DOE-Tracked Bill/Measures</Link>
+      <h2 className="pt-3 text-center">
+        <b>2022: All House Bills</b>
+      </h2>
+      <Link className="d-flex justify-content-center pb-2" to="/view/DOE">
+        View DOE-Tracked Bill/Measures
+      </Link>
+      <Pagination>{items}</Pagination>
       <Accordion>
         <Accordion.Item eventKey="0">
           <Accordion.Header>Filter Options</Accordion.Header>
@@ -126,6 +162,7 @@ const AllDashboard = () => {
 
   const returnList = () => (
     <div style={{ height: '100vh', overflowY: 'auto' }}>
+      <div style={{ textAlign: 'center' }} />
       <Table striped>
         <thead style={{ zIndex: 200 }}>
           <tr>
@@ -137,10 +174,15 @@ const AllDashboard = () => {
             <th>Companion</th>
           </tr>
         </thead>
-        <tbody>{ measures.length === 0 ? '' : measures.map((bill) => <AllBill key={bill._id} bill={bill} />) }
+        <tbody>
+          {measures.length === 0
+            ? ''
+            : measures
+              .map((bill) => <AllBill key={bill._id} bill={bill} />)
+              .slice(firstIndex, lastIndex)}
         </tbody>
       </Table>
-      { measures.length === 0 ? <LoadingSpinner /> : '' }
+      {measures.length === 0 ? <LoadingSpinner /> : ''}
     </div>
   );
 

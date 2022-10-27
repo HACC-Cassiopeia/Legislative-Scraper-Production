@@ -25,20 +25,6 @@ const Home = () => {
     });
   }, []);
 
-  const hasUpcomingHearings = () => {
-    if (upcomingHearings.length === 0) {
-      return [];
-    }
-    return upcomingHearings.map((data) => ({
-      title: data.measure,
-      start: data.dateTime,
-      room: data.room,
-      youtube: data.youtubeURL,
-      noticeLink: data.noticeURL,
-      noticePdfLink: data.noticePdfURL,
-    }));
-  };
-
   // the width of the screen using React useEffect
   const [width, setWidth] = useState(window.innerWidth);
   // make sure that it changes with the window size
@@ -206,8 +192,8 @@ const Home = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {bills.map((bills) => (
-                      <NotificationBill key={bills._id} bills={bills} />
+                    {bills.map((bill) => (
+                      <NotificationBill key={bills._id} bills={bill} />
                     ))}
                   </tbody>
                 </Table>

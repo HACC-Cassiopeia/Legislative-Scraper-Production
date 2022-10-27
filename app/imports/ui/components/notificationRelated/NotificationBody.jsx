@@ -37,7 +37,14 @@ const NotificationBody = ({ hearing }) => (
 
 // Require a document to be passed to this component.
 NotificationBody.propTypes = {
-  hearing: PropTypes.object,
+  hearing: PropTypes.shape({
+    measure: PropTypes.string,
+    room: PropTypes.string,
+    dateTime: PropTypes.string,
+    youtubeURL: PropTypes.string,
+    noticeURL: PropTypes.string,
+    noticePdfURL: PropTypes.string,
+  }).isRequired,
 };
 
 export default NotificationBody;
