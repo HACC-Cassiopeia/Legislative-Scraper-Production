@@ -148,6 +148,43 @@ html, body {
   --bs-btn-hover-bg: #37425e;
 }
 
+.pdfFiller .form-control {
+  padding: 0;
+  margin: 0;
+  border-radius: 0;
+  border: 0 #e3e3e3;
+}
+
+.testimonyName .form-control {
+  margin-top: 20px;
+  font-weight: bold;
+  font-size: x-small;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.testimonyTitle .form-control {
+  top: -20px;
+  position: relative;
+  font-size: x-small;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.testimonyAddress {
+  font-size: small;
+  line-height: 1.2em;
+}
+
+.testimonyHearingInfo .form-control {
+  display: inline;
+  width: auto;
+}
+
+.pdfFiller .form-control::placeholder {
+  color: black;
+}
+
 #navBar {
   width: 15%;
   color: #418c5c;
