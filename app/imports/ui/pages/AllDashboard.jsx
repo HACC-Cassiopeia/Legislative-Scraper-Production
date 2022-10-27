@@ -30,7 +30,7 @@ const AllDashboard = () => {
     });
     document.title = 'DOELT - View All Bills/Measures';
   }, []);
-  const rowNumber = 45;
+  const rowNumber = 50;
   const totalPageIndex = Math.ceil(measures.length / rowNumber);
   console.log(totalPageIndex);
 
