@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { CloudCheckFill } from 'react-bootstrap-icons';
 import { Accordion, Button } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
@@ -76,7 +75,7 @@ const AllBill = ({ bill }) => {
     return '';
   }
   // link to page of capital if not saved
-  const linkWhenSaved = () => (saved ? `/view/${bill.code}` : `${bill.measureArchiveUrl}`);
+  const linkWhenSaved = () => (saveStatus ? `/view/${bill.code}` : `${bill.measureArchiveUrl}`);
 
   return (
     <tr>
