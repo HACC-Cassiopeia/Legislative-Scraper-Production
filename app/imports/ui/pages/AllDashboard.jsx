@@ -15,7 +15,7 @@ import LegTracker from '../utilities/Legtracker';
 
 const AllDashboard = () => {
   /* states for item filtering */
-  const [status, setStatus] = useState('');
+  const [chamber, setChamber] = useState('');
   const [billNum, setBillNum] = useState('');
   const [statusDate, setStatusDate] = useState('');
   const [title, setTitle] = useState('');
@@ -29,15 +29,13 @@ const AllDashboard = () => {
   /* When the filtered data needs to call the api */
   useEffect(() => {
     setLoading(true);
-    Legtracker
+    LegTracker
       .scrapeMeasures(year, type)
       .then(initialMeasures => {
         setMeasures(initialMeasures.scrapedData);
-        console.log(initialMeasures.scrapedData[0]);
-
         setFilteredMeasures(initialMeasures.scrapedData);
         setBillNum('');
-        setStatus('');
+        setChamber('');
         setStatusDate('');
         setTitle('');
         setLoading(false);
@@ -49,8 +47,8 @@ const AllDashboard = () => {
   /* When the filtered data can just search the current array */
   useEffect(() => {
     let filtered = measures;
-    if (status) {
-      filtered = filtered.filter(function (obj) { return obj.statusHorS === status; });
+    if (chamber) {
+      filtered = filtered.filter(function (obj) { return obj.statusHorS === chamber; });
     }
     if (billNum) {
       filtered = filtered.filter(function (obj) { return obj.code.toLowerCase().includes(billNum.toLowerCase()); });
@@ -62,7 +60,7 @@ const AllDashboard = () => {
       filtered = filtered.filter(function (obj) { return obj.statusDate.toLowerCase().includes(statusDate.toLowerCase()); });
     }
     setFilteredMeasures(filtered);
-  }, [status, billNum, title, statusDate]);
+  }, [chamber, billNum, title, statusDate]);
 
   const returnFilter = () => (
     <div className="pb-3">
@@ -149,12 +147,12 @@ const AllDashboard = () => {
                   </label>
                 </Col>
                 <Col>
-                  Status <br />
+                  Chamber <br />
                   <DropdownButton
                     id="dropdown-basic-button"
                     variant="secondary"
-                    title={status === '' ? 'Select a Status' : status}
-                    onSelect={(e) => setStatus(e)}
+                    title={chamber === '' ? 'Select a Chamber' : chamber}
+                    onSelect={(e) => setChamber(e)}
                   >
                     <Dropdown.Item eventKey="S">S</Dropdown.Item>
                     <Dropdown.Item eventKey="H">H</Dropdown.Item>
