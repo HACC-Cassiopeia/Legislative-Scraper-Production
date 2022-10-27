@@ -1,16 +1,16 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 import BaseProfileCollection from './BaseProfileCollection';
-import { ROLE } from '../role/Role';
+import { ROLE } from '../../role/Role';
 import { Users } from './UserCollection';
 
-class SubmitterProfileCollection extends BaseProfileCollection {
+class WriterProfileCollection extends BaseProfileCollection {
   constructor() {
-    super('SubmitterProfile', new SimpleSchema({}));
+    super('WriterProfile', new SimpleSchema({}));
   }
 
   /**
-   * Defines the profile associated with an Admin and the associated Meteor account.
+   * Defines the profile associated with a Writer and the associated Meteor account.
    * @param email The email associated with this profile. Will be the username.
    * @param password The password for this user.
    * @param firstName The first name.
@@ -22,7 +22,7 @@ class SubmitterProfileCollection extends BaseProfileCollection {
       const username = email;
       const user = this.findOne({ email, firstName, lastName });
       if (!user) {
-        const role = ROLE.SUBMITTER;
+        const role = ROLE.WRITER;
         const profileID = this._collection.insert({ email, firstName, lastName, userID: this.getFakeUserId(), role });
         const userID = Users.define({ username, role, password });
         this._collection.update(profileID, { $set: { userID } });
@@ -34,8 +34,8 @@ class SubmitterProfileCollection extends BaseProfileCollection {
   }
 
   /**
-   * Updates the AdminProfile. You cannot change the email or role.
-   * @param docID the id of the AdminProfile
+   * Updates the WriterProfile. You cannot change the email or role.
+   * @param docID the id of the WriterProfile
    * @param firstName new first name (optional).
    * @param lastName new last name (optional).
    */
@@ -64,13 +64,13 @@ class SubmitterProfileCollection extends BaseProfileCollection {
   }
 
   /**
-   * Implementation of assertValidRoleForMethod. Asserts that userId is logged in as an Admin or Admin.
+   * Implementation of assertValidRoleForMethod. Asserts that userId is logged in as an Writer.
    * This is used in the define, update, and removeIt Meteor methods associated with each class.
    * @param userId The userId of the logged in user. Can be null or undefined
-   * @throws { Meteor.Error } If there is no logged in user, or the user is not an Admin or Admin.
+   * @throws { Meteor.Error } If there is no logged in user, or the user is not a Writer or a different role.
    */
   assertValidRoleForMethod(userId) {
-    this.assertRole(userId, [ROLE.SUBMITTER]);
+    this.assertRole(userId, [ROLE.WRITER]);
   }
 
   /**
@@ -82,16 +82,16 @@ class SubmitterProfileCollection extends BaseProfileCollection {
   checkIntegrity() {
     const problems = [];
     this.find().forEach((doc) => {
-      if (doc.role !== ROLE.SUBMITTER) {
-        problems.push(`AdminProfile instance does not have ROLE.ADMIN: ${doc}`);
+      if (doc.role !== ROLE.WRITER) {
+        problems.push(`WriterProfile instance does not have ROLE.WRITER: ${doc}`);
       }
     });
     return problems;
   }
 
   /**
-   * Returns an object representing the AdminProfile docID in a format acceptable to define().
-   * @param docID The docID of a AdminProfile
+   * Returns an object representing the WriterProfile docID in a format acceptable to define().
+   * @param docID The docID of a WriterProfile
    * @returns { Object } An object representing the definition of docID.
    */
   dumpOne(docID) {
@@ -105,6 +105,6 @@ class SubmitterProfileCollection extends BaseProfileCollection {
 
 /**
  * Profides the singleton instance of this class to all other entities.
- * @type {SubmitterProfileCollection}
+ * @type {WriterProfileCollection}
  */
-export const SubmitterProfiles = new SubmitterProfileCollection();
+export const WriterProfiles = new WriterProfileCollection();

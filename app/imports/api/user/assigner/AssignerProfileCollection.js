@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 import BaseProfileCollection from './BaseProfileCollection';
-import { ROLE } from '../role/Role';
+import { ROLE } from '../../role/Role';
 import { Users } from './UserCollection';
 
 class AssignerProfileCollection extends BaseProfileCollection {
@@ -10,7 +10,7 @@ class AssignerProfileCollection extends BaseProfileCollection {
   }
 
   /**
-   * Defines the profile associated with an Admin and the associated Meteor account.
+   * Defines the profile associated with an Assigner and the associated Meteor account.
    * @param email The email associated with this profile. Will be the username.
    * @param password The password for this user.
    * @param firstName The first name.
@@ -34,8 +34,8 @@ class AssignerProfileCollection extends BaseProfileCollection {
   }
 
   /**
-   * Updates the AdminProfile. You cannot change the email or role.
-   * @param docID the id of the AdminProfile
+   * Updates the AssignerProfile. You cannot change the email or role.
+   * @param docID the id of the AssignerProfile
    * @param firstName new first name (optional).
    * @param lastName new last name (optional).
    */
@@ -64,10 +64,10 @@ class AssignerProfileCollection extends BaseProfileCollection {
   }
 
   /**
-   * Implementation of assertValidRoleForMethod. Asserts that userId is logged in as an Admin or Admin.
+   * Implementation of assertValidRoleForMethod. Asserts that userId is logged in as an Assigner.
    * This is used in the define, update, and removeIt Meteor methods associated with each class.
    * @param userId The userId of the logged in user. Can be null or undefined
-   * @throws { Meteor.Error } If there is no logged in user, or the user is not an Admin or Admin.
+   * @throws { Meteor.Error } If there is no logged in user, or the user is not an Assigner or a different role.
    */
   assertValidRoleForMethod(userId) {
     this.assertRole(userId, [ROLE.ASSIGNER]);
@@ -83,15 +83,15 @@ class AssignerProfileCollection extends BaseProfileCollection {
     const problems = [];
     this.find().forEach((doc) => {
       if (doc.role !== ROLE.ASSIGNER) {
-        problems.push(`AdminProfile instance does not have ROLE.ADMIN: ${doc}`);
+        problems.push(`AssignerProfile instance does not have ROLE.ASSIGNER: ${doc}`);
       }
     });
     return problems;
   }
 
   /**
-   * Returns an object representing the AdminProfile docID in a format acceptable to define().
-   * @param docID The docID of a AdminProfile
+   * Returns an object representing the AssignerProfile docID in a format acceptable to define().
+   * @param docID The docID of a AssignerProfile
    * @returns { Object } An object representing the definition of docID.
    */
   dumpOne(docID) {
