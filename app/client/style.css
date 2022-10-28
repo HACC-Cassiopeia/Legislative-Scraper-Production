@@ -53,15 +53,6 @@ html, body {
   padding-bottom: 20px;
 }
 
-.headerTopTitle {
-  background: url('images/landing.png') no-repeat center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-position: center;
-  background-size: cover;
-  min-height: 35vh;
-}
-
 /*  not sure how to do the bootstrap attributes (eg --bs-accordion-active-bg) in the .jsx files so these stay here for now -Rob */
 .introducerAccordion .accordion-button {
   --bs-accordion-active-color: black;
@@ -223,20 +214,17 @@ html, body {
 }
 
 #mainBody {
-  margin-left: 14%;
-  width: 86%;
+  margin-left: 135px;
+  width: calc(100% - 135px);
   z-index: 0;
 }
 
 #mobileMainBody {
-  margin-left: 25%;
+  margin-left: 60px;
   z-index: 0;
   font-size: 12px;
 }
 
-@media only screen and (max-width: 800px) {
-  #mainBody {
-    margin-left: 20%;
-    z-index: 0;
-  }
+.expandedNavbar {
+  width: 60px;
 }
