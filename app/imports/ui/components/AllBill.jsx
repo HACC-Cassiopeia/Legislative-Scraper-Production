@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { CloudCheckFill } from 'react-bootstrap-icons';
 import { Accordion, Button } from 'react-bootstrap';
@@ -28,12 +28,16 @@ const AllBill = ({ bill }) => {
     setSaveStatus(svd);
   }, [bill]);
 
-  function save() {
+  const save = useCallback((data) => {
     // TODO maybe add who saved the bill?
     // const owner = Meteor.user().username;
     let sad = false;
     const collectionName = SavedMeasures.getCollectionName();
-    const definitionData = bill;
+    const definitionData = {
+      ...data,
+      ...bill,
+    };
+    console.log(definitionData);
     defineMethod.callPromise({ collectionName, definitionData })
       .catch(error => {
         swal('Error', error.message, 'error');
@@ -41,10 +45,11 @@ const AllBill = ({ bill }) => {
       })
       .then(() => {
         if (!sad) {
+          setShowModal(false);
           swal('Success', 'Saved to DOE database', 'success');
         }
       });
-  }
+  });
 
   const checkSaved = saveStatus ?
     <div style={{ textAlign: 'center', fontSize: '20px' }}><CloudCheckFill /></div>
@@ -106,6 +111,7 @@ const AllBill = ({ bill }) => {
       <SaveBillModal
         show={showModal}
         onHide={() => setShowModal(false)}
+        onSubmit={save}
       />
     </tr>
   );
