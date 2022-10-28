@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Meteor } from 'meteor/meteor';
 import { Roles } from 'meteor/alanning:roles';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-// import Footer from '../components/stuffComponents/Footer';
 import ListStuff from '../pages/stuffPages/ListStuff';
 import ListStuffAdmin from '../pages/stuffPages/ListStuffAdmin';
 import AddStuff from '../pages/stuffPages/AddStuff';
@@ -11,7 +10,6 @@ import EditStuff from '../pages/stuffPages/EditStuff';
 import NotFound from '../pages/stuffPages/NotFound';
 import SignUp from '../pages/stuffPages/SignUp';
 import SignOut from '../pages/stuffPages/SignOut';
-// import NavBar from '../components/stuffComponents/NavBar';
 import SignIn from '../pages/SignIn';
 import NotAuthorized from '../pages/stuffPages/NotAuthorized';
 import { ROLE } from '../../api/role/Role';
@@ -29,6 +27,7 @@ import BillResolutionTracker from '../pages/BillResolutionTracker';
 import AddTestimony from '../pages/AddTestimony';
 import Test from '../Test';
 import Calendar from '../pages/Calendar';
+import EditRolesAdmin from '../pages/EditRolesAdmin';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => (
@@ -54,22 +53,23 @@ const App = () => (
     <div className="d-flex flex-column min-vh-100">
       <Routes>
         <Route exact path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+        <Route path="/test" element={<Test />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signout" element={<SignOut />} />
+        <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+        <Route path="/list" element={<ProtectedRoute><ListStuff /></ProtectedRoute>} />
+        <Route path="/add" element={(<ProtectedRoute><AddStuff /></ProtectedRoute>)} />
+        <Route path="/calendar" element={<ProtectedRoute><Calendar /></ProtectedRoute>} />
         <Route path="/view/all" element={<ProtectedRoute><AllDashboard /></ProtectedRoute>} />
         <Route path="/view/DOE" element={<ProtectedRoute><SavedDashboard /></ProtectedRoute>} />
         <Route path="/add-testimony" element={<ProtectedRoute><AddTestimony /></ProtectedRoute>} />
         <Route path="/view/:_code" element={<ProtectedRoute><BillResolutionTracker /></ProtectedRoute>} />
-        <Route path="/test" element={<Test />} />
-        <Route path="/calendar" element={<ProtectedRoute><Calendar /></ProtectedRoute>} />
-        <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
-        <Route path="/list" element={<ProtectedRoute><ListStuff /></ProtectedRoute>} />
-        <Route path="/add" element={(<ProtectedRoute><AddStuff /></ProtectedRoute>)} />
         <Route path="/edit/:_id" element={(<ProtectedRoute><EditStuff /></ProtectedRoute>)} />
         <Route path="/admin" element={<AdminProtectedRoute><ListStuffAdmin /></AdminProtectedRoute>} />
+        <Route path="/edit-roles" element={<AdminProtectedRoute><EditRolesAdmin /></AdminProtectedRoute>} />
         <Route path="/notauthorized" element={<NotAuthorized />} />
-        <Route path="*" element={<NotFound />} />
+        <Route path="*" element={<AdminProtectedRoute><NotFound /></AdminProtectedRoute>} />
       </Routes>
     </div>
   </Router>
@@ -98,6 +98,12 @@ const AdminProtectedRoute = ({ children }) => {
   }
   const isAdmin = Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN]);
   console.log('AdminProtectedRoute', isLogged, isAdmin);
+  console.log(Roles.userIsInRole(Meteor.userId(), [ROLE.SUBMITTER]));
+  console.log(Roles.userIsInRole(Meteor.userId(), [ROLE.FINAL_APV]));
+  console.log(Roles.userIsInRole(Meteor.userId(), [ROLE.PIPE_APV]));
+  console.log(Roles.userIsInRole(Meteor.userId(), [ROLE.WRITER]));
+  console.log(Roles.userIsInRole(Meteor.userId(), [ROLE.ASSIGNER]));
+  console.log(Roles.userIsInRole(Meteor.userId(), [ROLE.OFFICE_APV]));
   return (isLogged && isAdmin) ? children : <Navigate to="/notauthorized" />;
 };
 

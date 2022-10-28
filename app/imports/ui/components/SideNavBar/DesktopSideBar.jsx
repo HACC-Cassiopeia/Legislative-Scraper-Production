@@ -3,12 +3,14 @@ import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Nav, Button } from 'react-bootstrap';
 import * as Icon from 'react-bootstrap-icons';
+import { Roles } from 'meteor/alanning:roles';
 import SignUpModal from '../SignUpModal';
 import SignInModal from '../SignInModal';
 import SignoutCheck from '../SignoutCheck';
 import MobileSignInModal from '../MobileSignInModal';
 import MobileSignUpModal from '../MobileSignUpModal';
 import MobileSignOutCheck from '../MobileSignOutCheck';
+import { ROLE } from '../../../api/role/Role';
 
 const DesktopSideBar = () => {
   // the width of the screen using React useEffect
@@ -101,6 +103,11 @@ const DesktopSideBar = () => {
                 </>,
               ]
               : ''}
+            {Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN]) ? (
+              <Nav.Link href="/edit-roles" style={{ color: 'black' }}>
+                <Icon.Clipboard />
+              </Nav.Link>
+            ) : ''}
             {currentUser === '' ? (
               <div style={{ lineHeight: '45pt' }}>
                 <SignInModal />
@@ -155,6 +162,11 @@ const DesktopSideBar = () => {
             ) : (
               <MobileSignOutCheck />
             )}
+            {Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN]) ? (
+              <Nav.Link href="/edit-roles" style={{ color: 'black' }}>
+                <Icon.Clipboard />
+              </Nav.Link>
+            ) : ''}
             <Nav.Link />
           </Nav.Item>
         </Nav>

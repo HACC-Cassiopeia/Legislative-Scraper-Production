@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Nav } from 'react-bootstrap';
+import { Roles } from 'meteor/alanning:roles';
 import * as Icon from 'react-bootstrap-icons';
 import './style/Component.css';
+import { ROLE } from '../../api/role/Role';
 import DesktopSideBar from './SideNavBar/DesktopSideBar';
 import MobileSignOutCheck from './MobileSignOutCheck';
 import MobileSignInModal from './MobileSignInModal';
@@ -78,6 +80,12 @@ const SideNavBar = () => {
         ) : (
           <MobileSignOutCheck />
         )}
+        {Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN]) ? (
+          <Nav.Link href="/edit-roles" style={{ color: 'black' }}>
+            <Icon.Clipboard />
+          </Nav.Link>
+
+        ) : ''}
         <Nav.Link />
       </Nav.Item>
     </Nav>
