@@ -1,13 +1,13 @@
 import { Meteor } from 'meteor/meteor';
 import { ROLE } from '../../api/role/Role';
-import { AdminProfiles } from '../user/admin/AdminProfileCollection';
-import { UserProfiles } from '../user/UserProfileCollection';
-import { AssignerProfiles } from '../user/assigner/AssignerProfileCollection';
-import { WriterProfiles } from '../user/writer/WriterProfileCollection';
-import { OfficerApvProfiles } from '../user/office_apv/OfficeApvProfileCollection';
-import { PIPEApvProfiles } from '../user/pipe_apv/PIPEApvProfileCollection';
-import { FinalApvProfiles } from '../user/final_apv/FinalApvProfileCollection';
-import { SubmitterProfiles } from '../user/submitter/SubmitterProfileCollection';
+import { AdminProfiles } from '../../api/user/admin/AdminProfileCollection';
+import { UserProfiles } from '../../api/user/UserProfileCollection';
+import { AssignerProfiles } from '../../api/user/assigner/AssignerProfileCollection';
+import { WriterProfiles } from '../../api/user/writer/WriterProfileCollection';
+import { OfficerApvProfiles } from '../../api/user/office_apv/OfficeApvProfileCollection';
+import { PIPEApvProfiles } from '../../api/user/pipe_apv/PIPEApvProfileCollection';
+import { FinalApvProfiles } from '../../api/user/final_apv/FinalApvProfileCollection';
+import { SubmitterProfiles } from '../../api/user/submitter/SubmitterProfileCollection';
 
 /* eslint-disable no-console */
 

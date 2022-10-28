@@ -3,14 +3,14 @@ import _ from 'lodash';
 import { Meteor } from 'meteor/meteor';
 
 export const ROLE = {
+  ADMIN: 'ADMIN',
+  USER: 'USER',
   ASSIGNER: 'ASSIGNER',
   WRITER: 'WRITER',
   OFFICE_APV: 'OFFICE_APV',
   PIPE_APV: 'PIPE_APV',
   FINAL_APV: 'FINAL_APV',
   SUBMITTER: 'SUBMITTER',
-  ADMIN: 'ADMIN',
-  USER: 'USER',
 };
 
 export const ROLES = _.values(ROLE);
