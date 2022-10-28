@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Nav, Button, Col } from 'react-bootstrap';
-import { ChevronLeft, HouseFill, CardList, CalendarEventFill, List } from 'react-bootstrap-icons';
+import { ChevronLeft, HouseFill, CardList, CalendarEventFill, List, QuestionCircle } from 'react-bootstrap-icons';
 import PropTypes from 'prop-types';
 import SignoutCheck from '../SignoutCheck';
 import MobileSignOutCheck from '../MobileSignOutCheck';
@@ -20,16 +20,14 @@ const DesktopSideBar = (props) => {
     };
   }, []);
 
-  const minWidth = 0.1 * width;
-  const maxWidth = 0.25 * width;
+  const openWidth = '130px';
   const closeWidth = '62px';
   const { page } = props;
 
   const showSideBarStyle = {
     position: 'fixed',
     minHeight: '100vh',
-    maxWidth: maxWidth,
-    minWidth: minWidth,
+    minWidth: openWidth,
     backgroundColor: '#2e374f',
     color: 'white',
     fontSize: '14px',
@@ -49,8 +47,7 @@ const DesktopSideBar = (props) => {
   const buttonStyle = {
     backgroundColor: '#2e374f',
     borderWidth: 0,
-    maxWidth: maxWidth,
-    minWidth: minWidth,
+    width: openWidth,
     fontWeight: 'normal',
     fontSize: '20px',
     marginLeft: 0,
@@ -119,6 +116,16 @@ const DesktopSideBar = (props) => {
               <CalendarEventFill style={{ fontSize: '20px' }} className="mb-1 me-3 ms-1" />Calendar
             </Nav.Link>
             <SignoutCheck />
+            <Button style={{
+              position: 'absolute',
+              bottom: 0,
+              left: '8px',
+              fontSize: '20px',
+              backgroundColor: '#2e374f',
+              borderWidth: 0,
+            }}
+            ><QuestionCircle />
+            </Button>
           </Nav.Item>
         </Nav>
       ) : (
@@ -141,7 +148,16 @@ const DesktopSideBar = (props) => {
               <CalendarEventFill className="mb-1 ms-1" style={{ fontSize: '20px' }} />
             </Nav.Link>
             <MobileSignOutCheck style={{ fontSize: '20px' }} />
-            <Nav.Link />
+            <Button style={{
+              position: 'absolute',
+              bottom: 0,
+              left: '8px',
+              fontSize: '20px',
+              backgroundColor: '#2e374f',
+              borderWidth: 0,
+            }}
+            ><QuestionCircle />
+            </Button>
           </Nav.Item>
         </Nav>
       )}
@@ -150,8 +166,7 @@ const DesktopSideBar = (props) => {
 };
 
 DesktopSideBar.propTypes = {
-  page: PropTypes.string,
-  smol: PropTypes.boolean,
+  page: PropTypes.string.isRequired,
 };
 
 export default DesktopSideBar;
