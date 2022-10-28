@@ -6,16 +6,32 @@ import { Accounts } from 'meteor/accounts-base';
 import { Roles } from 'meteor/alanning:roles';
 import { CallPromiseMixin } from 'meteor/didericis:callpromise-mixin';
 import { Stuffs } from '../api/stuff/StuffCollection';
+import { SavedMeasures } from '../api/savedMeasures/SavedMeasuresCollection';
+import { Testimonies } from '../api/testimony/TestimonyCollection';
 import { ROLE } from '../api/role/Role';
-import { AdminProfiles } from '../api/user/AdminProfileCollection';
+import { AdminProfiles } from '../api/user/admin/AdminProfileCollection';
 import { UserProfiles } from '../api/user/UserProfileCollection';
+import { AssignerProfiles } from '../api/user/assigner/AssignerProfileCollection';
+import { WriterProfiles } from '../api/user/writer/WriterProfileCollection';
+import { OfficerApvProfiles } from '../api/user/office_apv/OfficeApvProfileCollection';
+import { PIPEApvProfiles } from '../api/user/pipe_apv/PIPEApvProfileCollection';
+import { FinalApvProfiles } from '../api/user/final_apv/FinalApvProfileCollection';
+import { SubmitterProfiles } from '../api/user/submitter/SubmitterProfileCollection';
 
 export function withSubscriptions() {
   return new Promise((resolve => {
     // Add the collections to subscribe to.
     AdminProfiles.subscribe();
     Stuffs.subscribeStuff();
+    SavedMeasures.subscribeMeasureSaved();
+    Testimonies.subscribeTestimony();
     UserProfiles.subscribe();
+    AssignerProfiles.subscribe();
+    WriterProfiles.subscribe();
+    OfficerApvProfiles.subscribe();
+    PIPEApvProfiles.subscribe();
+    FinalApvProfiles.subscribe();
+    SubmitterProfiles.subscribe();
     const poll = Meteor.setInterval(() => {
       if (DDP._allSubscriptionsReady()) {
         Meteor.clearInterval(poll);

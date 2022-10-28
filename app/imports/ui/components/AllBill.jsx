@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { CloudCheckFill } from 'react-bootstrap-icons';
 import { Accordion, Button } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
@@ -76,6 +75,8 @@ const AllBill = ({ bill }) => {
     }
     return '';
   }
+  // link to page of capital if not saved
+  const linkWhenSaved = () => (saveStatus ? `/view/${bill.code}` : `${bill.measureArchiveUrl}`);
 
   return (
     <tr>
@@ -83,7 +84,7 @@ const AllBill = ({ bill }) => {
         {ready ? checkSaved : <SmallerSpinner class="d-flex justify-content-center" />}
       </td>
       <td>
-        <div style={{ fontSize: '20px' }}><Link to={`/view/${bill.code}`}><strong>{bill.code}</strong></Link></div>
+        <div style={{ fontSize: '20px' }}><a href={linkWhenSaved()}><strong>{bill.code}</strong></a></div>
         <Accordion flush className="billAccordion">
           <Accordion.Item eventKey="0">
             <Accordion.Header>{bill.measureTitle} </Accordion.Header>
