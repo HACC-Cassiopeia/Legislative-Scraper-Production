@@ -36,7 +36,7 @@ if (Meteor.isClient) {
       updateData.lastName = faker.name.lastName();
       await updateMethod.callPromise({ collectionName, updateData });
       doc = UserProfiles.findDoc(docID);
-      expect(doc.email).to.equal(definitionData.email);
+      expect(doc.email).to.equal(updateData.email);
       expect(doc.firstName).to.equal(updateData.firstName);
       expect(doc.lastName).to.equal(updateData.lastName);
       await removeItMethod.callPromise({ collectionName, instance: docID });

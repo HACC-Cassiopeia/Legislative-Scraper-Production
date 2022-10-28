@@ -5,8 +5,8 @@ import {
   defineTestAdminUser,
   withLoggedInUser,
   withSubscriptions,
-} from '../../test-utilities/test-utilities';
-import { defineMethod, updateMethod, removeItMethod } from '../base/BaseCollection.methods';
+} from '../../../test-utilities/test-utilities';
+import { defineMethod, updateMethod, removeItMethod } from '../../base/BaseCollection.methods';
 import { AdminProfiles } from './AdminProfileCollection';
 
 /* eslint prefer-arrow-callback: "off",  no-unused-expressions: "off" */
