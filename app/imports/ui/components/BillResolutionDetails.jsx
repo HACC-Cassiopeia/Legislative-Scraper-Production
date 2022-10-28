@@ -39,7 +39,7 @@ const BillResolutionDetails = () => {
 
   const [billDetails, setBillDetails] = useState({});
   useEffect(() => {
-    document.title = `DOE Legislative Tracker - ${_code}`;
+    document.title = `DOELT - ${_code}`;
     if (ready && bill !== undefined) {
       Legtracker
         .scrapeBillDetails(billObj.bt, billObj.bn, billObj.year)
@@ -305,7 +305,6 @@ const BillResolutionDetails = () => {
           </Row>
           <Row className="py-2">
             <Col>
-              {/* TODO hearing date, it looks like this is scraped from the 'hearing notices' section on the bill page */}
               {billDateAndTime()}
             </Col>
           </Row>
@@ -318,7 +317,6 @@ const BillResolutionDetails = () => {
           </Row>
           <Row className="py-2">
             <Col>
-              {/* TODO hearing location, same as above */}
               {billLocation()}
             </Col>
           </Row>
@@ -372,7 +370,6 @@ const BillResolutionDetails = () => {
           </Row>
           <Row className="py-1">
             <Col>
-              {/* TODO 'versions,' needs to be scraped from bill page */}
               {versions()}
             </Col>
           </Row>
@@ -385,7 +382,6 @@ const BillResolutionDetails = () => {
           </Row>
           <Row className="py-1">
             <Col>
-              {/* TODO 'committee reports,' same as above */}
               {committeeReports()}
             </Col>
           </Row>
@@ -398,7 +394,6 @@ const BillResolutionDetails = () => {
           </Row>
           <Row className="py-1">
             <Col>
-              {/* TODO add YouTube links, same as above */}
               {youtube()}
             </Col>
           </Row>

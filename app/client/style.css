@@ -169,10 +169,6 @@ html, body {
   width: auto;
 }
 
-.pdfFiller .form-control::placeholder {
-  color: black;
-}
-
 .doePosition .form-control::placeholder {
   color: gray;
 }
