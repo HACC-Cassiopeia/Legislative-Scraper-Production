@@ -3,11 +3,12 @@ import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Card, Row, Container, Table } from 'react-bootstrap';
 import * as Icon from 'react-bootstrap-icons';
-import SideNavBar from '../components/SideNavBar';
+import MobileSideBar from '../components/SideNavBar/MobileSideBar';
 import { SavedMeasures } from '../../api/savedMeasures/SavedMeasuresCollection';
 import NotificationBill from '../components/notificationRelated/NotifcationBill';
 import NotificationBody from '../components/notificationRelated/NotificationBody';
 import Legtracker from '../utilities/Legtracker';
+import DesktopSideBar from '../components/SideNavBar/DesktopSideBar';
 // added
 const Home = () => {
   const bills = useTracker(() => {
@@ -52,10 +53,11 @@ const Home = () => {
     fontSize: '10px',
   };
   const breakPoint = 800;
+
   if (width < breakPoint) {
     return (
       <>
-        <SideNavBar />
+        <MobileSideBar page="home" />
         &nbsp;
         <div style={mobileMainBody}>
           <Container fluid>
@@ -132,7 +134,7 @@ const Home = () => {
   }
   return (
     <>
-      <SideNavBar />
+      <DesktopSideBar page="home" smol="false" />
       &nbsp;
       <div style={mainBodyStyle}>
         <Container fluid>

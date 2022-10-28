@@ -10,9 +10,10 @@ import {
 } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
-import SideNavBar from '../components/SideNavBar';
+import MobileSideBar from '../components/SideNavBar/MobileSideBar';
 import AllBill from '../components/AllBill';
 import LegTracker from '../utilities/Legtracker';
+import DesktopSideBar from '../components/SideNavBar/DesktopSideBar';
 
 const AllDashboard = () => {
   /* states for item filtering */
@@ -232,7 +233,7 @@ const AllDashboard = () => {
 
   return (
     <div>
-      <SideNavBar id="nav" />
+      <DesktopSideBar page="bills" />
       <div id="mainBody">
         <Row id="dashboard-screen">
           <Col>

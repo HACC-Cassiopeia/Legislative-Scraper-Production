@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import * as Icon from 'react-bootstrap-icons';
 import { Button, Modal } from 'react-bootstrap';
+import { Power } from 'react-bootstrap-icons';
 
 const SignoutCheck = () => {
   const [show, setShow] = useState(false);
@@ -9,12 +9,19 @@ const SignoutCheck = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const buttonStyle = {
+    backgroundColor: '#2e374f',
+    borderWidth: 0,
+    fontWeight: 'normal',
+    fontSize: '13px',
+    marginLeft: 0,
+    marginRight: '3px',
+  };
+
   return (
     <>
-      <Button variant="primary" id="navbar-sign-out" onClick={handleShow}>
-        <b>
-          <Icon.BoxArrowLeft /> SIGN OUT
-        </b>
+      <Button className="mt-2 ms-2" style={buttonStyle} variant="primary" id="navbar-sign-out" onClick={handleShow}>
+        <Power style={{ fontSize: '20px' }} className="mb-1 me-3" />Sign Out
       </Button>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
