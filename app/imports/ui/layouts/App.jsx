@@ -27,6 +27,7 @@ import BillResolutionTracker from '../pages/BillResolutionTracker';
 import AddTestimony from '../pages/AddTestimony';
 import Test from '../Test';
 import Calendar from '../pages/Calendar';
+import EditMeasure from '../pages/EditMeasure';
 
 const App = () => (
   <Router>
@@ -34,18 +35,20 @@ const App = () => (
       <Routes>
         <Route exact path="/signin" element={<SignIn />} />
         <Route exact path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+        <Route path="/test" element={<Test />} />
+        <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signout" element={<SignOut />} />
-        <Route path="/view/all" element={<ProtectedRoute><AllDashboard /></ProtectedRoute>} />
-        <Route path="/view/DOE" element={<ProtectedRoute><SavedDashboard /></ProtectedRoute>} />
-        <Route path="/add-testimony" element={<ProtectedRoute><AddTestimony /></ProtectedRoute>} />
-        <Route path="/view/:_code" element={<ProtectedRoute><BillResolutionTracker /></ProtectedRoute>} />
-        <Route path="/test" element={<Test />} />
-        <Route path="/calendar" element={<ProtectedRoute><Calendar /></ProtectedRoute>} />
         <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
         <Route path="/list" element={<ProtectedRoute><ListStuff /></ProtectedRoute>} />
         <Route path="/add" element={(<ProtectedRoute><AddStuff /></ProtectedRoute>)} />
+        <Route path="/calendar" element={<ProtectedRoute><Calendar /></ProtectedRoute>} />
         <Route path="/edit/:_id" element={(<ProtectedRoute><EditStuff /></ProtectedRoute>)} />
+        <Route path="/view/all" element={<ProtectedRoute><AllDashboard /></ProtectedRoute>} />
+        <Route path="/view/DOE" element={<ProtectedRoute><SavedDashboard /></ProtectedRoute>} />
+        <Route path="/edit-measure/:_id" element={<ProtectedRoute><EditMeasure /></ProtectedRoute>} />
+        <Route path="/add-testimony" element={<ProtectedRoute><AddTestimony /></ProtectedRoute>} />
+        <Route path="/view/:_code" element={<ProtectedRoute><BillResolutionTracker /></ProtectedRoute>} />
         <Route path="/admin" element={<AdminProtectedRoute><ListStuffAdmin /></AdminProtectedRoute>} />
         <Route path="/notauthorized" element={<NotAuthorized />} />
         <Route path="*" element={<NotFound />} />
