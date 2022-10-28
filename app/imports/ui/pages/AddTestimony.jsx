@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Button, Card, Col, Image, Nav, Navbar, Row } from 'react-bootstrap';
 import { AutoForm, DateField, ErrorsField, LongTextField, SubmitField, TextField } from 'uniforms-bootstrap5';
 import swal from 'sweetalert';
@@ -13,7 +13,6 @@ import { Testimonies } from '../../api/testimony/TestimonyCollection';
 import { defineMethod } from '../../api/base/BaseCollection.methods';
 import SideNavBar from '../components/SideNavBar';
 import { SavedMeasures } from '../../api/savedMeasures/SavedMeasuresCollection';
-import Legtracker from '../utilities/Legtracker';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 // Create a schema to specify the structure of the data to appear in the form.
@@ -38,11 +37,8 @@ const bridge = new SimpleSchema2Bridge(formSchema);
 /* Renders the AddStuff page for adding a document. */
 const AddTestimony = () => {
 
-  // TODO 'add testimony' pulls from SavedMeasures db, 'edit testimony' pulls from testimony db
-
-  useEffect(() => {
-    document.title = 'DOELT - Add/Edit Testimony';
-  }, []);
+  // TODO 'add testimony' pulls from SavedMeasures db, 'edit testimony' pulls from Testimony db
+  //  we should probably make the 'pdf form' bit a component that can be reused in for both pages
 
   const { _code } = useParams();
 
@@ -56,33 +52,9 @@ const AddTestimony = () => {
     };
   }, false);
 
-  // eslint-disable-next-line consistent-return
-  const getScraperParams = (billData) => {
-    if (ready && billData !== undefined) {
-      const billInfo = billData.code.split(' ');
-      const year = billData.statusDate;
-      return ({
-        bt: `${billInfo[0].slice(0, 2)}`,
-        bn: `${billInfo[0].slice(2)}`,
-        year: `${year.slice(year.length - 4, year.length)}`,
-      });
-    }
-    return undefined;
-  };
-
-  const billObj = getScraperParams(bill);
-  const [billDetails, setBillDetails] = useState({});
-
   useEffect(() => {
     document.title = `DOELT - Add Testimony for ${_code}`;
-    if (ready && bill !== undefined) {
-      Legtracker
-        .scrapeBillDetails(billObj.bt, billObj.bn, billObj.year)
-        .then(initialData => {
-          setBillDetails(initialData);
-        });
-    }
-  }, [ready]);
+  }, []);
 
   // On submit, insert the data.
   const submit = (data, formRef) => {

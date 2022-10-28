@@ -7,9 +7,12 @@ import SimpleSchema from 'simpl-schema';
 import { jsPDF } from 'jspdf';
 import { NavLink } from 'react-router-dom';
 import { EnvelopeFill, FilePdfFill, HddFill } from 'react-bootstrap-icons';
+import { useParams } from 'react-router';
+import { useTracker } from 'meteor/react-meteor-data';
 import { Testimonies } from '../../api/testimony/TestimonyCollection';
 import { defineMethod } from '../../api/base/BaseCollection.methods';
 import SideNavBar from '../components/SideNavBar';
+import { SavedMeasures } from '../../api/savedMeasures/SavedMeasuresCollection';
 
 // Create a schema to specify the structure of the data to appear in the form.
 const formSchema = new SimpleSchema({
@@ -33,8 +36,24 @@ const bridge = new SimpleSchema2Bridge(formSchema);
 /* Renders the AddStuff page for adding a document. */
 const EditTestimony = () => {
 
+  // TODO 'add testimony' pulls from SavedMeasures db, 'edit testimony' pulls from Testimony db
+  //  we should probably make the 'pdf form' bit a component that can be reused in for both pages
+
+  const { _code } = useParams();
+
+  // TODO load from Testimony db
+  const { ready, bill } = useTracker(() => {
+    const subscription = SavedMeasures.subscribeMeasureSaved();
+    const rdy = subscription.ready();
+    const billItem = SavedMeasures.find({ code: _code }).fetch();
+    return {
+      bill: billItem[0],
+      ready: rdy,
+    };
+  }, false);
+
   useEffect(() => {
-    document.title = 'DOELT - Add/Edit Testimony';
+    document.title = `DOELT - Edit Testimony for ${_code}`;
   }, []);
 
   // On submit, insert the data.
