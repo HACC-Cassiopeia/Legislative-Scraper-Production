@@ -31,6 +31,7 @@ class TestimonyCollection extends BaseCollection {
         type: String,
         defaultValue: 'Education',
       },
+      billCode: String,
       billTitle: String,
       billPurpose: String,
       position: String,
@@ -48,12 +49,13 @@ class TestimonyCollection extends BaseCollection {
    * @param hearingLocation same
    * @param committee committee on testimony page
    * @param department should always be education, but just in case
+   * @param billCode the bill code used for routing
    * @param billTitle the entire title of the bill, including the 'code', draft number, and title
    * @param billPurpose the one-liner explaining the purpose of the bill
    * @param the department's position and explanation
    */
   define({ governorName, governorTitle, testifier, testifierTitle, hearingDate, hearingTime, hearingLocation,
-    committee, department, billTitle, billPurpose, position, lastEditedBy }) {
+    committee, department, billCode, billTitle, billPurpose, position, lastEditedBy }) {
     const docID = this._collection.insert({
       governorName,
       governorTitle,
@@ -64,6 +66,7 @@ class TestimonyCollection extends BaseCollection {
       hearingLocation,
       committee,
       department,
+      billCode,
       billTitle,
       billPurpose,
       position,
@@ -87,7 +90,7 @@ class TestimonyCollection extends BaseCollection {
    * @param billPurpose the one-liner explaining the purpose of the bill
    * @param the department's position and explanation
    */
-  update(docID, { governorName, governorTitle, testifier, testifierTitle, hearingDate, hearingTime, hearingLocation, committee, department, billTitle, billPurpose, position, lastEditedBy }) {
+  update(docID, { governorName, governorTitle, testifier, testifierTitle, hearingDate, hearingTime, hearingLocation, committee, department, billCode, billTitle, billPurpose, position, lastEditedBy }) {
     const updateData = {};
     if (governorName) {
       updateData.governorName = governorName;
@@ -123,6 +126,10 @@ class TestimonyCollection extends BaseCollection {
 
     if (department) {
       updateData.department = department;
+    }
+
+    if (billCode) {
+      updateData.billCode = billCode;
     }
 
     if (billTitle) {
@@ -230,12 +237,13 @@ class TestimonyCollection extends BaseCollection {
     const hearingLocation = doc.hearingLocation;
     const committee = doc.committee;
     const department = doc.department;
+    const billCode = doc.billCode;
     const billTitle = doc.billTitle;
     const billPurpose = doc.billPurpose;
     const position = doc.position;
     const lastEditedBy = doc.lastEditedBy;
     return { governorName, governorTitle, testifier, testifierTitle, hearingDate, hearingTime, hearingLocation,
-      committee, department, billTitle, billPurpose, position, lastEditedBy };
+      committee, department, billCode, billTitle, billPurpose, position, lastEditedBy };
   }
 }
 
