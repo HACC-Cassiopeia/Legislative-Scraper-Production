@@ -29,6 +29,7 @@ import BillResolutionTracker from '../pages/BillResolutionTracker';
 import AddTestimony from '../pages/AddTestimony';
 import Test from '../Test';
 import Calendar from '../pages/Calendar';
+import EditTestimony from '../pages/EditTestimony';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => (
@@ -60,6 +61,7 @@ const App = () => (
         <Route path="/view/all" element={<ProtectedRoute><AllDashboard /></ProtectedRoute>} />
         <Route path="/view/DOE" element={<ProtectedRoute><SavedDashboard /></ProtectedRoute>} />
         <Route path="/add-testimony" element={<ProtectedRoute><AddTestimony /></ProtectedRoute>} />
+        <Route path="/edit-testimony" element={<ProtectedRoute><EditTestimony /></ProtectedRoute>} />
         <Route path="/view/:_code" element={<ProtectedRoute><BillResolutionTracker /></ProtectedRoute>} />
         <Route path="/test" element={<Test />} />
         <Route path="/calendar" element={<ProtectedRoute><Calendar /></ProtectedRoute>} />
