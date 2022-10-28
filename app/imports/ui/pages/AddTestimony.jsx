@@ -45,11 +45,11 @@ const AddTestimony = () => {
     const definitionData = { committeeChair, committeeName, billNumber, draftNumber, hearingDate, hearingLocation, position, introduction };
 
     defineMethod.callPromise({ collectionName, definitionData })
-      .catch(error => swal('Error', error.message, 'error'))
       .then(() => {
         swal('Success', 'Item added successfully', 'success');
         formRef.reset();
-      });
+      })
+      .catch(error => swal('Error', error.message, 'error'));
 
   };
 
