@@ -25,7 +25,7 @@ function addTestimonies(testimonies) {
 
 // Initialize the Testimony if empty.
 if (Testimonies.count() === 0) {
-  if (Meteor.settings.defaultData) {
+  if (Meteor.settings.defaultSavedTestimonies) {
     console.log('Creating default testimony.');
     Meteor.settings.defaultSavedTestimonies.map(data => addTestimonies(data));
   }
