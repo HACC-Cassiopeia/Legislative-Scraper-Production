@@ -9,7 +9,6 @@ import { SavedMeasures } from '../../api/savedMeasures/SavedMeasuresCollection';
 import { updateMethod } from '../../api/base/BaseCollection.methods';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { PAGE_IDS } from '../utilities/PageIDs';
-import SideNavBar from '../components/SideNavBar';
 
 
 const bridge = new SimpleSchema2Bridge(SavedMeasures._schema);
@@ -45,8 +44,6 @@ const EditMeasure = () => {
   };
 
   return ready ? (
-    <Col>
-      <SideNavBar id="nav" />
       <Container id={PAGE_IDS.EDIT_BILL} className="py-3">
         <Row className="justify-content-center">
           <Col xs={12}>
@@ -101,7 +98,6 @@ const EditMeasure = () => {
           </Col>
         </Row>
       </Container>
-    </Col>
   ) : <LoadingSpinner />;
 };
 
