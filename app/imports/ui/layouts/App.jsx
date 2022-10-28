@@ -7,7 +7,7 @@ import ListStuff from '../pages/stuffPages/ListStuff';
 import ListStuffAdmin from '../pages/stuffPages/ListStuffAdmin';
 import AddStuff from '../pages/stuffPages/AddStuff';
 import EditStuff from '../pages/stuffPages/EditStuff';
-import NotFound from '../pages/stuffPages/NotFound';
+// import NotFound from '../pages/stuffPages/NotFound';
 import SignUp from '../pages/stuffPages/SignUp';
 import SignOut from '../pages/stuffPages/SignOut';
 import SignIn from '../pages/SignIn';
@@ -58,6 +58,7 @@ const App = () => (
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signout" element={<SignOut />} />
         <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+        <Route path="/edit-stuff" element={<ProtectedRoute><EditStuff /></ProtectedRoute>} />
         <Route path="/list" element={<ProtectedRoute><ListStuff /></ProtectedRoute>} />
         <Route path="/add" element={(<ProtectedRoute><AddStuff /></ProtectedRoute>)} />
         <Route path="/calendar" element={<ProtectedRoute><Calendar /></ProtectedRoute>} />
@@ -69,7 +70,6 @@ const App = () => (
         <Route path="/admin" element={<AdminProtectedRoute><ListStuffAdmin /></AdminProtectedRoute>} />
         <Route path="/edit-roles" element={<AdminProtectedRoute><EditRolesAdmin /></AdminProtectedRoute>} />
         <Route path="/notauthorized" element={<NotAuthorized />} />
-        <Route path="*" element={<AdminProtectedRoute><NotFound /></AdminProtectedRoute>} />
       </Routes>
     </div>
   </Router>
@@ -98,12 +98,6 @@ const AdminProtectedRoute = ({ children }) => {
   }
   const isAdmin = Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN]);
   console.log('AdminProtectedRoute', isLogged, isAdmin);
-  console.log(Roles.userIsInRole(Meteor.userId(), [ROLE.SUBMITTER]));
-  console.log(Roles.userIsInRole(Meteor.userId(), [ROLE.FINAL_APV]));
-  console.log(Roles.userIsInRole(Meteor.userId(), [ROLE.PIPE_APV]));
-  console.log(Roles.userIsInRole(Meteor.userId(), [ROLE.WRITER]));
-  console.log(Roles.userIsInRole(Meteor.userId(), [ROLE.ASSIGNER]));
-  console.log(Roles.userIsInRole(Meteor.userId(), [ROLE.OFFICE_APV]));
   return (isLogged && isAdmin) ? children : <Navigate to="/notauthorized" />;
 };
 

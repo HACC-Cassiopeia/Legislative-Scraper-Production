@@ -7,7 +7,7 @@ import {
   withSubscriptions,
 } from '../../../test-utilities/test-utilities';
 import { defineMethod, updateMethod, removeItMethod } from '../../base/BaseCollection.methods';
-import { PIPEApvProfiles } from './PIPEApvProfileCollection';
+import { PIPEApvProfiles } from './PipeApvProfileCollection';
 
 /* eslint prefer-arrow-callback: "off",  no-unused-expressions: "off" */
 /* eslint-env mocha */

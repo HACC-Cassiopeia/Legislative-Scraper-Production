@@ -1,205 +1,96 @@
 import React from 'react';
-import { Button, Dropdown, Icon, Table } from 'semantic-ui-react';
-import PropTypes from 'prop-types';
-import swal from 'sweetalert';
+import { Container, Table, Header, Loader, Icon } from 'semantic-ui-react';
 import { withTracker } from 'meteor/react-meteor-data';
-import { ROLE } from '../../api/role/Role';
-import { defineMethod, removeItMethod } from '../../api/base/BaseCollection.methods';
+import PropTypes from 'prop-types';
 import { UserProfiles } from '../../api/user/UserProfileCollection';
 import { AdminProfiles } from '../../api/user/admin/AdminProfileCollection';
 import { AssignerProfiles } from '../../api/user/assigner/AssignerProfileCollection';
 import { WriterProfiles } from '../../api/user/writer/WriterProfileCollection';
 import { OfficerApvProfiles } from '../../api/user/office_apv/OfficeApvProfileCollection';
-import { PIPEApvProfiles } from '../../api/user/pipe_apv/PIPEApvProfileCollection';
-import { FinalApvProfiles } from '../../api/user/final_apv/FinalApvProfileCollection';
 import { SubmitterProfiles } from '../../api/user/submitter/SubmitterProfileCollection';
+import RoleAdmin from '../components/RoleAdmin';
 
-const roleOptions = [
-  {
-    key: 'ADMIN',
-    text: 'ADMIN',
-    value: ROLE.ADMIN,
-  },
-  {
-    key: 'USER',
-    text: 'USER',
-    value: ROLE.USER,
-  },
-  {
-    key: 'ASSIGNER',
-    text: 'ASSIGNER',
-    value: ROLE.ASSIGNER,
-  },
-  {
-    key: 'OFFICE_APV',
-    text: 'OFFICE_APV',
-    value: ROLE.OFFICE_APV,
-  },
-  {
-    key: 'PIPE_APV',
-    text: 'PIPE_APV',
-    value: ROLE.PIPE_APV,
-  },
-  {
-    key: 'FINAL_APV',
-    text: 'FINAL_APV',
-    value: ROLE.FINAL_APV,
-  },
-  {
-    key: 'SUBMITTER',
-    text: 'SUBMITTER',
-    value: ROLE.SUBMITTER,
-  },
-];
+/** Renders a table containing all of the profiles. Use <UserItemAdmin> to render each row. */
+const EditRoleAdmin = ({ admins, users, assigners, writers, offices, submitters, ready }) => ((ready) ? (
+  <Container className="listUserAdmin">
+    <Table inverted style={{ backgroundColor: '#b86d4e' }}>
+      <Table.Header>
+        <Table.Cell>
+          <Table.Row>
+            <Header as="h3" textAlign="center">Manage Accounts</Header>
+          </Table.Row>
+        </Table.Cell>
+        <Table.Row>
+          <Table.HeaderCell>First Name</Table.HeaderCell>
+          <Table.HeaderCell width={3}>Last Name</Table.HeaderCell>
+          <Table.HeaderCell><Icon name="mail outline" /> Email</Table.HeaderCell>
+          <Table.HeaderCell><Icon name="key" /> Role</Table.HeaderCell>
+          <Table.HeaderCell><Icon name="trash alternate" /> Remove Account</Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
+      <Table.Body>
+        {admins.map((user) => <RoleAdmin key={user._id} user={user} />)}
+        {users.map((user) => <RoleAdmin key={user._id} user={user} />)}
+        {assigners.map((user) => <RoleAdmin key={user._id} user={user} />)}
+        {writers.map((user) => <RoleAdmin key={user._id} user={user} />)}
+        {offices.map((user) => <RoleAdmin key={user._id} user={user} />)}
+        {submitters.map((user) => <RoleAdmin key={user._id} user={user} />)}
+      </Table.Body>
+      <Table.Row>
+        <Table.Cell width={5}>
+          <Header as="h5"><em>The ADMIN role allows users to manage accounts.</em></Header>
+        </Table.Cell>
+      </Table.Row>
+    </Table>
+  </Container>
+) : <Loader active>Getting data</Loader>);
 
-/** Renders a single row in the List User (Admin) table. See pages/ListUserAdmin.jsx. */
-const EditRolesAdmin = ({ user }) => {
-  const email = user.email;
-  const firstName = user.firstName;
-  const lastName = user.lastName;
-  const oldCollectionName = UserProfiles.getCollectionNameForProfile(user);
-  let collectionName;
-  const definitionData = { email, firstName, lastName };
-  // On change, remove user from previous role and add to selected role.
-  const handleOnChange = (e, data) => {
-    removeItMethod.callPromise({ collectionName: oldCollectionName, instance: user._id })
-      .catch(error => swal('Error', error.message, 'error'))
-      .then(() => {});
-    if (data.value === ROLE.ADMIN) {
-      collectionName = AdminProfiles.getCollectionName();
-      defineMethod.callPromise({ collectionName, definitionData })
-        .catch(error => swal('Error', error.message, 'error'))
-        .then(() => {
-          swal({
-            title: 'Success',
-            text: 'Role Updated',
-          });
-        });
-    } else if (data.value === ROLE.USER) {
-      collectionName = UserProfiles.getCollectionName();
-      defineMethod.callPromise({ collectionName, definitionData })
-        .catch(error => swal('Error', error.message, 'error'))
-        .then(() => {
-          swal({
-            title: 'Success',
-            text: 'Role Updated',
-          });
-        });
-    } else if (data.value === ROLE.ASSIGNER) {
-      collectionName = AssignerProfiles.getCollectionName();
-      defineMethod.callPromise({ collectionName, definitionData })
-        .catch(error => swal('Error', error.message, 'error'))
-        .then(() => {
-          swal({
-            title: 'Success',
-            text: 'Role Updated',
-          });
-        });
-    } else if (data.value === ROLE.WRITER) {
-      collectionName = WriterProfiles.getCollectionName();
-      defineMethod.callPromise({ collectionName, definitionData })
-        .catch(error => swal('Error', error.message, 'error'))
-        .then(() => {
-          swal({
-            title: 'Success',
-            text: 'Role Updated',
-          });
-        });
-    } else if (data.value === ROLE.OFFICE_APV) {
-      collectionName = OfficerApvProfiles.getCollectionName();
-      defineMethod.callPromise({ collectionName, definitionData })
-        .catch(error => swal('Error', error.message, 'error'))
-        .then(() => {
-          swal({
-            title: 'Success',
-            text: 'Role Updated',
-          });
-        });
-    } else if (data.value === ROLE.PIPE_APV) {
-      collectionName = PIPEApvProfiles.getCollectionName();
-      defineMethod.callPromise({ collectionName, definitionData })
-        .catch(error => swal('Error', error.message, 'error'))
-        .then(() => {
-          swal({
-            title: 'Success',
-            text: 'Role Updated',
-          });
-        });
-    } else if (data.value === ROLE.FINAL_APV) {
-      collectionName = FinalApvProfiles.getCollectionName();
-      defineMethod.callPromise({ collectionName, definitionData })
-        .catch(error => swal('Error', error.message, 'error'))
-        .then(() => {
-          swal({
-            title: 'Success',
-            text: 'Role Updated',
-          });
-        });
-    } else if (data.value === ROLE.SUBMITTER) {
-      collectionName = SubmitterProfiles.getCollectionName();
-      defineMethod.callPromise({ collectionName, definitionData })
-        .catch(error => swal('Error', error.message, 'error'))
-        .then(() => {
-          swal({
-            title: 'Success',
-            text: 'Role Updated',
-          });
-        });
-    }
-  };
-
-  const handleOnClick = () => {
-    collectionName = UserProfiles.getCollectionNameForProfile(user);
-    removeItMethod.callPromise({ collectionName: collectionName, instance: user._id })
-      .catch(error => swal('Error', error.message, 'error'))
-      .then(() => swal('Success', 'User Removed', 'success'));
-  };
-  return (
-    <Table.Row>
-      <Table.Cell>{user.firstName}</Table.Cell>
-      <Table.Cell>{user.lastName}</Table.Cell>
-      <Table.Cell>{user.email}</Table.Cell>
-      <Table.Cell>
-        <Dropdown
-          defaultValue={user.role}
-          fluid
-          selection
-          options={roleOptions}
-          onChange={handleOnChange}
-        />
-      </Table.Cell>
-      <Table.Cell>
-        <Button color="red" onClick={handleOnClick} icon fluid><Icon name="remove circle" /></Button>
-      </Table.Cell>
-    </Table.Row>
-  );
+// Require an array of User Admin profiles in the props.
+EditRoleAdmin.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
+  admins: PropTypes.array.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  users: PropTypes.array.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  assigners: PropTypes.array.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  writers: PropTypes.array.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  offices: PropTypes.array.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  submitters: PropTypes.array.isRequired,
+  ready: PropTypes.bool.isRequired,
 };
 
-// Require a document to be passed to this component.
-EditRolesAdmin.propTypes = {
-  user: PropTypes.shape({
-    firstName: PropTypes.string,
-    lastName: PropTypes.string,
-    email: PropTypes.string,
-    role: PropTypes.string,
-    _id: PropTypes.string,
-  }).isRequired,
-};
-
+// withTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker
 export default withTracker(() => {
-  // Get access to the profiles.
+  // Get access to profiles.
+  console.log(AssignerProfiles.subscribeAssignerProfile());
   const subsUser = UserProfiles.subscribe();
   const subsAdmin = AdminProfiles.subscribe();
   const subsAssigner = AssignerProfiles.subscribe();
   const subsWriter = WriterProfiles.subscribe();
-  const subsOfficerApv = OfficerApvProfiles.subscribe();
-  const subsPIPEApv = PIPEApvProfiles.subscribe();
-  const subsFinalApv = FinalApvProfiles.subscribe();
+  const subsOffice = OfficerApvProfiles.subscribe();
   const subsSubmitter = SubmitterProfiles.subscribe();
 
   // Determine if the subscription is ready
-  const ready = subsUser.ready() && subsAdmin.ready() && subsAssigner.ready() && subsWriter.ready() && subsOfficerApv.ready() && subsPIPEApv.ready() && subsFinalApv.ready() && subsSubmitter.ready();
+  const ready = subsUser.ready() && subsAdmin.ready() && subsAssigner.ready() && subsWriter.ready() && subsOffice.ready() && subsSubmitter.ready();
+  // Get the profiles and sort by owner then name
+
+  console.log(AssignerProfiles.find({}, { sort: { name: 1 } }).fetch());
+  const assigners = AssignerProfiles.find({}, { sort: { name: 1 } }).fetch();
+  const writers = WriterProfiles.find({}, { sort: { name: 1 } }).fetch();
+  const offices = OfficerApvProfiles.find({}, { sort: { name: 1 } }).fetch();
+  const submitters = SubmitterProfiles.find({}, { sort: { name: 1 } }).fetch();
+  const admins = AdminProfiles.find({}, { sort: { owner: 1, name: 1 } }).fetch();
+  const users = UserProfiles.find({}, { sort: { owner: 1, name: 1 } }).fetch();
   return {
+    admins,
+    users,
+    assigners,
+    writers,
+    offices,
+    submitters,
     ready,
   };
-})(EditRolesAdmin);
+})(EditRoleAdmin);

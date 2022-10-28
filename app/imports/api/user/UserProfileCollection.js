@@ -1,7 +1,13 @@
+import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
+import { Roles } from 'meteor/alanning:roles';
 import BaseProfileCollection from './BaseProfileCollection';
 import { ROLE } from '../role/Role';
 import { Users } from './UserCollection';
+
+export const userPublications = {
+  userProfile: 'UserProfile',
+};
 
 class UserProfileCollection extends BaseProfileCollection {
   constructor() {
@@ -57,6 +63,35 @@ class UserProfileCollection extends BaseProfileCollection {
   removeIt(profileID) {
     if (this.isDefined(profileID)) {
       return super.removeIt(profileID);
+    }
+    return null;
+  }
+
+  /**
+   * Default publication method for entities.
+   * It publishes the entire collection for admin.
+   */
+  publish() {
+    if (Meteor.isServer) {
+      // get the UserProfileCollection instance.
+      const instance = this;
+      /** This subscription publishes all documents regardless of user, but only if the logged in user is the Admin. */
+      Meteor.publish(userPublications.userProfile, function publish() {
+        if (this.userId && Roles.userIsInRole(this.userId, [ROLE.ADMIN, ROLE.SUPER])) {
+          return instance._collection.find();
+        }
+        return this.ready();
+      });
+    }
+  }
+
+  /**
+   * Subscription method for admin users.
+   * It subscribes to the entire collection.
+   */
+  subscribeUserProfile() {
+    if (Meteor.isClient) {
+      return Meteor.subscribe(userPublications.userProfile);
     }
     return null;
   }

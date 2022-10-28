@@ -5,7 +5,7 @@ import { UserProfiles } from '../../api/user/UserProfileCollection';
 import { AssignerProfiles } from '../../api/user/assigner/AssignerProfileCollection';
 import { WriterProfiles } from '../../api/user/writer/WriterProfileCollection';
 import { OfficerApvProfiles } from '../../api/user/office_apv/OfficeApvProfileCollection';
-import { PIPEApvProfiles } from '../../api/user/pipe_apv/PIPEApvProfileCollection';
+import { PIPEApvProfiles } from '../../api/user/pipe_apv/PipeApvProfileCollection';
 import { FinalApvProfiles } from '../../api/user/final_apv/FinalApvProfileCollection';
 import { SubmitterProfiles } from '../../api/user/submitter/SubmitterProfileCollection';
 

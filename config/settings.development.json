@@ -2,7 +2,13 @@
   "defaultAccounts": [
     { "email": "admin@foo.com", "password": "changeme", "role": "ADMIN", "firstName": "Admin", "lastName": "MATRP"
     },
-    { "email": "john@foo.com", "password": "changeme", "role": "USER" , "firstName": "John", "lastName": "Doe" }
+    { "email": "john@foo.com", "password": "changeme", "role": "USER" , "firstName": "John", "lastName": "Doe" },
+    { "email": "assigner@foo.com", "password": "changeme", "role": "ASSIGNER" , "firstName": "Jiny", "lastName": "Smith" },
+    { "email": "writer@foo.com", "password": "changeme", "role": "WRITER" , "firstName": "John", "lastName": "Doe" },
+    { "email": "office@foo.com", "password": "changeme", "role": "OFFICE_APV" , "firstName": "John", "lastName": "Doe" },
+    { "email": "pipe@foo.com", "password": "changeme", "role": "PIPE_APV" , "firstName": "John", "lastName": "Doe" },
+    { "email": "final@foo.com", "password": "changeme", "role": "FINAL_APV" , "firstName": "John", "lastName": "Doe" },
+    { "email": "submitter@foo.com", "password": "changeme", "role": "SUBMITTER" , "firstName": "John", "lastName": "Doe" }
   ],
 
   "defaultData": [

@@ -1,12 +1,17 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
+import { Roles } from 'meteor/alanning:roles';
 import BaseProfileCollection from '../BaseProfileCollection';
 import { ROLE } from '../../role/Role';
 import { Users } from '../UserCollection';
 
-class PIPEApvProfileCollection extends BaseProfileCollection {
+export const pipeProfilePublications = {
+  pipeProfile: 'PipeProfile',
+};
+
+class PipeApvProfileCollection extends BaseProfileCollection {
   constructor() {
-    super('PIPEApvProfile', new SimpleSchema({}));
+    super('PipeProfile', new SimpleSchema({}));
   }
 
   /**
@@ -64,6 +69,35 @@ class PIPEApvProfileCollection extends BaseProfileCollection {
   }
 
   /**
+   * Default publication method for entities.
+   * It publishes the entire collection for admin.
+   */
+  publish() {
+    if (Meteor.isServer) {
+      // get the SuperAdminProfileCollection instance.
+      const instance = this;
+      /** This subscription publishes all documents regardless of user, but only if the logged in user is the Super Admin. */
+      Meteor.publish(pipeProfilePublications.pipeProfile, function publish() {
+        if (this.userId && Roles.userIsInRole(this.userId, [ROLE.ADMIN])) {
+          return instance._collection.find();
+        }
+        return this.ready();
+      });
+    }
+  }
+
+  /**
+   * Subscription method for admin users.
+   * It subscribes to the entire collection.
+   */
+  subscribePipeProfile() {
+    if (Meteor.isClient) {
+      return Meteor.subscribe(pipeProfilePublications.pipeApvProfile);
+    }
+    return null;
+  }
+
+  /**
    * Implementation of assertValidRoleForMethod. Asserts that userId is logged in as an PIPEApprover.
    * This is used in the define, update, and removeIt Meteor methods associated with each class.
    * @param userId The userId of the logged in user. Can be null or undefined
@@ -107,4 +141,4 @@ class PIPEApvProfileCollection extends BaseProfileCollection {
  * Profides the singleton instance of this class to all other entities.
  * @type {OfficeApvProfileCollection}
  */
-export const PIPEApvProfiles = new PIPEApvProfileCollection();
+export const PipeApvProfiles = new PipeApvProfileCollection();

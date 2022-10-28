@@ -5,11 +5,13 @@ import { Nav } from 'react-bootstrap';
 import { Roles } from 'meteor/alanning:roles';
 import * as Icon from 'react-bootstrap-icons';
 import './style/Component.css';
+import { NavLink } from 'react-router-dom';
 import { ROLE } from '../../api/role/Role';
 import DesktopSideBar from './SideNavBar/DesktopSideBar';
 import MobileSignOutCheck from './MobileSignOutCheck';
 import MobileSignInModal from './MobileSignInModal';
 import MobileSignUpModal from './MobileSignUpModal';
+import { COMPONENT_IDS } from '../utilities/ComponentIDs';
 
 const SideNavBar = () => {
   // the width of the screen using React useEffect
@@ -81,9 +83,7 @@ const SideNavBar = () => {
           <MobileSignOutCheck />
         )}
         {Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN]) ? (
-          <Nav.Link href="/edit-roles" style={{ color: 'black' }}>
-            <Icon.Clipboard />
-          </Nav.Link>
+          <Nav.Link id={COMPONENT_IDS.NAVBAR_LIST_STUFF_ADMIN} as={NavLink} to="/edit-roles" key="admin">Admin</Nav.Link>
 
         ) : ''}
         <Nav.Link />

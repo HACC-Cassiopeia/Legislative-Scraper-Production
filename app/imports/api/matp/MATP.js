@@ -7,7 +7,7 @@ import { SavedMeasures } from '../savedMeasures/SavedMeasuresCollection';
 import { AssignerProfiles } from '../user/assigner/AssignerProfileCollection';
 import { WriterProfiles } from '../user/writer/WriterProfileCollection';
 import { OfficerApvProfiles } from '../user/office_apv/OfficeApvProfileCollection';
-import { PIPEApvProfiles } from '../user/pipe_apv/PIPEApvProfileCollection';
+import { PipeApvProfiles } from '../user/pipe_apv/PipeApvProfileCollection';
 import { FinalApvProfiles } from '../user/final_apv/FinalApvProfileCollection';
 import { SubmitterProfiles } from '../user/submitter/SubmitterProfileCollection';
 
@@ -26,7 +26,7 @@ class MATPClass {
       AssignerProfiles,
       WriterProfiles,
       OfficerApvProfiles,
-      PIPEApvProfiles,
+      PipeApvProfiles,
       FinalApvProfiles,
       SubmitterProfiles,
       Stuffs,
@@ -42,7 +42,7 @@ class MATPClass {
       AssignerProfiles,
       WriterProfiles,
       OfficerApvProfiles,
-      PIPEApvProfiles,
+      PipeApvProfiles,
       FinalApvProfiles,
       SubmitterProfiles,
       Stuffs,
