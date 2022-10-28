@@ -19,7 +19,7 @@ if (SavedMeasures.count() === 0) {
 
 // Initialize the database with a default data document.
 function addTestimonies(testimonies) {
-  console.log(`  Adding: Testimony for Bill ${testimonies.billTitle}`);
+  console.log(`  Adding: Testimony for Bill ${testimonies.billCode}`);
   Testimonies.define(testimonies);
 }
 
@@ -28,5 +28,7 @@ if (Testimonies.count() === 0) {
   if (Meteor.settings.defaultSavedTestimonies) {
     console.log('Creating default testimony.');
     Meteor.settings.defaultSavedTestimonies.map(data => addTestimonies(data));
+  } else {
+    console.log('Failed to create default testimony.');
   }
 }

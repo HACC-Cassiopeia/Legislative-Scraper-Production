@@ -34,7 +34,8 @@ const BillResolutionTracker = () => {
         {/* TODO add functionality to edit, create monitoring report, and save to db buttons */}
         <Navbar className="fixed-top justify-content-center" style={navBarStyle}>
           <Nav.Link className="m-4" as={NavLink} to={`/add-testimony/${_code}`}> <FileEarmarkPlusFill className="mb-1" />&nbsp;&nbsp;Create New Testimony</Nav.Link>
-          <Nav.Link className="m-4" as={NavLink} to={`/edit-testimony/${_code}`}> <PencilSquare className="mb-1" />&nbsp;&nbsp;Edit Current Testimony</Nav.Link>
+          {/* TODO re-add _code */}
+          <Nav.Link className="m-4" as={NavLink} to={`/edit-testimony`}> <PencilSquare className="mb-1" />&nbsp;&nbsp;Edit Current Testimony</Nav.Link>
           <Nav.Link className="m-4" as={NavLink} to="#"> <FileEarmarkPlusFill className="mb-1" />&nbsp;&nbsp;Create Monitoring Report</Nav.Link>
           <Nav.Link className="m-4" style={saveStyle} as={NavLink} to="#"> <BoxArrowInDown className="mb-1" />&nbsp;&nbsp;Save to Database</Nav.Link>
         </Navbar>

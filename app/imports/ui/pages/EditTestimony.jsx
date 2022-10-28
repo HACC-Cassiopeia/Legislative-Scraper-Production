@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Card, Col, Image, Nav, Navbar, Row } from 'react-bootstrap';
 import { AutoForm, DateField, ErrorsField, LongTextField, SubmitField, TextField } from 'uniforms-bootstrap5';
 import swal from 'sweetalert';
@@ -7,12 +7,12 @@ import SimpleSchema from 'simpl-schema';
 import { jsPDF } from 'jspdf';
 import { NavLink } from 'react-router-dom';
 import { EnvelopeFill, FilePdfFill, HddFill } from 'react-bootstrap-icons';
-import { useParams } from 'react-router';
+// import { useParams } from 'react-router';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Testimonies } from '../../api/testimony/TestimonyCollection';
 import { defineMethod } from '../../api/base/BaseCollection.methods';
 import SideNavBar from '../components/SideNavBar';
-import { SavedMeasures } from '../../api/savedMeasures/SavedMeasuresCollection';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 // Create a schema to specify the structure of the data to appear in the form.
 const formSchema = new SimpleSchema({
@@ -35,25 +35,38 @@ const bridge = new SimpleSchema2Bridge(formSchema);
 
 /* Renders the AddStuff page for adding a document. */
 const EditTestimony = () => {
+  // const { _code } = useParams();
 
-  // TODO 'add testimony' pulls from SavedMeasures db, 'edit testimony' pulls from Testimony db
-  //  we should probably make the 'pdf form' bit a component that can be reused in for both pages
-
-  const { _code } = useParams();
-
-  // TODO load from Testimony db
-  const { ready, bill } = useTracker(() => {
-    const subscription = SavedMeasures.subscribeMeasureSaved();
+  const [testimonies, setTestimonies] = useState([]);
+  const { ready, testimony } = useTracker(() => {
+    const subscription = Testimonies.subscribeTestimony();
     const rdy = subscription.ready();
-    const billItem = SavedMeasures.find({ code: _code }).fetch();
+    // TODO replace billcode with _code
+    const testimonyItem = Testimonies.find({ billCode: 'HB410 HD1' }).fetch();
     return {
-      bill: billItem[0],
+      testimony: testimonyItem[0],
       ready: rdy,
     };
   }, false);
 
+  // TODO 'add testimony' pulls from SavedMeasures db, 'edit testimony' pulls from Testimony db
+  //  we should probably make the 'pdf form' bit a component that can be reused in for both pages
+
+  // TODO load from Testimony db
+  // const { ready, bill } = useTracker(() => {
+  //   const subscription = SavedMeasures.subscribeMeasureSaved();
+  //   const rdy = subscription.ready();
+  //   const billItem = SavedMeasures.find({ code: _code }).fetch();
+  //   return {
+  //     bill: billItem[0],
+  //     ready: rdy,
+  //   };
+  // }, false);
+
   useEffect(() => {
-    document.title = `DOELT - Edit Testimony for ${_code}`;
+    // todo add _code to edit testimony
+    document.title = `DOELT - Edit Testimony for _code`;
+    setTestimonies(testimony);
   }, []);
 
   // On submit, insert the data.
@@ -96,7 +109,10 @@ const EditTestimony = () => {
 
   // Render the form. Use Uniforms: https://github.com/vazco/uniforms
   let fRef = null;
-  return (
+  console.log('testimony', testimony);
+  console.log('testimonies', testimonies);
+
+  return (ready ? (
     <Col style={{ backgroundColor: '#e6e6e6', minWidth: '800px' }}>
       <SideNavBar id="nav" />
       <Col id="mainBody">
@@ -329,7 +345,7 @@ const EditTestimony = () => {
       </Col>
 
     </Col>
-  );
+  ) : <LoadingSpinner />);
 };
 
 export default EditTestimony;
