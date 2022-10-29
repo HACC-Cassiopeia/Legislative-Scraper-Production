@@ -18,7 +18,7 @@ body {
 }
 
 a {
-  --bs-link-color: #6175bd;
+  --bs-link-color: #57749f;
 }
 
 .page-link {
@@ -97,13 +97,13 @@ html, body {
 }
 
 #yearDropdown {
-  background-color: #57749f;
-  border-color: #425e88;
-  border-radius: 20px;
-  padding-left: 15px;
-  padding-right: 15px;
-  width: 170px;
-  font-size: large;
+  background-color: transparent;
+  padding: 0;
+  color: #313131;
+  border-width: 0;
+  font-size: 2.7em;
+  font-weight: bold;
+  --bs-btn-focus-shadow-rgb: none;
 }
 
 /*  not sure how to do the bootstrap attributes (eg --bs-accordion-active-bg) in the .jsx files so these stay here for now -Rob */
