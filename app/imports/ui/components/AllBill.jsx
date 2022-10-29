@@ -37,7 +37,6 @@ const AllBill = ({ bill }) => {
       ...data,
       ...bill,
     };
-    console.log(definitionData);
     defineMethod.callPromise({ collectionName, definitionData })
       .catch(error => {
         swal('Error', error.message, 'error');
