@@ -15,13 +15,19 @@ const SavedBill = ({ bill }) => (
         </Accordion.Item>
       </Accordion>
     </td>
-    <td>*offices assigned*</td>
-    <td>*action to be taken*</td>
-    <td>{bill.currentReferral}</td>
-    <td>*hearing date/time*</td>
-    <td>*DOE position*</td>
-    <td>*testifier*</td>
-    <td>*internal status*</td> {/* THIS IS AN INTERNALLY TRACKED DOE STATUS, NOT THE STATUS ON THE STATE WEBSITE */}
+    <td>{bill.office ? bill.office.toString() : 'N/A'}</td>
+    <td>{bill.doeAction ? bill.doeAction : 'N/A'}</td>
+    <td>{bill.currentReferral ? bill.currentReferral : 'N/A'}</td>
+    <td>
+      {bill.hearingDate ? bill.hearingDate : 'N/A'} <br />
+      {bill.hearingTime}
+    </td>
+    <td>{bill.doePosition ? bill.doePosition : 'N/A'}</td>
+    <td>{bill.testifier ? bill.testifier : 'N/A'}</td>
+    <td>{bill.doeInternalStatus ? bill.doeInternalStatus : 'N/A'}</td> {/* THIS IS AN INTERNALLY TRACKED DOE STATUS, NOT THE STATUS ON THE STATE WEBSITE */}
+    <td>
+      <Link to={`/edit-measure/${bill._id}`}>Edit</Link>
+    </td>
   </tr>
 );
 

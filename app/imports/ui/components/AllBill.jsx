@@ -33,7 +33,10 @@ const AllBill = ({ bill }) => {
     // const owner = Meteor.user().username;
     let sad = false;
     const collectionName = SavedMeasures.getCollectionName();
-    const definitionData = bill;
+    const definitionData = {
+      ...data,
+      ...bill,
+    };
     defineMethod.callPromise({ collectionName, definitionData })
       .catch(error => {
         swal('Error', error.message, 'error');
