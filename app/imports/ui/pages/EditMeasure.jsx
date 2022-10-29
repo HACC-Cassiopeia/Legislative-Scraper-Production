@@ -10,7 +10,6 @@ import { updateMethod } from '../../api/base/BaseCollection.methods';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { PAGE_IDS } from '../utilities/PageIDs';
 
-
 const bridge = new SimpleSchema2Bridge(SavedMeasures._schema);
 
 /* Renders the EditBill page for editing a single document. */
@@ -44,60 +43,60 @@ const EditMeasure = () => {
   };
 
   return ready ? (
-      <Container id={PAGE_IDS.EDIT_BILL} className="py-3">
-        <Row className="justify-content-center">
-          <Col xs={12}>
-            <Col className="text-center"><h2>Edit Bill</h2></Col>
-            <AutoForm schema={bridge} onSubmit={data => submit(data)} model={doc}>
-              <Card>
-                <Card.Body>
-                  <Row>
-                    <Col sm={3}><TextField name="code" /></Col>
-                    <Col sm={5}><TextField name="measureTitle" /></Col>
-                    <Col sm={4}> <TextField name="introducer" /></Col>
-                  </Row>
-                  <Row>
-                    <Col sm={3}> <SelectField name="office" /></Col>
-                    <Col sm={9}><LongTextField name="description" /></Col>
-                  </Row>
+    <Container id={PAGE_IDS.EDIT_BILL} className="py-3">
+      <Row className="justify-content-center">
+        <Col xs={12}>
+          <Col className="text-center"><h2>Edit Bill</h2></Col>
+          <AutoForm schema={bridge} onSubmit={data => submit(data)} model={doc}>
+            <Card>
+              <Card.Body>
+                <Row>
+                  <Col sm={3}><TextField name="code" /></Col>
+                  <Col sm={5}><TextField name="measureTitle" /></Col>
+                  <Col sm={4}> <TextField name="introducer" /></Col>
+                </Row>
+                <Row>
+                  <Col sm={3}> <SelectField name="office" /></Col>
+                  <Col sm={9}><LongTextField name="description" /></Col>
+                </Row>
 
-                  <Row>
-                    <Col sm={3}> <TextField name="testifier" /></Col>
-                    <Col sm={3}><TextField name="currentReferral" /></Col>
-                    <Col sm={6}><TextField name="reportTitle" /></Col>
-                  </Row>
+                <Row>
+                  <Col sm={3}> <TextField name="testifier" /></Col>
+                  <Col sm={3}><TextField name="currentReferral" /></Col>
+                  <Col sm={6}><TextField name="reportTitle" /></Col>
+                </Row>
 
-                  <br />
+                <br />
 
-                  <Row>
-                    <Col sm={6}> <LongTextField name="statusDescription" /></Col>
-                    <Col sm={3}> <TextField name="statusDate" /></Col>
-                    <Col sm={3}><TextField name="statusHorS" /></Col>
-                  </Row>
+                <Row>
+                  <Col sm={6}> <LongTextField name="statusDescription" /></Col>
+                  <Col sm={3}> <TextField name="statusDate" /></Col>
+                  <Col sm={3}><TextField name="statusHorS" /></Col>
+                </Row>
 
-                  <Row>
-                    <Col sm={6}> <TextField name="hearingLocation" /></Col>
-                    <Col sm={3}><TextField name="hearingDate" /></Col>
-                    <Col sm={3}><TextField name="hearingTime" /></Col>
-                  </Row>
+                <Row>
+                  <Col sm={6}> <TextField name="hearingLocation" /></Col>
+                  <Col sm={3}><TextField name="hearingDate" /></Col>
+                  <Col sm={3}><TextField name="hearingTime" /></Col>
+                </Row>
 
-                  <Row>
-                    <Col sm={3}><TextField name="doeAction" /></Col>
-                    <Col sm={6}><TextField name="doePosition" /></Col>
-                    <Col sm={3}> <TextField name="doeInternalStatus" /></Col>
-                  </Row>
+                <Row>
+                  <Col sm={3}><TextField name="doeAction" /></Col>
+                  <Col sm={6}><TextField name="doePosition" /></Col>
+                  <Col sm={3}> <TextField name="doeInternalStatus" /></Col>
+                </Row>
 
-                  <TextField name="measurePdfUrl" />
-                  <TextField name="measureArchiveUrl" />
+                <TextField name="measurePdfUrl" />
+                <TextField name="measureArchiveUrl" />
 
-                  <SubmitField value="Submit" />
-                  <ErrorsField />
-                </Card.Body>
-              </Card>
-            </AutoForm>
-          </Col>
-        </Row>
-      </Container>
+                <SubmitField value="Submit" />
+                <ErrorsField />
+              </Card.Body>
+            </Card>
+          </AutoForm>
+        </Col>
+      </Row>
+    </Container>
   ) : <LoadingSpinner />;
 };
 

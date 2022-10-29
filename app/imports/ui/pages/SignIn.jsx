@@ -4,7 +4,12 @@ import SimpleSchema from 'simpl-schema';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import { Meteor } from 'meteor/meteor';
 import { Navigate } from 'react-router-dom';
-import { AutoForm, ErrorsField, SubmitField, TextField } from 'uniforms-bootstrap5';
+import {
+  AutoForm,
+  ErrorsField,
+  SubmitField,
+  TextField,
+} from 'uniforms-bootstrap5';
 import { COMPONENT_IDS } from '../utilities/ComponentIDs';
 
 const SignIn = () => {
@@ -31,12 +36,20 @@ const SignIn = () => {
   };
 
   if (redirect) {
-    return (<Navigate to="/" />);
+    return <Navigate to="/home" />;
   }
 
   return (
     <Col style={{ backgroundColor: '#4c556f' }} className="p-0 m-0 g-0">
-      <Table className="p-0 m-0 g-0" style={{ color: 'white', height: '100%', width: '100%', borderCollapse: 'collapse' }}>
+      <Table
+        className="p-0 m-0 g-0"
+        style={{
+          color: 'white',
+          height: '100%',
+          width: '100%',
+          borderCollapse: 'collapse',
+        }}
+      >
         <tr valign="top p-0 m-0">
           <Row className="g-0">
             <Col className="d-flex justify-content-center">
@@ -50,21 +63,51 @@ const SignIn = () => {
           </Row>
           <Row className="g-0">
             <Col className="d-flex justify-content-center mt-3">
-              <h1><b>DOELT</b></h1>
+              <h1>
+                <b>DOELT</b>
+              </h1>
             </Col>
           </Row>
           <Row className="g-0">
             <Col className="d-flex justify-content-center">
-              <AutoForm schema={bridge} onSubmit={data => submit(data)} className="justify-content-center" style={{ minWidth: '20%' }}>
-                <Card style={{ backgroundColor: '#4c556f', color: 'white', borderWidth: 0 }}>
+              <AutoForm
+                schema={bridge}
+                onSubmit={(data) => submit(data)}
+                className="justify-content-center"
+                style={{ minWidth: '20%' }}
+              >
+                <Card
+                  style={{
+                    backgroundColor: '#4c556f',
+                    color: 'white',
+                    borderWidth: 0,
+                  }}
+                >
                   <Card.Body className="pb-2 pt-2">
-                    <TextField id={COMPONENT_IDS.SIGN_IN_FORM_EMAIL} name="email" placeholder="Employee ID" label="" />
-                    <TextField id={COMPONENT_IDS.SIGN_IN_FORM_PASSWORD} name="password" placeholder="Password" type="password" label="" />
+                    <TextField
+                      id={COMPONENT_IDS.SIGN_IN_FORM_EMAIL}
+                      name="email"
+                      placeholder="Employee ID"
+                      label=""
+                    />
+                    <TextField
+                      id={COMPONENT_IDS.SIGN_IN_FORM_PASSWORD}
+                      name="password"
+                      placeholder="Password"
+                      type="password"
+                      label=""
+                    />
                     <ErrorsField />
-                    <SubmitField className="logInButton d-flex justify-content-center" id={COMPONENT_IDS.SIGN_IN_FORM_SUBMIT} value="Log in" />
+                    <SubmitField
+                      className="logInButton d-flex justify-content-center"
+                      id={COMPONENT_IDS.SIGN_IN_FORM_SUBMIT}
+                      value="Log in"
+                    />
                   </Card.Body>
                 </Card>
-                <div className="d-flex justify-content-center small">Forgot password?</div>
+                <div className="d-flex justify-content-center small">
+                  Forgot password?
+                </div>
               </AutoForm>
               {error === '' ? (
                 ''
@@ -77,8 +120,15 @@ const SignIn = () => {
             </Col>
           </Row>
         </tr>
-        <tr valign="bottom" style={{ backgroundColor: '#2e374f' }} className="p-0 m-0">
-          <Col className="d-flex justify-content-center pt-2 pb-0 m-0" style={{ width: '100%', backgroundColor: '#4c556f' }}>
+        <tr
+          valign="bottom"
+          style={{ backgroundColor: '#2e374f' }}
+          className="p-0 m-0"
+        >
+          <Col
+            className="d-flex justify-content-center pt-2 pb-0 m-0"
+            style={{ width: '100%', backgroundColor: '#4c556f' }}
+          >
             <Image
               style={{ width: '25%', minWidth: '14em' }}
               src="/images/capitol.png"
@@ -86,11 +136,20 @@ const SignIn = () => {
               alt="Hawaii State Capitol"
             />
           </Col>
-          <div style={{ backgroundColor: '#2e374f', fontSize: 'smaller' }} className="pt-3 pb-0 m-0 d-flex justify-content-center text-center">
-            Property of the Hawai&apos;i State Department of Education. Unauthorized access prohibited.
+          <div
+            style={{ backgroundColor: '#2e374f', fontSize: 'smaller' }}
+            className="pt-3 pb-0 m-0 d-flex justify-content-center text-center"
+          >
+            Property of the Hawai&apos;i State Department of Education.
+            Unauthorized access prohibited.
           </div>
-          <div style={{ backgroundColor: '#2e374f', fontSize: 'small' }} className="p-0 m-0 d-flex justify-content-center text-center">
-            <p><u>Contact Administrator</u></p>
+          <div
+            style={{ backgroundColor: '#2e374f', fontSize: 'small' }}
+            className="p-0 m-0 d-flex justify-content-center text-center"
+          >
+            <p>
+              <u>Contact Administrator</u>
+            </p>
           </div>
         </tr>
       </Table>
