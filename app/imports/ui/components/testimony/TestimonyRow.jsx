@@ -18,7 +18,7 @@ const TestimonyRow = ({ testimony }) => (
       <div> { testimony.status ? testimony.status : '-'}</div>
     </td>
     <td>
-      <Button href="/edit"><Pencil /></Button>
+      <Button href="/edit-testimony"><Pencil /></Button>
     </td>
   </tr>
 );
