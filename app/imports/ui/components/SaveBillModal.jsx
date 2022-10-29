@@ -14,13 +14,13 @@ const SaveBillModal = ({ show, onHide, onSubmit }) => {
   const offices = ['BOE', 'OCID', 'OFS', 'OFO', 'OHE', 'OITS', 'OSIP', 'OSSS', 'OTM', 'SUPT'];
 
   const schema = new SimpleSchema({
-    office: { label: 'office', type: String, allowedValues: offices },
-    doeAction: { label: 'doeAction', type: String },
-    hearingDate: { label: 'hearingDate', type: String },
-    hearingTime: { label: 'hearingTime', type: String },
-    doePosition: { label: 'doePosition', type: String },
-    testifier: { label: 'testifier', type: String },
-    doeInternalStatus: { label: 'doeInternalStatus', type: String },
+    office: { label: 'Office', type: String, allowedValues: offices, optional: true },
+    doeAction: { label: 'Action', type: String, optional: true },
+    hearingDate: { label: 'Hearing Date', type: String },
+    hearingTime: { label: 'Hearing Time', type: String },
+    doePosition: { label: 'Position', type: String, optional: true },
+    testifier: { label: 'Testifier', type: String, optional: true },
+    doeInternalStatus: { label: 'Status', type: String, optional: true },
   });
 
   const bridge = new SimpleSchema2Bridge(schema);
@@ -37,13 +37,15 @@ const SaveBillModal = ({ show, onHide, onSubmit }) => {
           <Row>
             <Col>
               <SelectField
+                showInlineError
                 id="saveBill-modal-office"
                 name="office"
-                placeholder="Office"
+                placeholder="Select an Office"
               />
             </Col>
             <Col>
               <TextField
+                showInlineError
                 id="saveBill-modal-action"
                 name="doeAction"
                 placeholder="Action"
@@ -53,6 +55,7 @@ const SaveBillModal = ({ show, onHide, onSubmit }) => {
           <Row>
             <Col>
               <TextField
+                showInlineError
                 id="saveBill-modal-hearingDate"
                 name="hearingDate"
                 placeholder="Hearing Date"
@@ -60,6 +63,7 @@ const SaveBillModal = ({ show, onHide, onSubmit }) => {
             </Col>
             <Col>
               <TextField
+                showInlineError
                 id="saveBill-modal-hearingTime"
                 name="hearingTime"
                 placeholder="Hearing Time"
@@ -69,6 +73,7 @@ const SaveBillModal = ({ show, onHide, onSubmit }) => {
           <Row>
             <Col>
               <TextField
+                showInlineError
                 id="saveBill-modal-position"
                 name="doePosition"
                 placeholder="Position"
@@ -76,6 +81,7 @@ const SaveBillModal = ({ show, onHide, onSubmit }) => {
             </Col>
             <Col>
               <TextField
+                showInlineError
                 id="saveBill-modal-testifier"
                 name="testifier"
                 placeholder="Testifier"
@@ -85,13 +91,13 @@ const SaveBillModal = ({ show, onHide, onSubmit }) => {
           <Row>
             <Col>
               <TextField
+                showInlineError
                 id="saveBill-modal-internalStatus"
                 name="doeInternalStatus"
                 placeholder="Internal Status"
               />
             </Col>
           </Row>
-          <ErrorsField />
           <div className="text-center">
             <SubmitField id="signin-form-submit" />
           </div>
