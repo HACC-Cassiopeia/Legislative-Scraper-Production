@@ -1,25 +1,35 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Button } from 'react-bootstrap';
 import { Pencil } from 'react-bootstrap-icons';
 
-const TestimonyRow = () => (
+const TestimonyRow = ({ testimony }) => (
   <tr>
     <td>
-      <div>Hearing Date</div>
+      <div> {testimony.hearingDate ? testimony.hearingDate : '-'}</div>
     </td>
     <td>
-      <div>Title</div>
+      <div> { testimony.billCode ? testimony.billCode : '-' }</div>
     </td>
     <td>
-      <div>Testifier</div>
+      <div>{ testimony.testifier ? testimony.billCode : '-'}</div>
     </td>
     <td>
-      <div>Status</div>
+      <div> { testimony.status ? testimony.status : '-'}</div>
     </td>
     <td>
       <Button href="#"><Pencil /></Button>
     </td>
   </tr>
 );
+
+TestimonyRow.propTypes = {
+  testimony: PropTypes.shape({
+    hearingDate: { type: String, optional: true },
+    billCode: { type: String, optional: true },
+    testifier: { type: String, optional: true },
+    status: { type: String, optional: true },
+  }).isRequired,
+};
 
 export default TestimonyRow;
