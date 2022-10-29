@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { Button } from 'react-bootstrap';
 import { Pencil } from 'react-bootstrap-icons';
 
-const TestimonyRow = ({ testimony }) => (
+// eslint-disable-next-line react/prop-types
+const TestimonyRow = ({ testimony, _code }) => (
   <tr>
     <td>
       <div> {testimony.hearingDate ? testimony.hearingDate : '-'}</div>
@@ -18,7 +19,7 @@ const TestimonyRow = ({ testimony }) => (
       <div> { testimony.status ? testimony.status : '-'}</div>
     </td>
     <td>
-      <Button href="/edit-testimony"><Pencil /></Button>
+      <Button href={`/edit-testimony/${_code}/${testimony._id}`}><Pencil /></Button>
     </td>
   </tr>
 );
@@ -29,6 +30,7 @@ TestimonyRow.propTypes = {
     billCode: PropTypes.string,
     testifier: PropTypes.string,
     status: PropTypes.string,
+    _id: PropTypes.string,
   }).isRequired,
 };
 

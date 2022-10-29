@@ -35,7 +35,11 @@ const TestimonyTracker = ({ _code }) => {
         </thead>
         <tbody>
           {testimonies.map(testimony => (
-            <TestimonyRow key={testimony._id} testimony={testimony} />
+            <TestimonyRow
+              key={testimony._id}
+              testimony={testimony}
+              _code={_code}
+            />
           ))}
         </tbody>
       </Table>
