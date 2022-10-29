@@ -1,16 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Container, Table } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 import { Testimonies } from '../../../api/testimony/TestimonyCollection';
 import TestimonyRow from './TestimonyRow';
 import LoadingSpinner from '../LoadingSpinner';
 
-const TestimonyTracker = () => {
+// eslint-disable-next-line react/prop-types
+const TestimonyTracker = ({ _code }) => {
   const { ready, testimonies } = useTracker(() => {
     const subscription = Testimonies.subscribeTestimony();
     const rdy = subscription.ready();
     // TODO replace billcode with _code
-    const testimoniesItems = Testimonies.find({ billCode: 'HB1422' }).fetch();
+    const testimoniesItems = Testimonies.find({ billCode: `${_code}` }).fetch();
     return {
       testimonies: testimoniesItems,
       ready: rdy,
@@ -19,7 +21,7 @@ const TestimonyTracker = () => {
 
   return (ready ? (
     <Container className="text-center">
-      {console.log(testimonies)}
+      {console.log(_code)}
       <h3>Testimonies</h3>
       <Table striped>
         <thead style={{ zIndex: 200 }}>
@@ -39,6 +41,10 @@ const TestimonyTracker = () => {
       </Table>
     </Container>
   ) : <LoadingSpinner />);
+};
+
+TestimonyTracker.defaultProps = {
+  _code: PropTypes.string,
 };
 
 export default TestimonyTracker;

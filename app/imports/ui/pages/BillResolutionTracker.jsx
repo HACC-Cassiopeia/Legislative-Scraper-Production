@@ -44,7 +44,7 @@ const BillResolutionTracker = () => {
         <div className="mt-5">
           <BillResolutionDetails />
         </div>
-        <TestimonyTracker />
+        <TestimonyTracker _code={_code} />
       </div>
     </Row>
   );
