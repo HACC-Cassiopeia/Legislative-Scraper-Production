@@ -16,19 +16,21 @@ import MobileSideBar from '../components/SideNavBar/MobileSideBar';
 
 // Create a schema to specify the structure of the data to appear in the form.
 const formSchema = new SimpleSchema({
-  governorName: String,
-  governorTitle: String,
+  governorName: { type: String, defaultValue: 'DAVID Y. IGE' },
+  governorTitle: { type: String, defaultValue: 'GOVERNOR' },
   testifier: String,
   testifierTitle: String,
-  hearingDate: Date,
+  hearingDate: String,
   hearingTime: String,
   hearingLocation: String,
   committee: String,
-  department: String,
-  testifierNameAndTitle: String,
+  department: { type: String, defaultValue: 'Education' },
+  billCode: String,
   billTitle: String,
   billPurpose: String,
   position: String,
+  lastEditedBy: String,
+  status: { type: String, defaultValue: '-' },
 });
 
 const bridge = new SimpleSchema2Bridge(formSchema);
@@ -36,6 +38,7 @@ const bridge = new SimpleSchema2Bridge(formSchema);
 /* Renders the AddStuff page for adding a document. */
 const EditTestimony = () => {
   const { _id } = useParams();
+  const { _code } = useParams();
 
   const { ready, testimony } = useTracker(() => {
     const subscription = Testimonies.subscribeTestimony();
@@ -53,15 +56,15 @@ const EditTestimony = () => {
 
   useEffect(() => {
     // todo add _code to edit testimony
-    document.title = `DOELT - Edit Testimony for _code`;
+    document.title = `DOELT - Editing Testimony for ${_code}`;
   }, []);
 
   // On submit, insert the data.
   const submit = (data, formRef) => {
-    const { committeeChair, committeeName, billNumber, draftNumber, hearingDate, hearingLocation, position, introduction } = data;
+    const { governorName, governorTitle, testifier, testifierTitle, hearingDate, hearingTime, hearingLocation, committee, department, billCode, billTitle, billPurpose, position, lastEditedBy, status } = data;
 
     const collectionName = Testimonies.getCollectionName();
-    const definitionData = { committeeChair, committeeName, billNumber, draftNumber, hearingDate, hearingLocation, position, introduction };
+    const definitionData = { governorName, governorTitle, testifier, testifierTitle, hearingDate, hearingTime, hearingLocation, committee, department, billCode, billTitle, billPurpose, position, lastEditedBy, status };
 
     defineMethod.callPromise({ collectionName, definitionData })
       .then(() => {
@@ -120,50 +123,32 @@ const EditTestimony = () => {
 
                 // TODO all variables should be loaded from db
                 // test = testimony
-                const governorName = 'DAVID Y. IGE';
-                const superTitle = 'SUPERINTENDENT'; // could also be 'INTERIM SUPERINTENDENT'
-                const superName = 'DR. CHRISTINA M. KISHIMOTO';
-                const testDate = '02/09/2021';
-                const testTime = '09:00 AM';
-                const testLocation = '325 Via Videoconference';
-                const testCommittee = 'House Energy & Environmental Protection';
+                const governorName = (testimony.governorName ? testimony.governorName : 'DAVID Y. IGE');
+                const testifierTitle = (testimony.testifierTitle ? testimony.testifierTitle : 'SUPERINTENDENT'); // could also be 'INTERIM SUPERINTENDENT'
+                const testifier = (testimony.testifier ? testimony.testifier : 'JOHN DOE');
+                const hearingDate = (testimony.hearingDate ? testimony.hearingDate : '10/20/2022');
+                const hearingTime = (testimony.hearingTime ? testimony.hearingTime : '9:30A');
+                const hearingLocation = (testimony.hearingLocation ? testimony.hearingLocation : '325 Via Videoconference');
+                const committee = (testimony.committee ? testimony.committee : 'BOE');
                 let testCommitteeFormatted;
-                if (testCommittee.length > 20) {
+                if (committee.length > 20) {
                   for (let i = 20; i > 0; i--) {
-                    if (testCommittee[i] === ' ') {
-                      testCommitteeFormatted = `${testCommittee.substring(0, i)}\n${testCommittee.substring(i + 1)}`;
+                    if (committee[i] === ' ') {
+                      testCommitteeFormatted = `${committee.substring(0, i)}\n${committee.substring(i + 1)}`;
                       break;
                     }
                   }
                 } else {
-                  testCommitteeFormatted = testCommittee;
+                  testCommitteeFormatted = committee;
                 }
-                const personTestifying = 'Dr. Christina M. Kishimoto, Superintendent of Education';
-                const billTitle = 'HB 0410 RELATING TO TREE PLANTING.';
-                const billPurpose = 'Requires that eighth grade students and twelfth grade students in ' +
-                  'Hawaii public schools along with University of Hawaii ' +
-                  'undergraduate students plant trees.';
+                const personTestifying = `${testifier}, ${testifierTitle}`;
+                const billTitle = (testimony.billTitle ? testimony.billTitle : 'HB123 RELATING TO SCHOOL');
+                const billPurpose = (testimony.billPurpose ? testimony.billPurpose : 'PURPOSE');
                 const splitPurpose = doc.splitTextToSize(billPurpose, 165);
 
                 // TODO fix rendering special chars (ā will not render in Helvetica - need to add a custom font)
-                const departmentPosition = 'The Hawaii State Department of Education (Department) offers the following comments ' +
-                  'on HB 410 regarding specific grade level mandate for tree planting.\n\n' +
-                  'The Department agrees that educational endeavors around environmental protection, ' +
-                  'biodiversity, and climate change mitigation are critical for youth to cultivate science ' +
-                  'literacy and socially conscious citizenry and the Department is deeply committed to ' +
-                  '‘aina-based education. To that end, the Department adopted the Next Generation ' +
-                  'Science Standards (NGSS) in 2016. There is a clear trajectory of building ' +
-                  'developmentally appropriate student understanding of topics such as climate and ' +
-                  'human impacts on the environment from kindergarten through high school. In addition, ' +
-                  'climate change and other topics of human-environment interaction are specifically ' +
-                  'addressed in the Hawaii Core Standards for Social Studies.\n\n' +
-                  'The Department’s school design strategy prioritizes a flexible and adaptive approach, ' +
-                  'empowering each school to make decisions about specific contexts and partnerships for ' +
-                  'developing high quality and relevant learning experiences based on the needs of their ' +
-                  'students and the local community. It is through this lens that schools are able to ' +
-                  'creatively address aina-based educational programs and projects that promote ' +
-                  'environmental protection, biodiversity, and climate change mitigation.\n\n';
-                const splitPosition = doc.splitTextToSize(departmentPosition, 218);
+                const position = (testimony.position ? testimony.position : 'POSITION');
+                const splitPosition = doc.splitTextToSize(position, 218);
 
                 // TODO figure out naming convention for testimonies
                 const fileName = 'Test Testimony.pdf';
@@ -173,10 +158,10 @@ const EditTestimony = () => {
                 doc.setFontSize(6);
                 doc.setFont('helvetica', 'bold');
                 doc.text(governorName, 15, 35);
-                doc.text(superName, midPage * 2 - 15, 35, { align: 'right' });
+                doc.text(testifier, midPage * 2 - 15, 35, { align: 'right' });
                 doc.setFont('helvetica', 'normal');
                 doc.text('GOVERNOR', 15.5, 38);
-                doc.text(superTitle, midPage * 2 - 20, 38, { align: 'right' });
+                doc.text(testifierTitle, midPage * 2 - 20, 38, { align: 'right' });
                 doc.addImage('/images/hawaii-state-seal.png', 'png', midPage - 11, 24, 22, 22);
                 doc.setFontSize(8);
                 doc.setFont('helvetica', 'bold');
@@ -194,9 +179,9 @@ const EditTestimony = () => {
                 doc.text('Location:', midPage + 3, 84);
                 doc.text('Committee:', midPage + 3, 89);
                 doc.setFont('helvetica', 'normal');
-                doc.text(testDate, midPage + 15, 74);
-                doc.text(testTime, midPage + 16, 79);
-                doc.text(testLocation, midPage + 23.5, 84);
+                doc.text(hearingDate, midPage + 15, 74);
+                doc.text(hearingTime, midPage + 16, 79);
+                doc.text(hearingLocation, midPage + 23.5, 84);
                 doc.text(`                     ${testCommitteeFormatted}`, midPage + 3, 89); // to get spacing on second line
 
                 // DEPARTMENT, PERSON TESTIFYING, TITLE & PURPOSE OF BILL, CONTENT
@@ -297,7 +282,8 @@ const EditTestimony = () => {
                     <b>Person Testifying:</b>
                   </Col>
                   <Col>
-                    <TextField style={{ width: '94%' }} name="testifierNameAndTitle" label="" placeholder="Keith T. Hayashi, Superintendent of Education" />
+                    <TextField style={{ width: '94%' }} name="testifier" label="" placeholder="Keith T. Hayashi" />
+                    <TextField style={{ width: '94%' }} name="testifierTitle" label="" placeholder="Superintendent of Education" />
                   </Col>
                 </Row>
                 <Row style={{ top: '-62px', position: 'relative' }} className="mx-5">
