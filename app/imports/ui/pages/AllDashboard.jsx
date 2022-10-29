@@ -170,7 +170,7 @@ const AllDashboard = () => {
 
   const returnFilter = () => (
     <div className="pb-3">
-      <Row style={{ paddingTop: '30px' }}>
+      <Row className="pt-4">
         <Col className="d-flex justify-content-center align-bottom">
           <h1 className="d-inline pe-2 align-items-center"><b>{year}</b></h1>
           <DropdownButton
@@ -204,7 +204,14 @@ const AllDashboard = () => {
             <Dropdown.Item eventKey="sb">Senate Bills</Dropdown.Item>
           </DropdownButton>
         </Col>
-        <Row className="pt-3 px-5">
+        <Row>
+          <Col className="d-flex justify-content-center">
+            <Link className="small mb-2 text-center" to="/view/DOE">
+              View Saved DOE Bill/Measures
+            </Link>
+          </Col>
+        </Row>
+        <Row className="py-2 px-5">
           <Col className="d-flex justify-content-center">
             <label htmlFor="Search by Bill Code">
               <Col className="d-flex justify-content-center mb-1 small" style={{ color: '#313131' }}>
@@ -291,9 +298,6 @@ const AllDashboard = () => {
             </label>
           </Col>
         </Row>
-        <Link className="small pb-2 text-center" to="/view/DOE">
-          View Saved DOE Bill/Measures
-        </Link>
       </Row>
     </div>
   );
@@ -301,7 +305,7 @@ const AllDashboard = () => {
   const returnList = () => (
     <div style={{ height: '100vh', overflowY: 'visible' }}>
       <div style={{ textAlign: 'center' }} />
-      <Table striped>
+      <Table striped className="border border-2">
         <thead style={{ zIndex: 200 }}>
           <tr>
             <th>DOE DB</th>

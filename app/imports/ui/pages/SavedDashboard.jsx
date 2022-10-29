@@ -30,6 +30,15 @@ const Dashboard = () => {
     };
   }, false);
 
+  const textBoxStyle = {
+    borderRadius: '10px',
+    borderWidth: '1px',
+    paddingLeft: '8px',
+    paddingTop: '4px',
+    paddingBottom: '4px',
+    paddingRight: '8px',
+  };
+
   useEffect(() => {
     document.title = 'DOELT - View DOE Bills/Measures';
   }, []);
@@ -50,8 +59,14 @@ const Dashboard = () => {
 
   const returnFilter = () => (
     <div className="pb-3">
-      <h2 className="pt-3 text-center"><b>DOE Bills/Measures</b></h2>
-      <Link className="d-flex justify-content-center pb-2" to="/view/all">View All Bill/Measures</Link>
+      <h1 className="mt-4 text-center mb-2"><b>DOE Bills/Measures</b></h1>
+      <Row>
+        <Col className="d-flex justify-content-center">
+          <Link className="d-flex justify-content-center mb-3 small" to="/view/all">
+            View All Bill/Measures
+          </Link>
+        </Col>
+      </Row>
       <div id="filter-border">
         <Accordion>
           <Accordion.Item eventKey="0">
@@ -60,41 +75,57 @@ const Dashboard = () => {
             </Accordion.Header>
             <Accordion.Body>
               <Row className="py-3 px-3">
-                <Col>
-                  Bill Code <br />
+                <Col className="d-flex justify-content-center">
                   <label htmlFor="Search by Bill Code">
+                    <Col className="d-flex justify-content-center mb-1 small" style={{ color: '#313131' }}>
+                      Bill Number
+                    </Col>
                     <input
                       type="text"
-                      placeholder="Enter bill code here"
+                      className="shadow-sm"
+                      style={textBoxStyle}
+                      placeholder="Enter bill number"
                       onChange={e => setBillNum(e.target.value)}
                     />
                   </label>
                 </Col>
-                <Col>
-                  Title <br />
+                <Col className="d-flex justify-content-center">
                   <label htmlFor="Search by title">
+                    <Col className="d-flex justify-content-center mb-1 small" style={{ color: '#313131' }}>
+                      Bill Title
+                    </Col>
                     <input
                       type="text"
-                      placeholder="Enter title"
+                      className="shadow-sm"
+                      style={textBoxStyle}
+                      placeholder="Relating to..."
                       onChange={e => setTitle(e.target.value)}
                     />
                   </label>
                 </Col>
-                <Col>
-                  Hearing Date <br />
+                <Col className="d-flex justify-content-center">
                   <label htmlFor="Search by hearing date">
+                    <Col className="d-flex justify-content-center mb-1 small" style={{ color: '#313131' }}>
+                      Hearing Date
+                    </Col>
                     <input
                       type="text"
+                      className="shadow-sm"
+                      style={textBoxStyle}
                       placeholder="Enter date here"
                       onChange={e => setHearingDate(e.target.value)}
                     />
                   </label>
                 </Col>
-                <Col>
-                  Status Date <br />
+                <Col className="d-flex justify-content-center">
                   <label htmlFor="Search by status date">
+                    <Col className="d-flex justify-content-center mb-1 small" style={{ color: '#313131' }}>
+                      Status Date
+                    </Col>
                     <input
                       type="text"
+                      className="shadow-sm"
+                      style={textBoxStyle}
                       placeholder="Enter date here"
                       onChange={e => setStatusDate(e.target.value)}
                     />
@@ -160,7 +191,7 @@ const Dashboard = () => {
 
   const returnList = () => (
     <div style={{ height: '100vh', overflowY: 'visible' }}>
-      <Table striped>
+      <Table striped className="border border-2">
         <thead style={{ zIndex: 200 }}>
           <tr>
             <th>Bill / Resolution</th>

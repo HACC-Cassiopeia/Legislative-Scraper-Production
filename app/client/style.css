@@ -49,10 +49,18 @@ html, body {
 }
 
 #filter-border {
-  border-style: solid;
-  border-color: lightgray;
+  border-style: none;
   background-color: white;
-  border-radius: 10px;
+  border-radius: 8px;
+}
+
+#filter-border .accordion-button:not(.collapsed), .accordion-item:not(.collapsed)  {
+  --bs-accordion-active-bg: #3e465d;
+  --bs-accordion-active-color: white;
+  --bs-accordion-border-color: #7d828a;
+  --bs-accordion-border-width: 2px;
+  --bs-accordion-border-radius: 8px;
+  --bs-btn-active-color: white;
 }
 
 .perPage .btn-primary {
@@ -101,7 +109,7 @@ html, body {
   padding: 0;
   color: #313131;
   border-width: 0;
-  font-size: 2.7em;
+  font-size: 1.5em;
   font-weight: bold;
   --bs-btn-focus-shadow-rgb: none;
 }
