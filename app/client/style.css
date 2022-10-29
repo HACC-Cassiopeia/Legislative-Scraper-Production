@@ -223,7 +223,7 @@ html, body {
 }
 
 #mainBody {
-  margin-left: 135px;
+  margin-left: 90px;
   width: calc(100% - 135px);
   z-index: 0;
 }

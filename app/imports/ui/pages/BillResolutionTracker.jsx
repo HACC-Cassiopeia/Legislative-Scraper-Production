@@ -5,6 +5,7 @@ import { PencilSquare, FileEarmarkPlusFill, BoxArrowInDown } from 'react-bootstr
 import { useParams } from 'react-router';
 import BillResolutionDetails from '../components/BillResolutionDetails';
 import MobileSideBar from '../components/SideNavBar/MobileSideBar';
+import DesktopSideBar from '../components/SideNavBar/DesktopSideBar';
 
 const navBarStyle = {
   backgroundColor: '#FFFFFF',
@@ -29,20 +30,20 @@ const BillResolutionTracker = () => {
 
   return (
     <Row>
-      <MobileSideBar id="nav" />
+      <DesktopSideBar id="nav" />
       <div id="mainBody">
         {/* TODO add functionality to edit, create monitoring report, and save to db buttons */}
         <Navbar className="fixed-top justify-content-center" style={navBarStyle}>
           <Nav.Link className="m-4" as={NavLink} to={`/add-testimony/${_code}`}> <FileEarmarkPlusFill className="mb-1" />&nbsp;&nbsp;Create New Testimony</Nav.Link>
-          {/* TODO re-add _code */}
-          <Nav.Link className="m-4" as={NavLink} to={`/edit-testimony`}> <PencilSquare className="mb-1" />&nbsp;&nbsp;Edit Current Testimony</Nav.Link>
           <Nav.Link className="m-4" as={NavLink} to="#"> <FileEarmarkPlusFill className="mb-1" />&nbsp;&nbsp;Create Monitoring Report</Nav.Link>
           <Nav.Link className="m-4" style={saveStyle} as={NavLink} to="#"> <BoxArrowInDown className="mb-1" />&nbsp;&nbsp;Save to Database</Nav.Link>
         </Navbar>
         <div className="mt-5">
           <BillResolutionDetails />
         </div>
-        <Container className="text-center"><h3>TODO: Bottom section (list of hearings w/ more info)</h3></Container>
+        <Container className="text-center">
+          <h3>Testimonies</h3>
+        </Container>
       </div>
     </Row>
   );
