@@ -18,17 +18,17 @@ const TestimonyRow = ({ testimony }) => (
       <div> { testimony.status ? testimony.status : '-'}</div>
     </td>
     <td>
-      <Button href="#"><Pencil /></Button>
+      <Button href="/edit"><Pencil /></Button>
     </td>
   </tr>
 );
 
 TestimonyRow.propTypes = {
   testimony: PropTypes.shape({
-    hearingDate: { type: String, optional: true },
-    billCode: { type: String, optional: true },
-    testifier: { type: String, optional: true },
-    status: { type: String, optional: true },
+    hearingDate: PropTypes.string,
+    billCode: PropTypes.string,
+    testifier: PropTypes.string,
+    status: PropTypes.string,
   }).isRequired,
 };
 
