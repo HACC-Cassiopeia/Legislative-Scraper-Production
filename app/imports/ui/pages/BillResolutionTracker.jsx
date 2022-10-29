@@ -1,13 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Container, Navbar, Nav, Row, Table } from 'react-bootstrap';
+import { Navbar, Nav, Row } from 'react-bootstrap';
 import { FileEarmarkPlusFill, BoxArrowInDown } from 'react-bootstrap-icons';
 import { useParams } from 'react-router';
-import { useTracker } from 'meteor/react-meteor-data';
 import BillResolutionDetails from '../components/BillResolutionDetails';
 import DesktopSideBar from '../components/SideNavBar/DesktopSideBar';
-import TestimonyRow from '../components/testimony/TestimonyRow';
-import { Testimonies } from '../../api/testimony/TestimonyCollection';
 import TestimonyTracker from '../components/testimony/TestimonyTracker';
 
 const navBarStyle = {
@@ -33,7 +30,7 @@ const BillResolutionTracker = () => {
 
   return (
     <Row>
-      <DesktopSideBar id="nav" />
+      <DesktopSideBar page="bill" />
       <div id="mainBody">
         {/* TODO add functionality to edit, create monitoring report, and save to db buttons */}
         <Navbar className="fixed-top justify-content-center" style={navBarStyle}>
