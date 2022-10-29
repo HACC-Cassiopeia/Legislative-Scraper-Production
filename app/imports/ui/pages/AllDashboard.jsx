@@ -3,7 +3,6 @@ import {
   Row,
   Col,
   Table,
-  Accordion,
   Dropdown,
   DropdownButton,
   Pagination,
@@ -18,15 +17,18 @@ import DesktopSideBar from '../components/SideNavBar/DesktopSideBar';
 
 const AllDashboard = () => {
   /* states for item filtering */
-  const [chamber, setChamber] = useState('');
   const [billNum, setBillNum] = useState('');
+  const [keyword, setKeyword] = useState('');
   const [statusDate, setStatusDate] = useState('');
+  const [dateSearch, setDateSearch] = useState(1);
   const [title, setTitle] = useState('');
   const [type, setType] = useState('hb');
   const [year, setYear] = useState('2022');
   const [measures, setMeasures] = useState([]);
   const [filteredMeasures, setFilteredMeasures] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const rowNumber = 15;
 
   /* When the filtered data needs to call the api */
   useEffect(() => {
@@ -37,10 +39,11 @@ const AllDashboard = () => {
         setMeasures(initialMeasures.scrapedData);
         setFilteredMeasures(initialMeasures.scrapedData);
         setBillNum('');
-        setChamber('');
         setStatusDate('');
         setTitle('');
         setLoading(false);
+        setKeyword('');
+        setDateSearch(1);
 
         document.title = 'DOELT - View All Bills/Measures';
       });
@@ -49,14 +52,20 @@ const AllDashboard = () => {
   /* When the filtered data can just search the current array */
   useEffect(() => {
     let filtered = measures;
-    if (chamber) {
-      filtered = filtered.filter(function (obj) { return obj.statusHorS === chamber; });
-    }
     if (billNum) {
       filtered = filtered.filter(function (obj) { return obj.code.toLowerCase().includes(billNum.toLowerCase()); });
     }
     if (title) {
       filtered = filtered.filter(function (obj) { return obj.measureTitle.toLowerCase().includes(title.toLowerCase()); });
+    }
+    if (keyword) {
+      filtered = filtered.filter(function (obj) {
+        return (
+          obj.introducer.toLowerCase().includes(keyword.toLowerCase()) ||
+          obj.description.toLowerCase().includes(keyword.toLowerCase()) ||
+          obj.reportTitle.toLowerCase().includes(keyword.toLowerCase())
+        );
+      });
     }
     if (statusDate) {
       filtered = filtered.filter(function (obj) {
@@ -64,13 +73,19 @@ const AllDashboard = () => {
         const objDate = +`${obj.statusDate.substring(0, slash)}.${
           obj.statusDate.substring(slash + 1, obj.statusDate.substring(slash + 1).search('/') + obj.statusDate.substring(0, slash).length + 1)}`;
         console.log(`filter date: ${+statusDate} bill status date: ${objDate}`);
-        return objDate === +statusDate;
+        console.log(dateSearch);
+        if (dateSearch === 1) {
+          return objDate < +statusDate;
+        }
+        if (dateSearch === 2) {
+          return objDate === +statusDate;
+        }
+        return objDate > +statusDate;
       });
     }
     setFilteredMeasures(filtered);
-  }, [chamber, billNum, title, statusDate]);
+  }, [keyword, billNum, title, statusDate, dateSearch]);
 
-  const [rowNumber, setRowNumber] = useState(15);
   const [currentPage, setCurrentPage] = useState(1);
   const [firstIndex, setFirstIndex] = useState(
     currentPage * rowNumber - rowNumber,
@@ -86,6 +101,33 @@ const AllDashboard = () => {
     setLastIndex(page * rowNumber);
     console.log({ firstIndex });
     console.log({ lastIndex });
+  };
+
+  const beforeDate = {
+    color: dateSearch === 1 ? 'white' : 'grey',
+    backgroundColor: dateSearch === 1 ? '#57749f' : '#F6F6F6',
+    borderColor: dateSearch === 1 ? '#425e88' : '#ece9e9',
+    borderWidth: '2px',
+  };
+  const onDate = {
+    color: dateSearch === 2 ? 'white' : 'grey',
+    backgroundColor: dateSearch === 2 ? '#57749f' : '#F6F6F6',
+    borderColor: dateSearch === 2 ? '#425e88' : '#ece9e9',
+    borderWidth: '2px',
+  };
+  const afterDate = {
+    color: dateSearch === 3 ? 'white' : 'grey',
+    backgroundColor: dateSearch === 3 ? '#57749f' : '#F6F6F6',
+    borderColor: dateSearch === 3 ? '#425e88' : '#ece9e9',
+    borderWidth: '2px',
+  };
+  const textBoxStyle = {
+    borderRadius: '10px',
+    borderWidth: '1px',
+    paddingLeft: '8px',
+    paddingTop: '4px',
+    paddingBottom: '4px',
+    paddingRight: '8px',
   };
 
   if (Math.ceil(filteredMeasures.length / rowNumber) > 20) {
@@ -125,36 +167,16 @@ const AllDashboard = () => {
 
   const returnFilter = () => (
     <div className="pb-3">
-      <h2 className="pt-3 text-center">
-        <b>{year}: All {type === 'hb' ? 'House' : 'Senate'} Bills</b>
-      </h2>
-      <Col className="d-flex justify-content-center">
-        <Link className="pb-2" to="/view/DOE">
-          View DOE Bill/Measures
-        </Link>
-      </Col>
-      <div id="filter-border">
-        <Row className="py-3 px-3">
-          <Col>
-            Options:
-          </Col>
-          <Col>
-            Bill Type <br />
+      <Row className="mt-5">
+        <Col>
+          <h2 className="text-center">
+            <b>{year}: All {type === 'hb' ? 'House' : 'Senate'} Bills</b>
+          </h2>
+        </Col>
+        <Row className="pt-4 pb-2">
+          <Col className="d-flex justify-content-end">
             <DropdownButton
-              id="dropdown-basic-button"
-              variant="secondary"
-              title={type === 'hb' ? 'House Bills' : 'Senate Bills'}
-              onSelect={(e) => setType(e)}
-            >
-              <Dropdown.Item eventKey="hb">House Bills</Dropdown.Item>
-              <Dropdown.Item eventKey="sb">Senate Bills</Dropdown.Item>
-            </DropdownButton>
-          </Col>
-          <Col>
-            Year <br />
-            <DropdownButton
-              id="dropdown-basic-button"
-              variant="secondary"
+              id="yearDropdown"
               title={year}
               onSelect={(e) => setYear(e)}
             >
@@ -173,61 +195,119 @@ const AllDashboard = () => {
               <Dropdown.Item eventKey="2010">2010</Dropdown.Item>
             </DropdownButton>
           </Col>
-          <Col />
-          <Col />
+
+          <Col className="d-flex justify-content-start">
+            <DropdownButton
+              id="yearDropdown"
+              title={type === 'hb' ? 'House Bills' : 'Senate Bills'}
+              onSelect={(e) => setType(e)}
+            >
+              <Dropdown.Item eventKey="hb">House Bills</Dropdown.Item>
+              <Dropdown.Item eventKey="sb">Senate Bills</Dropdown.Item>
+            </DropdownButton>
+          </Col>
         </Row>
-        <Accordion>
-          <Accordion.Item eventKey="0">
-            <Accordion.Header>
-              Filters
-            </Accordion.Header>
-            <Accordion.Body>
-              <Row className="py-3 px-3">
-                <Col>
-                  Bill Number <br />
-                  <label htmlFor="Search by Bill Code">
-                    <input
-                      type="text"
-                      placeholder="Enter bill number"
-                      onChange={e => setBillNum(e.target.value)}
-                    />
-                  </label>
-                </Col>
-                <Col>
-                  Bill Title <br />
-                  <label htmlFor="Search by title">
-                    <input
-                      type="text"
-                      placeholder="Relating to..."
-                      onChange={e => setTitle(e.target.value)}
-                    />
-                  </label>
-                </Col>
-                <Col>
-                  Status Date <br />
-                  <label htmlFor="Search by status date">
-                    <input
-                      type="date"
-                      placeholder="Enter date here"
-                      onChange={e => {
-                        const month = e.target.value.substring(5, 7);
-                        const day = e.target.value.substring(8);
-                        setStatusDate(`${month}.${day}`);
-                      }}
-                    />
-                  </label>
-                  <br />
-                  <ButtonGroup className="btn-group-sm">
-                    <Button className="dateFilterButtons">Before</Button>
-                    <Button className="dateFilterButtons">On</Button>
-                    <Button className="dateFilterButtons">After</Button>
-                  </ButtonGroup>
-                </Col>
-              </Row>
-            </Accordion.Body>
-          </Accordion.Item>
-        </Accordion>
-      </div>
+        <Row className="pt-4 px-5" />
+        <Row className="pt-0 px-5">
+          <Col className="d-flex justify-content-center">
+            <label htmlFor="Search by Bill Code">
+              <Col className="d-flex justify-content-center mb-1 small" style={{ color: '#313131' }}>
+                Search by Bill Number
+              </Col>
+              <input
+                type="text"
+                className="shadow-sm"
+                style={textBoxStyle}
+                placeholder="Enter bill number"
+                onChange={e => setBillNum(e.target.value)}
+              />
+            </label>
+          </Col>
+          <Col className="d-flex justify-content-center">
+            <label htmlFor="Search by title">
+              <Col className="d-flex justify-content-center mb-1 small" style={{ color: '#313131' }}>
+                Search by Bill Title
+              </Col>
+              <input
+                type="text"
+                className="shadow-sm"
+                style={textBoxStyle}
+                placeholder="Relating to..."
+                onChange={e => setTitle(e.target.value)}
+              />
+            </label>
+          </Col>
+          <Col className="d-flex justify-content-center">
+            <label htmlFor="Search by Keyword">
+              <Col className="d-flex justify-content-center mb-1 small" style={{ color: '#313131' }}>
+                Search by Keyword
+              </Col>
+              <input
+                type="text"
+                className="shadow-sm"
+                style={textBoxStyle}
+                placeholder="Enter keyword"
+                onChange={e => setKeyword(e.target.value)}
+              />
+            </label>
+          </Col>
+          <Col className="d-flex justify-content-center">
+            <label htmlFor="Search by status date">
+              <Col className="d-flex justify-content-center mb-1 small" style={{ color: '#313131' }}>
+                Search by Status Date
+              </Col>
+              <input
+                type="date"
+                className="shadow-sm"
+                style={textBoxStyle}
+                placeholder="Enter date here"
+                onChange={e => {
+                  const month = e.target.value.substring(5, 7);
+                  const day = e.target.value.substring(8);
+                  setStatusDate(`${month}.${day}`);
+                }}
+              />
+            </label>
+          </Col>
+        </Row>
+        <Row className="px-5 pt-1">
+          <Col />
+          <Col />
+          <Col />
+          <Col className="d-flex justify-content-center">
+            <ButtonGroup className="btn-group-sm">
+              <Button
+                onClick={() => setDateSearch(1)}
+                className="dateFilterButtons"
+                style={beforeDate}
+              >
+                Before
+              </Button>
+              <Button
+                onClick={() => setDateSearch(2)}
+                className="dateFilterButtons"
+                style={onDate}
+              >
+                On
+              </Button>
+              <Button
+                onClick={() => setDateSearch(3)}
+                className="dateFilterButtons"
+                style={afterDate}
+              >
+                After
+              </Button>
+            </ButtonGroup>
+          </Col>
+        </Row>
+        <Row>
+          <Col className="d-flex justify-content-center pb-3">
+            <Link className="pb-2 small" to="/view/DOE">
+              View Saved DOE Bill/Measures
+            </Link>
+          </Col>
+        </Row>
+      </Row>
     </div>
   );
 

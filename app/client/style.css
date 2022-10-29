@@ -13,6 +13,8 @@
  */
 body {
   --bs-light-rgb: var(--matr-navbar-bg-rgb);
+  color: #313131 !important;
+  background-color: #f3f3f3 !important;
 }
 
 a {
@@ -49,20 +51,33 @@ html, body {
 #filter-border {
   border-style: solid;
   border-color: lightgray;
+  background-color: white;
+  border-radius: 10px;
 }
 
-.dateFilterButtons {
-  background-color: #404d70 !important;
-  border-width: 0 !important;
+.perPage .btn-primary {
+  border-radius: 20px;
+  padding-left: 15px;
+  padding-right: 15px;
+  --bs-btn-bg: #f1f1f1;
+  --bs-btn-color: #313131;
+  --bs-btn-border-color: #e3e3e3;
+  --bs-btn-hover-bg: #eaeaea;
+  --bs-btn-hover-color: #313131;
+  --bs-btn-hover-border-color: #e3e3e3;
+  --bs-btn-focus-shadow-rgb: none;
+  --bs-btn-active-bg: #eaeaea;
+  --bs-btn-active-border-color: #e3e3e3;
 }
 
 .dateFilterButtons:hover {
-  background-color: #5e6b8c !important;
+  background-color: #cfd1d5 !important;
+  color: gray !important;
+  border-color: #c5c7ce !important;
 }
 
 .dateFilterButtons:focus {
   background-color: #5e6b8c !important;
-  border-width: 0 !important;
   box-shadow: none !important;
 }
 
@@ -79,6 +94,16 @@ html, body {
   color: var(--bs-dark);
   padding-top: 10px;
   padding-bottom: 20px;
+}
+
+#yearDropdown {
+  background-color: #57749f;
+  border-color: #425e88;
+  border-radius: 20px;
+  padding-left: 15px;
+  padding-right: 15px;
+  width: 170px;
+  font-size: large;
 }
 
 /*  not sure how to do the bootstrap attributes (eg --bs-accordion-active-bg) in the .jsx files so these stay here for now -Rob */
