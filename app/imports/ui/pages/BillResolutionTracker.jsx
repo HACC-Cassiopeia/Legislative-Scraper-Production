@@ -4,7 +4,7 @@ import { Container, Navbar, Nav, Row } from 'react-bootstrap';
 import { PencilSquare, FileEarmarkPlusFill, BoxArrowInDown } from 'react-bootstrap-icons';
 import { useParams } from 'react-router';
 import BillResolutionDetails from '../components/BillResolutionDetails';
-import SideNavBar from '../components/SideNavBar';
+import MobileSideBar from '../components/SideNavBar/MobileSideBar';
 
 const navBarStyle = {
   backgroundColor: '#FFFFFF',
@@ -29,7 +29,7 @@ const BillResolutionTracker = () => {
 
   return (
     <Row>
-      <SideNavBar id="nav" />
+      <MobileSideBar id="nav" />
       <div id="mainBody">
         {/* TODO add functionality to edit, create monitoring report, and save to db buttons */}
         <Navbar className="fixed-top justify-content-center" style={navBarStyle}>

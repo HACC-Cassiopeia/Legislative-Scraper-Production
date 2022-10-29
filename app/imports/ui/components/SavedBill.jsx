@@ -22,6 +22,9 @@ const SavedBill = ({ bill }) => (
     <td>*DOE position*</td>
     <td>*testifier*</td>
     <td>*internal status*</td> {/* THIS IS AN INTERNALLY TRACKED DOE STATUS, NOT THE STATUS ON THE STATE WEBSITE */}
+    <td>
+      <Link to={`/edit-measure/${bill._id}`}>Edit</Link>
+    </td>
   </tr>
 );
 
