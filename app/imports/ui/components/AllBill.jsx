@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { CloudCheckFill } from 'react-bootstrap-icons';
 import { Accordion, Button } from 'react-bootstrap';
@@ -6,12 +6,14 @@ import { useTracker } from 'meteor/react-meteor-data';
 import swal from 'sweetalert';
 import { SavedMeasures } from '../../api/savedMeasures/SavedMeasuresCollection';
 import SmallerSpinner from './SmallerSpinner';
+import SaveBillModal from './SaveBillModal';
 import { defineMethod } from '../../api/base/BaseCollection.methods';
 
 /** Renders a single row in the List Stuff table. See pages/ListStuff.jsx. */
 const AllBill = ({ bill }) => {
 
   const [saveStatus, setSaveStatus] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   const { ready } = useTracker(() => {
     const subscription = SavedMeasures.subscribeMeasureSaved();
@@ -24,15 +26,18 @@ const AllBill = ({ bill }) => {
   useTracker(() => {
     const svd = SavedMeasures.findOne({ code: bill.code }) != null;
     setSaveStatus(svd);
-    console.log('status update');
   }, [bill]);
 
-  function save() {
+  const save = useCallback((data) => {
     // TODO maybe add who saved the bill?
     // const owner = Meteor.user().username;
     let sad = false;
     const collectionName = SavedMeasures.getCollectionName();
-    const definitionData = bill;
+    const definitionData = {
+      ...data,
+      ...bill,
+    };
+    console.log(definitionData);
     defineMethod.callPromise({ collectionName, definitionData })
       .catch(error => {
         swal('Error', error.message, 'error');
@@ -40,17 +45,18 @@ const AllBill = ({ bill }) => {
       })
       .then(() => {
         if (!sad) {
+          setShowModal(false);
           swal('Success', 'Saved to DOE database', 'success');
         }
       });
-  }
+  });
 
   const checkSaved = saveStatus ?
     <div style={{ textAlign: 'center', fontSize: '20px' }}><CloudCheckFill /></div>
     : (
       <Button
         style={{ backgroundColor: '#418c5c', color: 'white', borderColor: '#297e4b' }}
-        onClick={() => save()}
+        onClick={() => setShowModal(true)}
       >Save
       </Button>
     );
@@ -102,6 +108,11 @@ const AllBill = ({ bill }) => {
       </td>
       <td>{bill.currentReferral}</td>
       <td>{bill.companion}</td>
+      <SaveBillModal
+        show={showModal}
+        onHide={() => setShowModal(false)}
+        onSubmit={save}
+      />
     </tr>
   );
 };
