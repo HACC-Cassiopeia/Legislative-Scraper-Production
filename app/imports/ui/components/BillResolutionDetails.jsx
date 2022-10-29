@@ -54,11 +54,6 @@ const BillResolutionDetails = () => {
     backgroundColor: '#f5f5f5',
   };
 
-  const fakeLink4Rob = {
-    color: '#6f5cf3',
-    textDecorationLine: 'underline',
-  };
-
   function introducerShortened() {
     // eslint-disable-next-line for-direction
     for (let i = 0; i < bill.introducer.length; i++) {
@@ -135,8 +130,6 @@ const BillResolutionDetails = () => {
     <Container className="text-center border border-1 small mb-5">
       <Row style={{ backgroundColor: '#ddf3dd' }}>
         <Col>
-          {console.log(bill)}
-          {console.log(billDetails)}
           {/* EMPTY COL FOR ALIGNMENT */}
         </Col>
         <Col>
