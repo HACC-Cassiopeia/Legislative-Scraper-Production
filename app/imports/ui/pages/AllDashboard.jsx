@@ -7,6 +7,8 @@ import {
   Dropdown,
   DropdownButton,
   Pagination,
+  ButtonGroup,
+  Button,
 } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -57,22 +59,25 @@ const AllDashboard = () => {
       filtered = filtered.filter(function (obj) { return obj.measureTitle.toLowerCase().includes(title.toLowerCase()); });
     }
     if (statusDate) {
-      filtered = filtered.filter(function (obj) { return obj.statusDate.toLowerCase().includes(statusDate.toLowerCase()); });
+      filtered = filtered.filter(function (obj) {
+        const slash = obj.statusDate.search('/');
+        const objDate = +`${obj.statusDate.substring(0, slash)}.${
+          obj.statusDate.substring(slash + 1, obj.statusDate.substring(slash + 1).search('/') + obj.statusDate.substring(0, slash).length + 1)}`;
+        console.log(`filter date: ${+statusDate} bill status date: ${objDate}`);
+        return objDate === +statusDate;
+      });
     }
     setFilteredMeasures(filtered);
   }, [chamber, billNum, title, statusDate]);
 
-  const rowNumber = 50;
-  const totalPageIndex = Math.ceil(measures.length / rowNumber);
-  console.log(totalPageIndex);
-
-  const [currentPage, setCurrentPage] = React.useState(1);
+  const [rowNumber, setRowNumber] = useState(15);
+  const [currentPage, setCurrentPage] = useState(1);
   const [firstIndex, setFirstIndex] = useState(
     currentPage * rowNumber - rowNumber,
   );
   const [lastIndex, setLastIndex] = useState(currentPage * rowNumber);
 
-  const items = [];
+  let items = [];
 
   const handleClick = (page) => {
     setCurrentPage(page);
@@ -83,16 +88,39 @@ const AllDashboard = () => {
     console.log({ lastIndex });
   };
 
-  for (let number = 1; number <= totalPageIndex; number++) {
+  if (Math.ceil(filteredMeasures.length / rowNumber) > 20) {
+    items = [];
+    for (let number = 1; number <= 20; number++) {
+      items.push(
+        <Pagination.Item
+          key={number}
+          active={number === currentPage}
+          onClick={() => handleClick(number)}
+        >
+          {number}
+        </Pagination.Item>,
+      );
+    }
     items.push(
       <Pagination.Item
-        key={number}
-        active={number === currentPage}
-        onClick={() => handleClick(number)}
+        key="..."
       >
-        {number}
+        ...
       </Pagination.Item>,
     );
+  } else {
+    items = [];
+    for (let number = 1; number <= Math.ceil(filteredMeasures.length / rowNumber); number++) {
+      items.push(
+        <Pagination.Item
+          key={number}
+          active={number === currentPage}
+          onClick={() => handleClick(number)}
+        >
+          {number}
+        </Pagination.Item>,
+      );
+    }
   }
 
   const returnFilter = () => (
@@ -108,7 +136,7 @@ const AllDashboard = () => {
       <div id="filter-border">
         <Row className="py-3 px-3">
           <Col>
-            Filter Options:
+            Options:
           </Col>
           <Col>
             Bill Type <br />
@@ -151,17 +179,27 @@ const AllDashboard = () => {
         <Accordion>
           <Accordion.Item eventKey="0">
             <Accordion.Header>
-              More Filter Options
+              Filters
             </Accordion.Header>
             <Accordion.Body>
               <Row className="py-3 px-3">
                 <Col>
-                  Bill Code <br />
+                  Bill Number <br />
                   <label htmlFor="Search by Bill Code">
                     <input
                       type="text"
-                      placeholder="Enter bill code here"
+                      placeholder="Enter bill number"
                       onChange={e => setBillNum(e.target.value)}
+                    />
+                  </label>
+                </Col>
+                <Col>
+                  Bill Title <br />
+                  <label htmlFor="Search by title">
+                    <input
+                      type="text"
+                      placeholder="Relating to..."
+                      onChange={e => setTitle(e.target.value)}
                     />
                   </label>
                 </Col>
@@ -169,45 +207,27 @@ const AllDashboard = () => {
                   Status Date <br />
                   <label htmlFor="Search by status date">
                     <input
-                      type="text"
+                      type="date"
                       placeholder="Enter date here"
-                      onChange={e => setStatusDate(e.target.value)}
+                      onChange={e => {
+                        const month = e.target.value.substring(5, 7);
+                        const day = e.target.value.substring(8);
+                        setStatusDate(`${month}.${day}`);
+                      }}
                     />
                   </label>
-                </Col>
-                <Col>
-                  Title <br />
-                  <label htmlFor="Search by title">
-                    <input
-                      type="text"
-                      placeholder="Enter title here"
-                      onChange={e => setTitle(e.target.value)}
-                    />
-                  </label>
-                </Col>
-                <Col>
-                  Chamber <br />
-                  <DropdownButton
-                    id="dropdown-basic-button"
-                    variant="secondary"
-                    title={chamber === '' ? 'Select a Chamber' : chamber}
-                    onSelect={(e) => setChamber(e)}
-                  >
-                    <Dropdown.Item eventKey="S">S</Dropdown.Item>
-                    <Dropdown.Item eventKey="H">H</Dropdown.Item>
-                  </DropdownButton>
+                  <br />
+                  <ButtonGroup className="btn-group-sm">
+                    <Button className="dateFilterButtons">Before</Button>
+                    <Button className="dateFilterButtons">On</Button>
+                    <Button className="dateFilterButtons">After</Button>
+                  </ButtonGroup>
                 </Col>
               </Row>
             </Accordion.Body>
           </Accordion.Item>
         </Accordion>
       </div>
-      <Col className="d-flex justify-content-center">
-        <Pagination className="pt-3 mb-2" style={{ color: 'black' }}>{items}</Pagination>
-      </Col>
-      <Row className="d-flex justify-content-center text-center">
-        {`${filteredMeasures.length} Results`}
-      </Row>
     </div>
   );
 
@@ -233,7 +253,13 @@ const AllDashboard = () => {
               .slice(firstIndex, lastIndex)}
         </tbody>
       </Table>
-      { filteredMeasures.length === 0 || loading ? <LoadingSpinner /> : ''}
+      { loading ? <LoadingSpinner /> : ''}
+      <Col className="d-flex justify-content-center">
+        <Pagination className="pt-3 mb-2" style={{ color: 'black' }}>{items}</Pagination>
+      </Col>
+      <Row className="d-flex justify-content-center text-center pb-3">
+        {loading ? ' ' : `${filteredMeasures.length} Results`}
+      </Row>
     </div>
   );
 

@@ -51,6 +51,21 @@ html, body {
   border-color: lightgray;
 }
 
+.dateFilterButtons {
+  background-color: #404d70 !important;
+  border-width: 0 !important;
+}
+
+.dateFilterButtons:hover {
+  background-color: #5e6b8c !important;
+}
+
+.dateFilterButtons:focus {
+  background-color: #5e6b8c !important;
+  border-width: 0 !important;
+  box-shadow: none !important;
+}
+
 #dashboard-list thead {
   position: sticky;
   top: 0;
