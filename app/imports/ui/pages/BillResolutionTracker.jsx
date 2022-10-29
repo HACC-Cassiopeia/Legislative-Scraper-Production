@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Container, Navbar, Nav, Row, Table } from 'react-bootstrap';
-import { PencilSquare, FileEarmarkPlusFill, BoxArrowInDown } from 'react-bootstrap-icons';
+import { FileEarmarkPlusFill, BoxArrowInDown } from 'react-bootstrap-icons';
 import { useParams } from 'react-router';
+import { useTracker } from 'meteor/react-meteor-data';
 import BillResolutionDetails from '../components/BillResolutionDetails';
-import MobileSideBar from '../components/SideNavBar/MobileSideBar';
 import DesktopSideBar from '../components/SideNavBar/DesktopSideBar';
-import TestimonyRow from '../components/TestimonyRow';
+import TestimonyRow from '../components/testimony/TestimonyRow';
+import { Testimonies } from '../../api/testimony/TestimonyCollection';
+import TestimonyTracker from '../components/testimony/TestimonyTracker';
 
 const navBarStyle = {
   backgroundColor: '#FFFFFF',
@@ -42,23 +44,7 @@ const BillResolutionTracker = () => {
         <div className="mt-5">
           <BillResolutionDetails />
         </div>
-        <Container className="text-center">
-          <h3>Testimonies</h3>
-          <Table striped>
-            <thead style={{ zIndex: 200 }}>
-              <tr>
-                <th>Hearing Date</th>
-                <th>Title</th>
-                <th>Testifier</th>
-                <th>Status</th>
-                <th>Edit</th>
-              </tr>
-            </thead>
-            <tbody>
-              <TestimonyRow />
-            </tbody>
-          </Table>
-        </Container>
+        <TestimonyTracker />
       </div>
     </Row>
   );
