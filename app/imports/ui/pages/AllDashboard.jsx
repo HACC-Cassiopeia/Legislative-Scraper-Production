@@ -212,7 +212,7 @@ const AllDashboard = () => {
   );
 
   const returnList = () => (
-    <div style={{ height: '100vh', overflowY: 'auto' }}>
+    <div style={{ height: '100vh', overflowY: 'visible' }}>
       <div style={{ textAlign: 'center' }} />
       <Table striped>
         <thead style={{ zIndex: 200 }}>
@@ -238,7 +238,7 @@ const AllDashboard = () => {
   );
 
   return (
-    <div>
+    <Col>
       <DesktopSideBar page="bills" />
       <div id="mainBody">
         <Row id="dashboard-screen">
@@ -248,7 +248,7 @@ const AllDashboard = () => {
           </Col>
         </Row>
       </div>
-    </div>
+    </Col>
   );
 };
 
