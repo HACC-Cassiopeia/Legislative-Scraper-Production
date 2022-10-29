@@ -7,7 +7,7 @@ import SimpleSchema from 'simpl-schema';
 import { jsPDF } from 'jspdf';
 import { NavLink } from 'react-router-dom';
 import { EnvelopeFill, FilePdfFill, HddFill } from 'react-bootstrap-icons';
-// import { useParams } from 'react-router';
+import { useParams } from 'react-router';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Testimonies } from '../../api/testimony/TestimonyCollection';
 import { defineMethod } from '../../api/base/BaseCollection.methods';
@@ -35,14 +35,13 @@ const bridge = new SimpleSchema2Bridge(formSchema);
 
 /* Renders the AddStuff page for adding a document. */
 const EditTestimony = () => {
-  // const { _code } = useParams();
+  const { _id } = useParams();
 
-  const [testimonies, setTestimonies] = useState([]);
   const { ready, testimony } = useTracker(() => {
     const subscription = Testimonies.subscribeTestimony();
     const rdy = subscription.ready();
     // TODO replace billcode with _code
-    const testimonyItem = Testimonies.find({ billCode: 'HB410 HD1' }).fetch();
+    const testimonyItem = Testimonies.find({ _id: _id }).fetch();
     return {
       testimony: testimonyItem[0],
       ready: rdy,
@@ -55,7 +54,6 @@ const EditTestimony = () => {
   useEffect(() => {
     // todo add _code to edit testimony
     document.title = `DOELT - Edit Testimony for _code`;
-    setTestimonies(testimony);
   }, []);
 
   // On submit, insert the data.
@@ -98,12 +96,11 @@ const EditTestimony = () => {
 
   // Render the form. Use Uniforms: https://github.com/vazco/uniforms
   let fRef = null;
-  console.log('testimony', testimony);
-  console.log('testimonies', testimonies);
 
   return (ready ? (
     <Col style={{ backgroundColor: '#e6e6e6', minWidth: '800px' }}>
       <MobileSideBar id="nav" />
+      {console.log('testimony', testimony)}
       <Col id="mainBody">
         <AutoForm className="p-5 mt-4 d-flex justify-content-center" ref={ref => { fRef = ref; }} schema={bridge} onSubmit={data => submit(data, fRef)}>
 
