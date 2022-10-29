@@ -72,8 +72,6 @@ const AllDashboard = () => {
         const slash = obj.statusDate.search('/');
         const objDate = +`${obj.statusDate.substring(0, slash)}.${
           obj.statusDate.substring(slash + 1, obj.statusDate.substring(slash + 1).search('/') + obj.statusDate.substring(0, slash).length + 1)}`;
-        console.log(`filter date: ${+statusDate} bill status date: ${objDate}`);
-        console.log(dateSearch);
         if (dateSearch === 1) {
           return objDate < +statusDate;
         }
@@ -99,8 +97,6 @@ const AllDashboard = () => {
 
     setFirstIndex(page * rowNumber - rowNumber);
     setLastIndex(page * rowNumber);
-    console.log({ firstIndex });
-    console.log({ lastIndex });
   };
 
   const beforeDate = {
@@ -130,9 +126,9 @@ const AllDashboard = () => {
     paddingRight: '8px',
   };
 
-  if (Math.ceil(filteredMeasures.length / rowNumber) > 20) {
+  if (Math.ceil(filteredMeasures.length / rowNumber) > 10) {
     items = [];
-    for (let number = 1; number <= 20; number++) {
+    for (let number = 1; number <= 10; number++) {
       items.push(
         <Pagination.Item
           key={number}
@@ -148,6 +144,13 @@ const AllDashboard = () => {
         key="..."
       >
         ...
+      </Pagination.Item>,
+    );
+    items.push(
+      <Pagination.Item
+        key={Math.ceil(filteredMeasures.length / rowNumber)}
+      >
+        {Math.ceil(filteredMeasures.length / rowNumber)}
       </Pagination.Item>,
     );
   } else {
@@ -168,12 +171,7 @@ const AllDashboard = () => {
   const returnFilter = () => (
     <div className="pb-3">
       <Row className="mt-5">
-        <Col>
-          <h2 className="text-center">
-            <b>{year}: All {type === 'hb' ? 'House' : 'Senate'} Bills</b>
-          </h2>
-        </Col>
-        <Row className="pt-4 pb-2">
+        <Row>
           <Col className="d-flex justify-content-end">
             <DropdownButton
               id="yearDropdown"
@@ -195,7 +193,6 @@ const AllDashboard = () => {
               <Dropdown.Item eventKey="2010">2010</Dropdown.Item>
             </DropdownButton>
           </Col>
-
           <Col className="d-flex justify-content-start">
             <DropdownButton
               id="yearDropdown"
@@ -206,9 +203,9 @@ const AllDashboard = () => {
               <Dropdown.Item eventKey="sb">Senate Bills</Dropdown.Item>
             </DropdownButton>
           </Col>
+          <Col className="col-1" />
         </Row>
-        <Row className="pt-4 px-5" />
-        <Row className="pt-0 px-5">
+        <Row className="pt-3 px-5">
           <Col className="d-flex justify-content-center">
             <label htmlFor="Search by Bill Code">
               <Col className="d-flex justify-content-center mb-1 small" style={{ color: '#313131' }}>
@@ -252,52 +249,47 @@ const AllDashboard = () => {
             </label>
           </Col>
           <Col className="d-flex justify-content-center">
-            <label htmlFor="Search by status date">
-              <Col className="d-flex justify-content-center mb-1 small" style={{ color: '#313131' }}>
-                Search by Status Date
+            <label htmlFor="Search by status date" className="text-center">
+              <Col>
+                <div className="mb-1 small" style={{ color: '#313131' }}>
+                  Search by Status Date
+                </div>
+                <input
+                  type="date"
+                  className="shadow-sm"
+                  style={textBoxStyle}
+                  placeholder="Enter date here"
+                  onChange={e => {
+                    const month = e.target.value.substring(5, 7);
+                    const day = e.target.value.substring(8);
+                    setStatusDate(`${month}.${day}`);
+                  }}
+                />
+                <ButtonGroup className="btn-group-sm mt-1 ms-1">
+                  <Button
+                    onClick={() => setDateSearch(1)}
+                    className="dateFilterButtons"
+                    style={beforeDate}
+                  >
+                    Before
+                  </Button>
+                  <Button
+                    onClick={() => setDateSearch(2)}
+                    className="dateFilterButtons"
+                    style={onDate}
+                  >
+                    On
+                  </Button>
+                  <Button
+                    onClick={() => setDateSearch(3)}
+                    className="dateFilterButtons"
+                    style={afterDate}
+                  >
+                    After
+                  </Button>
+                </ButtonGroup>
               </Col>
-              <input
-                type="date"
-                className="shadow-sm"
-                style={textBoxStyle}
-                placeholder="Enter date here"
-                onChange={e => {
-                  const month = e.target.value.substring(5, 7);
-                  const day = e.target.value.substring(8);
-                  setStatusDate(`${month}.${day}`);
-                }}
-              />
             </label>
-          </Col>
-        </Row>
-        <Row className="px-5 pt-1">
-          <Col />
-          <Col />
-          <Col />
-          <Col className="d-flex justify-content-center">
-            <ButtonGroup className="btn-group-sm">
-              <Button
-                onClick={() => setDateSearch(1)}
-                className="dateFilterButtons"
-                style={beforeDate}
-              >
-                Before
-              </Button>
-              <Button
-                onClick={() => setDateSearch(2)}
-                className="dateFilterButtons"
-                style={onDate}
-              >
-                On
-              </Button>
-              <Button
-                onClick={() => setDateSearch(3)}
-                className="dateFilterButtons"
-                style={afterDate}
-              >
-                After
-              </Button>
-            </ButtonGroup>
           </Col>
         </Row>
         <Row>
