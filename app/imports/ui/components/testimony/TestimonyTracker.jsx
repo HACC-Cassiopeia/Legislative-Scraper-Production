@@ -6,19 +6,20 @@ import TestimonyRow from './TestimonyRow';
 import LoadingSpinner from '../LoadingSpinner';
 
 const TestimonyTracker = () => {
-  const [testimonies, setTestimonies] = useState([]);
   const { ready, testimony } = useTracker(() => {
     const subscription = Testimonies.subscribeTestimony();
     const rdy = subscription.ready();
     // TODO replace billcode with _code
-    const testimonyItem = Testimonies.find({ billCode: 'HB410 HD1' }).fetch();
+    const testimonyItem = Testimonies.find({ billCode: 'HB1422' }).fetch();
     return {
-      testimony: testimonyItem[0],
+      testimony: testimonyItem,
       ready: rdy,
     };
   }, false);
+
   return (ready ? (
     <Container className="text-center">
+      {console.log(testimony)}
       <h3>Testimonies</h3>
       <Table striped>
         <thead style={{ zIndex: 200 }}>
