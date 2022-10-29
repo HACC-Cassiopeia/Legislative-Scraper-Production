@@ -9,27 +9,22 @@ const NotificationBody = ({ hearing }) => (
     <td>{hearing.dateTime}</td>
     <td>{hearing.room}</td>
     <td>
-      <a
-        href={hearing.youtubeURL}
-        style={{ textAlign: 'center', color: 'black' }}
-      >
-        <Icon.Youtube />
-      </a>
+      {hearing.youtubeURL ? (
+        <a href={hearing.youtubeURL} target="_blank" style={{ textAlign: 'center' }} rel="noreferrer">
+          <Icon.Youtube className="mt-2" style={{ fontSize: '24px', color: 'red' }} />
+        </a>
+      ) : <p className="mt-2">N/A</p> }
     </td>
     <td>
-      <a
-        href={hearing.noticeURL}
-        style={{ textAlign: 'center', color: 'black' }}
-      >
-        <Icon.Paperclip />
-      </a>
+      {hearing.noticeURL ? (
+        <a href={hearing.noticeURL} target="_blank" style={{ textAlign: 'center', color: 'black' }} rel="noreferrer">
+          <Icon.Link className="mt-2" style={{ fontSize: '24px', color: 'blue' }} />
+        </a>
+      ) : <p className="mt-2">N/A</p> }
     </td>
     <td>
-      <a
-        href={hearing.noticePdfURL}
-        style={{ textAlign: 'center', color: 'black' }}
-      >
-        <Icon.EnvelopePaper />
+      <a href={hearing.noticePdfURL} target="_blank" style={{ textAlign: 'center', color: 'black' }} rel="noreferrer">
+        <Icon.FilePdfFill className="mt-2" style={{ fontSize: '24px', color: 'red' }} />
       </a>
     </td>
   </tr>

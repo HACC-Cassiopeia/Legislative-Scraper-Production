@@ -9,7 +9,7 @@ import { NavLink } from 'react-router-dom';
 import { EnvelopeFill, FilePdfFill, HddFill } from 'react-bootstrap-icons';
 import { Testimonies } from '../../api/testimony/TestimonyCollection';
 import { defineMethod } from '../../api/base/BaseCollection.methods';
-import MobileSideBar from '../components/SideNavBar/MobileSideBar';
+import DesktopSideBar from '../components/SideNavBar/DesktopSideBar';
 
 // Create a schema to specify the structure of the data to appear in the form.
 const formSchema = new SimpleSchema({
@@ -79,7 +79,7 @@ const AddTestimony = () => {
   let fRef = null;
   return (
     <Col style={{ backgroundColor: '#e6e6e6', minWidth: '800px' }}>
-      <MobileSideBar id="nav" />
+      <DesktopSideBar page="testimony" />
       <Col id="mainBody">
         <AutoForm className="p-5 mt-4 d-flex justify-content-center" ref={ref => { fRef = ref; }} schema={bridge} onSubmit={data => submit(data, fRef)}>
 

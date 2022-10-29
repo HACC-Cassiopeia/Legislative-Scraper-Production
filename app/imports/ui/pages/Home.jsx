@@ -20,7 +20,7 @@ const Home = () => {
   const [upcomingHearings, setUpcomingHearings] = useState([]);
 
   useEffect(() => {
-    document.title = 'DOE Legislative Tracker - Calendar';
+    document.title = 'DOELT - Home';
     Legtracker.scrapeUpcomingHearings().then((initialData) => {
       setUpcomingHearings(initialData.upcomingHearings);
     });
@@ -51,31 +51,35 @@ const Home = () => {
     fontSize: '10px',
   };
 
+  const sectionHeaders = {
+    color: 'white',
+    backgroundColor: '#37425e',
+  };
+
   return (
-    <>
+    <div style={{ backgroundColor: '#ece9e9', height: '100%' }}>
       {width < breakPoint ? <MobileSideBar page="home" /> : <DesktopSideBar id="desktopSidebar" page="home" />}
       <Col style={width < breakPoint ? mobileMainBody : mainBodyStyle} className="d-flex justify-content-center">
         <Container>
-          <h2 className="pt-4 text-center">
-            <b>Legislative Tracking System</b>
-          </h2>
-          <Row>
-            <Card>
-              <Card.Header>
-                <b>
-                  <Icon.Bell /> &nbsp; Upcoming Hearings
-                </b>
+          <h1 className="pt-4 m-0 text-center">
+            <b>DOELT</b>
+          </h1>
+          <h6 className="p-0">Department of Education Legislative Tracker</h6>
+          <Row className="pt-3">
+            <Card className="p-0">
+              <Card.Header style={sectionHeaders}>
+                <Icon.BellFill className="mb-1" /> &nbsp; Upcoming Hearings
               </Card.Header>
               <Card.Body>
                 <Table>
                   <thead>
                     <tr>
-                      <th>TITLE</th>
-                      <th>START</th>
-                      <th>ROOM</th>
-                      <th>YOUTUBE</th>
-                      <th>NOTICE URL</th>
-                      <th>PDF URL</th>
+                      <th>Title</th>
+                      <th>Date/Time</th>
+                      <th>Location</th>
+                      <th>Video</th>
+                      <th>URL</th>
+                      <th>PDF</th>
                     </tr>
                   </thead>
                   { upcomingHearings.length > 0 ? (
@@ -90,20 +94,18 @@ const Home = () => {
           </Row>
           <br />
           <Row>
-            <Card>
-              <Card.Header>
-                <b>
-                  <Icon.FileEarmark /> &nbsp; Mini Dashboard
-                </b>
+            <Card className="p-0">
+              <Card.Header style={sectionHeaders}>
+                <Icon.CardChecklist className="mb-1" style={{ fontSize: '20px' }} /> &nbsp; Mini Dashboard
               </Card.Header>
               <Card.Body>
                 <Table>
                   <thead>
                     <tr>
-                      <th>CODE</th>
-                      <th>MEASURE TITLE</th>
-                      <th>Current Referal</th>
-                      <th>Status Date</th>
+                      <th>Bill</th>
+                      <th>Title</th>
+                      <th>Current Referral</th>
+                      <th>Status</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -117,7 +119,7 @@ const Home = () => {
           </Row>
         </Container>
       </Col>
-    </>
+    </div>
   );
 };
 
