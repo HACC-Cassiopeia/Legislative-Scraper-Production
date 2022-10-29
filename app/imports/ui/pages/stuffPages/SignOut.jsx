@@ -9,7 +9,8 @@ const SignOut = () => {
   return (
     <Col
       style={{ backgroundColor: '#4c556f', textAlign: 'center' }}
-      className='p-0 m-0 g-0'>
+      className="p-0 m-0 g-0"
+    >
       <h2 style={{ color: 'white' }}>You are signed out.</h2>
       <br />
       <Container fluid>
@@ -21,8 +22,9 @@ const SignOut = () => {
             marginLeft: '45%',
           }}
           as={NavLink}
-          size='sm'
-          href='/'>
+          size="sm"
+          href="/"
+        >
           LOG BACK In
         </Button>
       </Container>

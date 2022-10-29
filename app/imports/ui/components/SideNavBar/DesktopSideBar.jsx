@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Nav, Button, Col } from 'react-bootstrap';
 import {
+  ArchiveFill,
   ChevronLeft,
   HouseFill,
   CardList,
@@ -144,6 +145,17 @@ const DesktopSideBar = (props) => {
               View Bills
             </Nav.Link>
             <Nav.Link
+              href="/view/all"
+              className="py-3"
+              style={page === 'all' ? openSelected : openReg}
+            >
+              <ArchiveFill
+                style={{ fontSize: '20px' }}
+                className="mb-1 me-3 ms-1"
+              />
+              All
+            </Nav.Link>
+            <Nav.Link
               href="/calendar"
               className="py-3"
               style={page === 'calendar' ? openSelected : openReg}
@@ -196,6 +208,13 @@ const DesktopSideBar = (props) => {
               style={page === 'bills' ? closedSelected : closedReg}
             >
               <CardList className="mb-1 ms-1" style={{ fontSize: '20px' }} />
+            </Nav.Link>
+            <Nav.Link
+              href="/view/all"
+              className="py-3"
+              style={page === 'all' ? openSelected : openReg}
+            >
+              <ArchiveFill style={{ fontSize: '20px' }} className="mb-1 ms-1" />
             </Nav.Link>
             <Nav.Link
               href="/calendar"
