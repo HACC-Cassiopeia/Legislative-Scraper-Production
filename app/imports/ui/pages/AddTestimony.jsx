@@ -11,7 +11,6 @@ import { useParams } from 'react-router';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Testimonies } from '../../api/testimony/TestimonyCollection';
 import { defineMethod } from '../../api/base/BaseCollection.methods';
-import SideNavBar from '../components/SideNavBar';
 import { SavedMeasures } from '../../api/savedMeasures/SavedMeasuresCollection';
 import LoadingSpinner from '../components/LoadingSpinner';
 import MobileSideBar from '../components/SideNavBar/MobileSideBar';

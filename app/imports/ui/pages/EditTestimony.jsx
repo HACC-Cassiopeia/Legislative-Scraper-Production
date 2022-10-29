@@ -11,8 +11,8 @@ import { EnvelopeFill, FilePdfFill, HddFill } from 'react-bootstrap-icons';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Testimonies } from '../../api/testimony/TestimonyCollection';
 import { defineMethod } from '../../api/base/BaseCollection.methods';
-import SideNavBar from '../components/SideNavBar';
 import LoadingSpinner from '../components/LoadingSpinner';
+import MobileSideBar from '../components/SideNavBar/MobileSideBar';
 
 // Create a schema to specify the structure of the data to appear in the form.
 const formSchema = new SimpleSchema({
@@ -103,7 +103,7 @@ const EditTestimony = () => {
 
   return (ready ? (
     <Col style={{ backgroundColor: '#e6e6e6', minWidth: '800px' }}>
-      <SideNavBar id="nav" />
+      <MobileSideBar id="nav" />
       <Col id="mainBody">
         <AutoForm className="p-5 mt-4 d-flex justify-content-center" ref={ref => { fRef = ref; }} schema={bridge} onSubmit={data => submit(data, fRef)}>
 
