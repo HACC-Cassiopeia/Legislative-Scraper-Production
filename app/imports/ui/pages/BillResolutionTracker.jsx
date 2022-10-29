@@ -1,11 +1,12 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Container, Navbar, Nav, Row } from 'react-bootstrap';
+import { Container, Navbar, Nav, Row, Table } from 'react-bootstrap';
 import { PencilSquare, FileEarmarkPlusFill, BoxArrowInDown } from 'react-bootstrap-icons';
 import { useParams } from 'react-router';
 import BillResolutionDetails from '../components/BillResolutionDetails';
 import MobileSideBar from '../components/SideNavBar/MobileSideBar';
 import DesktopSideBar from '../components/SideNavBar/DesktopSideBar';
+import TestimonyRow from '../components/TestimonyRow';
 
 const navBarStyle = {
   backgroundColor: '#FFFFFF',
@@ -43,6 +44,20 @@ const BillResolutionTracker = () => {
         </div>
         <Container className="text-center">
           <h3>Testimonies</h3>
+          <Table striped>
+            <thead style={{ zIndex: 200 }}>
+              <tr>
+                <th>Hearing Date</th>
+                <th>Title</th>
+                <th>Testifier</th>
+                <th>Status</th>
+                <th>Edit</th>
+              </tr>
+            </thead>
+            <tbody>
+              <TestimonyRow />
+            </tbody>
+          </Table>
         </Container>
       </div>
     </Row>
