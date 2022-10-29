@@ -4,7 +4,8 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import { Container, Col } from 'react-bootstrap';
 import Legtracker from '../utilities/Legtracker';
 import CalModal from '../components/CalModal';
-import SideNavBar from '../components/SideNavBar';
+import MobileSideBar from '../components/SideNavBar/MobileSideBar';
+import DesktopSideBar from '../components/SideNavBar/DesktopSideBar';
 
 const Calendar = () => {
   const [upcomingHearings, setUpcomingHearings] = useState([]);
@@ -45,7 +46,7 @@ const Calendar = () => {
 
   return (
     <Col>
-      <SideNavBar id="nav" />
+      <DesktopSideBar page="calendar" />
       <div id="mainBody">
         <CalModal
           show={show}

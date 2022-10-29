@@ -10,9 +10,9 @@ import {
 } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
-import SideNavBar from '../components/SideNavBar';
 import AllBill from '../components/AllBill';
 import LegTracker from '../utilities/Legtracker';
+import DesktopSideBar from '../components/SideNavBar/DesktopSideBar';
 
 const AllDashboard = () => {
   /* states for item filtering */
@@ -98,11 +98,13 @@ const AllDashboard = () => {
   const returnFilter = () => (
     <div className="pb-3">
       <h2 className="pt-3 text-center">
-        <b>2022: All House Bills</b>
+        <b>{year}: All {type === 'hb' ? 'House' : 'Senate'} Bills</b>
       </h2>
-      <Link className="d-flex justify-content-center pb-2" to="/view/DOE">
-        View DOE-Tracked Bill/Measures
-      </Link>
+      <Col className="d-flex justify-content-center">
+        <Link className="pb-2" to="/view/DOE">
+          View DOE Bill/Measures
+        </Link>
+      </Col>
       <div id="filter-border">
         <Row className="py-3 px-3">
           <Col>
@@ -113,11 +115,11 @@ const AllDashboard = () => {
             <DropdownButton
               id="dropdown-basic-button"
               variant="secondary"
-              title={type}
+              title={type === 'hb' ? 'House Bills' : 'Senate Bills'}
               onSelect={(e) => setType(e)}
             >
-              <Dropdown.Item eventKey="hb">hb</Dropdown.Item>
-              <Dropdown.Item eventKey="sb">sb</Dropdown.Item>
+              <Dropdown.Item eventKey="hb">House Bills</Dropdown.Item>
+              <Dropdown.Item eventKey="sb">Senate Bills</Dropdown.Item>
             </DropdownButton>
           </Col>
           <Col>
@@ -200,7 +202,12 @@ const AllDashboard = () => {
           </Accordion.Item>
         </Accordion>
       </div>
-      <Pagination className="pt-3">{items}</Pagination>
+      <Col className="d-flex justify-content-center">
+        <Pagination className="pt-3 mb-2" style={{ color: 'black' }}>{items}</Pagination>
+      </Col>
+      <Row className="d-flex justify-content-center text-center">
+        {`${filteredMeasures.length} Results`}
+      </Row>
     </div>
   );
 
@@ -232,7 +239,7 @@ const AllDashboard = () => {
 
   return (
     <div>
-      <SideNavBar id="nav" />
+      <DesktopSideBar page="bills" />
       <div id="mainBody">
         <Row id="dashboard-screen">
           <Col>
