@@ -52,17 +52,6 @@ const EditTestimony = () => {
   // TODO 'add testimony' pulls from SavedMeasures db, 'edit testimony' pulls from Testimony db
   //  we should probably make the 'pdf form' bit a component that can be reused in for both pages
 
-  // TODO load from Testimony db
-  // const { ready, bill } = useTracker(() => {
-  //   const subscription = SavedMeasures.subscribeMeasureSaved();
-  //   const rdy = subscription.ready();
-  //   const billItem = SavedMeasures.find({ code: _code }).fetch();
-  //   return {
-  //     bill: billItem[0],
-  //     ready: rdy,
-  //   };
-  // }, false);
-
   useEffect(() => {
     // todo add _code to edit testimony
     document.title = `DOELT - Edit Testimony for _code`;
