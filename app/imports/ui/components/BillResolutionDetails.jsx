@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Card, Accordion } from 'react-bootstrap';
 import { Archive, FilePdfFill, Youtube } from 'react-bootstrap-icons';
 import { useTracker } from 'meteor/react-meteor-data';
@@ -6,11 +6,10 @@ import { useParams } from 'react-router';
 // import { Meteor } from 'meteor/meteor';
 import LoadingSpinner from './LoadingSpinner';
 import { SavedMeasures } from '../../api/savedMeasures/SavedMeasuresCollection';
+import Legtracker from '../utilities/Legtracker';
 
 const BillResolutionDetails = () => {
-
   const { _code } = useParams();
-
   // useTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker
   const { ready, bill } = useTracker(() => {
     const subscription = SavedMeasures.subscribeMeasureSaved();
@@ -22,9 +21,33 @@ const BillResolutionDetails = () => {
     };
   }, false);
 
+  // eslint-disable-next-line consistent-return
+  const getScraperParams = (billData) => {
+    if (ready && billData !== undefined) {
+      const billInfo = billData.code.split(' ');
+      const year = billData.statusDate;
+      return ({
+        bt: `${billInfo[0].slice(0, 2)}`,
+        bn: `${billInfo[0].slice(2)}`,
+        year: `${year.slice(year.length - 4, year.length)}`,
+      });
+    }
+    return undefined;
+  };
+
+  const billObj = getScraperParams(bill);
+
+  const [billDetails, setBillDetails] = useState({});
   useEffect(() => {
     document.title = `DOE Legislative Tracker - ${_code}`;
-  }, []);
+    if (ready && bill !== undefined) {
+      Legtracker
+        .scrapeBillDetails(billObj.bt, billObj.bn, billObj.year)
+        .then(initialData => {
+          setBillDetails(initialData);
+        });
+    }
+  }, [ready]);
 
   // TODO change depending on bill status
   const billStatusStyle = {
@@ -56,11 +79,64 @@ const BillResolutionDetails = () => {
     return bill.introducer;
   }
 
+  // Hearing Date and Time
+  const billDateAndTime = () => {
+    if (billDetails.hearingNotices !== undefined && billDetails.hearingNotices.length !== 0) {
+      return billDetails.hearingNotices[billDetails.hearingNotices.length - 1].dateTime;
+    }
+    return 'N/A';
+  };
+  // Hearing Location
+  const billLocation = () => {
+    if (billDetails.hearingNotices !== undefined && billDetails.hearingNotices.length !== 0) {
+      return billDetails.hearingNotices[billDetails.hearingNotices.length - 1].room;
+    }
+    return 'N/A';
+  };
+  // All Versions
+  const versions = () => {
+    if (billDetails.measureVersions !== undefined && billDetails.measureVersions.length !== 0) {
+      return billDetails.measureVersions.map(data => (
+        <div>
+          <a href={data.measureVersionsUrl} target="_blank" rel="noreferrer noopener">
+            {data.measureVersionsText}
+          </a>
+        </div>
+      ));
+    }
+    return 'N/A';
+  };
+  // Committee Reports
+  const committeeReports = () => {
+    if (billDetails.committeeReports !== undefined && billDetails.committeeReports.length !== 0) {
+      return billDetails.committeeReports.map(data => (
+        <div>
+          <a href={data.committeeReportsPdf}>{data.committeeReportsText}</a>
+        </div>
+      ));
+    }
+    return 'N/A';
+  };
+  // Youtube
+  const youtube = () => {
+    if (billDetails.hearingNotices !== undefined && billDetails.hearingNotices.length !== 0) {
+      return billDetails.hearingNotices.map(data => (
+        <div>
+          <a href={data.youtubeUrl} target="_blank" rel="noreferrer noopener">
+            {`${data.committee} ${data.dateTime}`}
+          </a>
+        </div>
+      ));
+    }
+    return 'N/A';
+  };
   // TODO if bill not found, need to redirect to 404
   return (ready ? (
     <Container className="text-center border border-1 small mb-5">
       <Row style={{ backgroundColor: '#ddf3dd' }}>
         <Col>
+          {console.log(bill)}
+          {console.log(billDetails)}
           {/* EMPTY COL FOR ALIGNMENT */}
         </Col>
         <Col>
@@ -155,8 +231,8 @@ const BillResolutionDetails = () => {
           </Row>
           <Row>
             <Col className="py-2">
-              {/* LEG TYPE TODO aren't these all bills? */}
-              **Bill**
+              {/* LEG TYPE TODO aren't these all bills? Putting this as bill temp. */}
+              Bill
             </Col>
           </Row>
         </Col>
@@ -174,11 +250,10 @@ const BillResolutionDetails = () => {
                 <Accordion.Item eventKey="0">
                   <Accordion.Header> {introducerShortened()} </Accordion.Header>
                   <Accordion.Body>
-                    {`${theRestOfIntroducers()} \n**00/00/0000**`}
+                    {`${theRestOfIntroducers()} \n${billDetails.initialDate}`}
                   </Accordion.Body>
                 </Accordion.Item>
               </Accordion>
-              {/* TODO have to scrap the date somehow? didn't see it on the bill page */}
             </Col>
           </Row>
         </Col>
@@ -225,26 +300,13 @@ const BillResolutionDetails = () => {
         <Col className="border border-top-0 border-bottom-0 border-start-0">
           <Row>
             <Col className="border border-start-0 border-end-0">
-              <b>Hearing Date</b>
+              <b>Hearing Date and Time</b>
             </Col>
           </Row>
           <Row className="py-2">
             <Col>
               {/* TODO hearing date, it looks like this is scraped from the 'hearing notices' section on the bill page */}
-              **Tue 03/02/2021**
-            </Col>
-          </Row>
-        </Col>
-        <Col className="border border-top-0 border-bottom-0 border-start-0">
-          <Row>
-            <Col className="border border-start-0 border-end-0">
-              <b>Hearing Time</b>
-            </Col>
-          </Row>
-          <Row className="py-2">
-            <Col>
-              {/* TODO hearing time, same as above */}
-              **11:00 AM**
+              {billDateAndTime()}
             </Col>
           </Row>
         </Col>
@@ -257,7 +319,7 @@ const BillResolutionDetails = () => {
           <Row className="py-2">
             <Col>
               {/* TODO hearing location, same as above */}
-              **308 Via Videoconference**
+              {billLocation()}
             </Col>
           </Row>
         </Col>
@@ -311,8 +373,7 @@ const BillResolutionDetails = () => {
           <Row className="py-1">
             <Col>
               {/* TODO 'versions,' needs to be scraped from bill page */}
-              <div style={fakeLink4Rob}>**HB1078 HD1**</div>
-              <div style={fakeLink4Rob}>**HB1078**</div>
+              {versions()}
             </Col>
           </Row>
         </Col>
@@ -325,8 +386,7 @@ const BillResolutionDetails = () => {
           <Row className="py-1">
             <Col>
               {/* TODO 'committee reports,' same as above */}
-              <div style={fakeLink4Rob}>**HB1078 HD1 HSCR479**</div>
-              <div style={fakeLink4Rob}>**HB1078 HD1 HSCR784**</div>
+              {committeeReports()}
             </Col>
           </Row>
         </Col>
@@ -339,8 +399,7 @@ const BillResolutionDetails = () => {
           <Row className="py-1">
             <Col>
               {/* TODO add YouTube links, same as above */}
-              <div style={fakeLink4Rob}>**HEARING EDN 02-16-21 2:00P**</div>
-              <div style={fakeLink4Rob}>**HEARING FIN 03-02-21 1 11:00A**</div>
+              {youtube()}
             </Col>
           </Row>
         </Col>

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Accordion } from 'react-bootstrap';
+import { offices } from '../../api/savedMeasures/SavedMeasuresCollection';
 
 /** Renders a single row in the List Stuff table. See pages/ListStuff.jsx. */
 const SavedBill = ({ bill }) => (
@@ -34,22 +35,32 @@ const SavedBill = ({ bill }) => (
 // Require a document to be passed to this component.
 SavedBill.propTypes = {
   bill: PropTypes.shape({
-    code: PropTypes.string,
-    office: PropTypes.shape({
-      office: PropTypes.string,
-    }),
-    measurePdfUrl: PropTypes.string,
-    measureArchiveUrl: PropTypes.string,
-    measureTitle: PropTypes.string,
-    reportTitle: PropTypes.string,
-    description: PropTypes.string,
-    statusHorS: PropTypes.string,
-    statusDescription: PropTypes.string,
-    statusDate: PropTypes.string,
-    introducer: PropTypes.string,
-    currentReferral: PropTypes.string,
-    companion: PropTypes.string,
-    _id: PropTypes.string,
+    office: { type: Array, optional: true },
+    'office.$': {
+      type: String,
+      allowedValues: offices,
+    },
+    archive: { type: Boolean, optional: true },
+    code: { type: String, optional: false },
+    measurePdfUrl: { type: String, optional: true },
+    measureArchiveUrl: { type: String, optional: true },
+    measureTitle: { type: String, optional: true },
+    reportTitle: { type: String, optional: true },
+    description: { type: String, optional: true },
+    statusHorS: { type: String, optional: true },
+    statusDescription: { type: String, optional: true },
+    statusDate: { type: String, optional: true },
+    introducer: { type: String, optional: true },
+    currentReferral: { type: String, optional: true },
+    companion: { type: String, optional: true },
+    doeAction: { type: String, optional: true },
+    hearingDate: { type: String, optional: true },
+    hearingTime: { type: String, optional: true },
+    hearingLocation: { type: String, optional: true },
+    doePosition: { type: String, optional: true },
+    testifier: { type: String, optional: true },
+    doeInternalStatus: { type: String, optional: true },
+    _id: { type: String, optional: false },
   }).isRequired,
 };
 

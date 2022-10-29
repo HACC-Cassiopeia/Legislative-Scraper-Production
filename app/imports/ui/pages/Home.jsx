@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
-import { Card, Row, Container, Table } from 'react-bootstrap';
+import { Card, Row, Container, Table, Col } from 'react-bootstrap';
 import * as Icon from 'react-bootstrap-icons';
-import SideNavBar from '../components/SideNavBar';
+import MobileSideBar from '../components/SideNavBar/MobileSideBar';
 import { SavedMeasures } from '../../api/savedMeasures/SavedMeasuresCollection';
 import NotificationBill from '../components/notificationRelated/NotifcationBill';
 import NotificationBody from '../components/notificationRelated/NotificationBody';
 import Legtracker from '../utilities/Legtracker';
-// added
+import DesktopSideBar from '../components/SideNavBar/DesktopSideBar';
+
 const Home = () => {
   const bills = useTracker(() => {
     Meteor.subscribe(SavedMeasures.subscribeMeasureSaved);
@@ -19,7 +20,7 @@ const Home = () => {
   const [upcomingHearings, setUpcomingHearings] = useState([]);
 
   useEffect(() => {
-    document.title = 'DOE Legislative Tracker - Calendar';
+    document.title = 'DOELT - Home';
     Legtracker.scrapeUpcomingHearings().then((initialData) => {
       setUpcomingHearings(initialData.upcomingHearings);
     });
@@ -37,158 +38,74 @@ const Home = () => {
       window.removeEventListener('resize', handleResizeWindow);
     };
   }, []);
+  const breakPoint = 800;
+
   const mainBodyStyle = {
-    paddingLeft: '25%',
+    paddingLeft: '22%',
     width: 0.8 * width,
-    maxWidth: 0.8 * width,
-    minHeight: 0.8 * width,
     textAlign: 'center',
   };
   const mobileMainBody = {
-    paddingLeft: '15%',
+    marginLeft: '60px',
     width: 0.9 * width,
-    maxWidth: 0.9 * width,
-    minWidth: 0.9 * width,
     fontSize: '10px',
   };
-  const breakPoint = 800;
-  if (width < breakPoint) {
-    return (
-      <>
-        <SideNavBar />
-        &nbsp;
-        <div style={mobileMainBody}>
-          <Container fluid>
-            <br />
-            <h4
-              style={{
-                textAlign: 'center',
-                fontWeight: 'bolder',
-              }}
-            >
-              Legislative Tracking System
-            </h4>
-            <Row>
-              <Card>
-                <Card.Header>
-                  <b>
-                    <Icon.Bell /> &nbsp; Upcoming Hearing
-                  </b>
-                </Card.Header>
-                <Card.Body>
-                  <Table>
-                    <thead>
-                      <tr>
-                        <th>TITLE</th>
-                        <th>START</th>
-                        <th>ROOM</th>
-                        <th>YOUTUBE</th>
-                        <th>NOTICE URL</th>
-                        <th>PDF URL</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {upcomingHearings
-                        .map((hearing) => (
-                          <NotificationBody hearing={hearing} />
-                        ))
-                        .slice(0, 14)}
-                    </tbody>
-                  </Table>
-                </Card.Body>
-              </Card>
-            </Row>
-            <br />
-            <Row>
-              <Card>
-                <Card.Header>
-                  <b>
-                    <Icon.FileEarmark /> &nbsp; Mini Dashboard
-                  </b>
-                </Card.Header>
-                <Card.Body>
-                  <Table>
-                    <thead>
-                      <tr>
-                        <th>CODE</th>
-                        <th>MEASURE TITLE</th>
-                        <th>Current Referal</th>
-                        <th>Status Date</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {bills.map((bill) => (
-                        <NotificationBill key={bill._id} bills={bill} />
-                      ))}
-                    </tbody>
-                  </Table>
-                </Card.Body>
-              </Card>
-            </Row>
-          </Container>
-        </div>
-      </>
-    );
-  }
+
+  const sectionHeaders = {
+    color: 'white',
+    backgroundColor: '#37425e',
+  };
+
   return (
-    <>
-      <SideNavBar />
-      &nbsp;
-      <div style={mainBodyStyle}>
-        <Container fluid>
-          <br />
-          <h2
-            style={{
-              textAlign: 'center',
-              fontWeight: 'bolder',
-            }}
-          >
-            Legislative Tracking System
-          </h2>
-          <Row>
-            <Card>
-              <Card.Header>
-                <b>
-                  <Icon.Bell /> &nbsp; Upcoming Hearing
-                </b>
+    <div style={{ backgroundColor: '#ece9e9', height: '100%' }}>
+      {width < breakPoint ? <MobileSideBar page="home" /> : <DesktopSideBar page="home" />}
+      <Col style={width < breakPoint ? mobileMainBody : mainBodyStyle} className="d-flex justify-content-center">
+        <Container>
+          <h1 className="pt-4 m-0 text-center">
+            <b>DOELT</b>
+          </h1>
+          <h6 className="p-0">Department of Education Legislative Tracker</h6>
+          <Row className="pt-3">
+            <Card className="p-0">
+              <Card.Header style={sectionHeaders}>
+                <Icon.BellFill className="mb-1" /> &nbsp; Upcoming Hearings
               </Card.Header>
               <Card.Body>
                 <Table>
                   <thead>
                     <tr>
-                      <th>TITLE</th>
-                      <th>START</th>
-                      <th>ROOM</th>
-                      <th>YOUTUBE</th>
-                      <th>NOTICE URL</th>
-                      <th>PDF URL</th>
+                      <th>Title</th>
+                      <th>Date/Time</th>
+                      <th>Location</th>
+                      <th>Video</th>
+                      <th>URL</th>
+                      <th>PDF</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    {upcomingHearings
-                      .map((hearing) => <NotificationBody hearing={hearing} />)
-                      .slice(0, 14)}
-                  </tbody>
+                  { upcomingHearings.length > 0 ? (
+                    <tbody>
+                      {upcomingHearings.map((hearing) => <NotificationBody hearing={hearing} />).slice(0, 14)}
+                    </tbody>
+                  ) : <p /> }
                 </Table>
+                { upcomingHearings.length > 0 ? <p /> : <p>No upcoming hearings found.</p> }
               </Card.Body>
             </Card>
           </Row>
           <br />
           <Row>
-            <Card>
-              <Card.Header>
-                <b>
-                  <Icon.FileEarmark /> &nbsp; Mini Dashboard
-                </b>
+            <Card className="p-0">
+              <Card.Header style={sectionHeaders}>
+                <Icon.CardChecklist className="mb-1" style={{ fontSize: '20px' }} /> &nbsp; Mini Dashboard
               </Card.Header>
               <Card.Body>
                 <Table>
                   <thead>
                     <tr>
-                      <th>CODE</th>
-                      <th>MEASURE TITLE</th>
-                      <th>Current Referal</th>
-                      <th>Status Date</th>
+                      <th>Bill</th>
+                      <th>Title</th>
+                      <th>Current Referral</th>
+                      <th>Status</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -201,8 +118,9 @@ const Home = () => {
             </Card>
           </Row>
         </Container>
-      </div>
-    </>
+      </Col>
+    </div>
   );
 };
+
 export default Home;

@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { expect } from 'chai';
 import faker from 'faker';
 import fc from 'fast-check';
-import { removeAllEntities } from '../base/BaseUtilities';
+import { removeAllEntities } from '../../base/BaseUtilities';
 import { AdminProfiles } from './AdminProfileCollection';
 
 /* eslint prefer-arrow-callback: "off",  no-unused-expressions: "off" */

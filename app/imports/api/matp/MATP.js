@@ -1,9 +1,15 @@
 import { Meteor } from 'meteor/meteor';
 import { Stuffs } from '../stuff/StuffCollection';
 import { Testimonies } from '../testimony/TestimonyCollection';
-import { AdminProfiles } from '../user/AdminProfileCollection';
+import { AdminProfiles } from '../user/admin/AdminProfileCollection';
 import { UserProfiles } from '../user/UserProfileCollection';
 import { SavedMeasures } from '../savedMeasures/SavedMeasuresCollection';
+import { AssignerProfiles } from '../user/assigner/AssignerProfileCollection';
+import { WriterProfiles } from '../user/writer/WriterProfileCollection';
+import { OfficerApvProfiles } from '../user/office_apv/OfficeApvProfileCollection';
+import { PIPEApvProfiles } from '../user/pipe_apv/PIPEApvProfileCollection';
+import { FinalApvProfiles } from '../user/final_apv/FinalApvProfileCollection';
+import { SubmitterProfiles } from '../user/submitter/SubmitterProfileCollection';
 
 class MATPClass {
   collections;
@@ -16,8 +22,14 @@ class MATPClass {
     // list of all the MATP collections
     this.collections = [
       AdminProfiles,
-      Stuffs,
       UserProfiles,
+      AssignerProfiles,
+      WriterProfiles,
+      OfficerApvProfiles,
+      PIPEApvProfiles,
+      FinalApvProfiles,
+      SubmitterProfiles,
+      Stuffs,
       Testimonies,
       SavedMeasures,
     ];
@@ -27,6 +39,12 @@ class MATPClass {
     this.collectionLoadSequence = [
       AdminProfiles,
       UserProfiles,
+      AssignerProfiles,
+      WriterProfiles,
+      OfficerApvProfiles,
+      PIPEApvProfiles,
+      FinalApvProfiles,
+      SubmitterProfiles,
       Stuffs,
       Testimonies,
       SavedMeasures,

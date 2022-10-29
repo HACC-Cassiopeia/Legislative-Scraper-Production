@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { SavedMeasures } from '../../api/savedMeasures/SavedMeasuresCollection';
 import SavedBill from '../components/SavedBill';
 import LoadingSpinner from '../components/LoadingSpinner';
-import SideNavBar from '../components/SideNavBar';
+import DesktopSideBar from '../components/SideNavBar/DesktopSideBar';
 
 /* Renders a table containing all of the Stuff documents. Use <StuffItem> to render each row. */
 const Dashboard = () => {
@@ -175,7 +175,7 @@ const Dashboard = () => {
   );
 
   const returnList = () => (
-    <div style={{ height: '100vh', overflowY: 'auto' }}>
+    <div style={{ height: '100vh', overflowY: 'visible' }}>
       <Table striped>
         <thead style={{ zIndex: 200 }}>
           <tr>
@@ -187,6 +187,7 @@ const Dashboard = () => {
             <th>Position</th>
             <th>Testifier</th>
             <th>Status</th>
+            <th>Edit</th>
           </tr>
         </thead>
         <tbody>
@@ -198,8 +199,8 @@ const Dashboard = () => {
   );
 
   return (
-    <Row>
-      <SideNavBar id="nav" />
+    <Col>
+      <DesktopSideBar page="bills" />
       <div id="mainBody">
         <Row id="dashboard-screen">
           <Col>
@@ -209,7 +210,7 @@ const Dashboard = () => {
           </Col>
         </Row>
       </div>
-    </Row>
+    </Col>
   );
 };
 

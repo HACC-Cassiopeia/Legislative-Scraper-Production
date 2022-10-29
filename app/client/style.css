@@ -15,6 +15,19 @@ body {
   --bs-light-rgb: var(--matr-navbar-bg-rgb);
 }
 
+a {
+  --bs-link-color: #6175bd;
+}
+
+.page-link {
+  --bs-link-color: #6175bd;
+  --bs-pagination-color: #404d70;
+  --bs-pagination-border-color: #404d70;
+  --bs-pagination-active-bg: #404d70;
+  --bs-pagination-active-border-color: #404d70;
+  --bs-pagination-hover-color: #2e374f;
+}
+
 html, body {
   height: 100%;
 }
@@ -51,15 +64,6 @@ html, body {
   color: var(--bs-dark);
   padding-top: 10px;
   padding-bottom: 20px;
-}
-
-.headerTopTitle {
-  background: url('images/landing.png') no-repeat center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-position: center;
-  background-size: cover;
-  min-height: 35vh;
 }
 
 /*  not sure how to do the bootstrap attributes (eg --bs-accordion-active-bg) in the .jsx files so these stay here for now -Rob */
@@ -125,15 +129,100 @@ html, body {
   font-weight: bold;
   --bs-btn-bg: #2e374f;
   --bs-btn-border-color: #242c41;
-  --bs-btn-hover-border-color: #333f59;
-  --bs-btn-hover-bg: #37425e;
 }
 
 .halpButton .btn-primary {
   --bs-btn-bg: #2e374f;
   --bs-btn-border-color: #242c41;
-  --bs-btn-hover-border-color: #333f59;
-  --bs-btn-hover-bg: #37425e;
+}
+
+.navButtons .btn:focus {
+  border-color: transparent;
+}
+
+.navButtons:hover {
+  color: #586586 !important;
+}
+
+.pdfFiller .form-control {
+  padding: 0;
+  margin: 0;
+  border-radius: 0;
+  border: 0 #e3e3e3;
+}
+
+.testimonyName .form-control {
+  margin-top: 20px;
+  font-weight: bold;
+  font-size: x-small;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.testimonyTitle .form-control {
+  top: -20px;
+  position: relative;
+  font-size: x-small;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.testimonyAddress {
+  font-size: small;
+  line-height: 1.2em;
+}
+
+.testimonyHearingInfo .form-control {
+  display: inline;
+  width: auto;
+}
+
+.pdfFiller .form-control::placeholder {
+  color: black;
+}
+
+.doePosition .form-control::placeholder {
+  color: gray;
+}
+
+#generatePdfButton {
+  padding-left: 10px;
+  --bs-btn-border-width: 0;
+  --bs-btn-color: black;
+  --bs-btn-bg: #F7F7F7;
+  --bs-btn-disabled-color: gray;
+  --bs-btn-disabled-bg: F7F7F7;
+  --bs-btn-hover-color: gray;
+  --bs-btn-hover-bg: #F7F7F7;
+  --bs-btn-focus-shadow-rgb: #F7F7F7;
+  --bs-btn-active-color: #gray;
+  --bs-btn-active-bg: #F7F7F7;
+  --bs-btn-active-border-color: #F7F7F7;
+  --bs-btn-active-shadow: none;
+  --bs-btn-disabled-border-color: #F7F7F7;
+}
+
+.testimonyNavbarButtons .btn-primary {
+  padding-left: 10px;
+  --bs-btn-border-width: 0;
+  --bs-btn-color: black;
+  --bs-btn-bg: #F7F7F7;
+  --bs-btn-disabled-color: gray;
+  --bs-btn-disabled-bg: F7F7F7;
+  --bs-btn-hover-color: gray;
+  --bs-btn-hover-bg: #F7F7F7;
+  --bs-btn-focus-shadow-rgb: #F7F7F7;
+  --bs-btn-active-color: #gray;
+  --bs-btn-active-bg: #F7F7F7;
+  --bs-btn-active-border-color: #F7F7F7;
+  --bs-btn-active-shadow: none;
+  --bs-btn-disabled-border-color: #F7F7F7;
+}
+
+.testimonyNavbarButtons .bth.disabled, .btn:disabled {
+  --bs-btn-disabled-color: black;
+  --bs-btn-disabled-bg: F7F7F7;
+  --bs-btn-border-width: 0;
 }
 
 #navBar {
@@ -142,20 +231,17 @@ html, body {
 }
 
 #mainBody {
-  margin-left: 14%;
-  width: 86%;
+  margin-left: 135px;
+  width: calc(100% - 135px);
   z-index: 0;
 }
 
 #mobileMainBody {
-  margin-left: 25%;
+  margin-left: 60px;
   z-index: 0;
   font-size: 12px;
 }
 
-@media only screen and (max-width: 800px) {
-  #mainBody {
-    margin-left: 20%;
-    z-index: 0;
-  }
+.expandedNavbar {
+  width: 60px;
 }

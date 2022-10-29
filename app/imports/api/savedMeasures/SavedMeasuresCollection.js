@@ -47,7 +47,7 @@ class SavedMeasuresCollection extends BaseCollection {
    * Defines a new MeasureSaved item.
    */
   // eslint-disable-next-line max-len
-  define({ code, companion, currentReferral, description, introducer, measureArchiveUrl, measurePdfUrl, measureTitle, reportTitle, statusDate, statusDescription, statusHorS }) {
+  define({ code, companion, currentReferral, description, introducer, measureArchiveUrl, measurePdfUrl, measureTitle, reportTitle, statusDate, statusDescription, statusHorS, office, doeAction, hearingDate, hearingTime, doePosition, testifier, doeInternalStatus }) {
     const docID = this._collection.insert({
       code,
       companion,
@@ -61,6 +61,13 @@ class SavedMeasuresCollection extends BaseCollection {
       statusDate,
       statusDescription,
       statusHorS,
+      office,
+      doeAction,
+      hearingDate,
+      hearingTime,
+      doePosition,
+      testifier,
+      doeInternalStatus,
     });
     return docID;
   }
@@ -175,20 +182,21 @@ class SavedMeasuresCollection extends BaseCollection {
    * It publishes the entire collection for admin and just the stuff associated to an owner.
    */
   publish() {
+    // TODO these separate admin/user returns aren't necessary for us, but maybe we can add offices in the futures here,
+    //  so that each office only sees the bills that are assigned to them?
     if (Meteor.isServer) {
       // get the StuffCollection instance.
       const instance = this;
       /** This subscription publishes only the documents associated with the logged in user */
       Meteor.publish(savedMeasurePublications.savedMeasure, function publish() {
         if (this.userId) {
-          const username = Meteor.users.findOne(this.userId).username;
-          return instance._collection.find({ owner: username });
+          return instance._collection.find();
         }
         return this.ready();
       });
 
       /** This subscription publishes all documents regardless of user, but only if the logged in user is the Admin. */
-      Meteor.publish(savedMeasurePublications.savedMeasureAdminn, function publish() {
+      Meteor.publish(savedMeasurePublications.savedMeasureAdmin, function publish() {
         if (this.userId && Roles.userIsInRole(this.userId, ROLE.ADMIN)) {
           return instance._collection.find();
         }
@@ -213,7 +221,7 @@ class SavedMeasuresCollection extends BaseCollection {
    */
   subscribeMeasureSavedAdmin() {
     if (Meteor.isClient) {
-      return Meteor.subscribe(savedMeasurePublications.measureSavedAdmin);
+      return Meteor.subscribe(savedMeasurePublications.savedMeasureAdmin);
     }
     return null;
   }
@@ -247,7 +255,7 @@ class SavedMeasuresCollection extends BaseCollection {
     const statusDescription = doc.statusDescription;
     const statusDate = doc.statusDate;
     const introducer = doc.introducer;
-    const currentReferral = doc.currentReferrale;
+    const currentReferral = doc.currentReferral;
     const companion = doc.companion;
     const doeAction = doc.doeAction;
     const hearingDate = doc.hearingDate;

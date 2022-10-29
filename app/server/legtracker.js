@@ -211,6 +211,7 @@ app.get('/api/scrapeBillDetails/:bt/:bn/:year', async (req, res) => {
     let index = 1;
     const lastStatusTextData = [];
     const billDetails = {
+      initialDate: '',
       lastStatusText: '',
       measureVersions: [],
       committeeReports: [],
@@ -232,6 +233,7 @@ app.get('/api/scrapeBillDetails/:bt/:bn/:year', async (req, res) => {
       });
     });
     billDetails.lastStatusText = `${lastStatusTextData.pop().lastStatusText.trim()}`;
+    billDetails.initialDate = `${lastStatusTextData[1].lastStatusText.split(' ')[0]}`;
 
     $('table#ctl00_ContentPlaceHolder1_GridViewVersions > tbody > tr', html).has('a').each(function () {
       index += 1;
@@ -287,6 +289,10 @@ app.get('/api/scrapeBillDetails/:bt/:bn/:year', async (req, res) => {
 
     $('table#ctl00_ContentPlaceHolder1_GridView1 > tbody > tr', html).has('a').each(function () {
       index += 1;
+      const committee = $(this)
+        .find(`#ctl00_ContentPlaceHolder1_GridView1_ctl${getIndex(index)}_Label17 > b`)
+        .text();
+
       const dateTime = $(this)
         .find(`#ctl00_ContentPlaceHolder1_GridView1_ctl${getIndex(index)}_Label27`)
         .text();
@@ -302,6 +308,7 @@ app.get('/api/scrapeBillDetails/:bt/:bn/:year', async (req, res) => {
         .attr('href');
 
       billDetails.hearingNotices.push({
+        committee: committee,
         dateTime: dateTime,
         room: room,
         youtubeUrl: youtubeUrl,
