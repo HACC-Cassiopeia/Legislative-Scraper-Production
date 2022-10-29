@@ -172,6 +172,7 @@ const Dashboard = () => {
             <th>Position</th>
             <th>Testifier</th>
             <th>Status</th>
+            <th>Edit</th>
           </tr>
         </thead>
         <tbody>
