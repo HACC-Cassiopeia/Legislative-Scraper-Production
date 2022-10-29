@@ -170,41 +170,40 @@ const AllDashboard = () => {
 
   const returnFilter = () => (
     <div className="pb-3">
-      <Row className="mt-5">
-        <Row>
-          <Col className="d-flex justify-content-end">
-            <DropdownButton
-              id="yearDropdown"
-              title={year}
-              onSelect={(e) => setYear(e)}
-            >
-              <Dropdown.Item eventKey="2022">2022</Dropdown.Item>
-              <Dropdown.Item eventKey="2021">2021</Dropdown.Item>
-              <Dropdown.Item eventKey="2020">2020</Dropdown.Item>
-              <Dropdown.Item eventKey="2019">2019</Dropdown.Item>
-              <Dropdown.Item eventKey="2018">2018</Dropdown.Item>
-              <Dropdown.Item eventKey="2017">2017</Dropdown.Item>
-              <Dropdown.Item eventKey="2016">2016</Dropdown.Item>
-              <Dropdown.Item eventKey="2015">2015</Dropdown.Item>
-              <Dropdown.Item eventKey="2014">2014</Dropdown.Item>
-              <Dropdown.Item eventKey="2013">2013</Dropdown.Item>
-              <Dropdown.Item eventKey="2012">2012</Dropdown.Item>
-              <Dropdown.Item eventKey="2011">2011</Dropdown.Item>
-              <Dropdown.Item eventKey="2010">2010</Dropdown.Item>
-            </DropdownButton>
-          </Col>
-          <Col className="d-flex justify-content-start">
-            <DropdownButton
-              id="yearDropdown"
-              title={type === 'hb' ? 'House Bills' : 'Senate Bills'}
-              onSelect={(e) => setType(e)}
-            >
-              <Dropdown.Item eventKey="hb">House Bills</Dropdown.Item>
-              <Dropdown.Item eventKey="sb">Senate Bills</Dropdown.Item>
-            </DropdownButton>
-          </Col>
-          <Col className="col-1" />
-        </Row>
+      <Row style={{ paddingTop: '30px' }}>
+        <Col className="d-flex justify-content-center align-bottom">
+          <h1 className="d-inline pe-2 align-items-center"><b>{year}</b></h1>
+          <DropdownButton
+            className="d-inline pe-3 mt-3"
+            id="yearDropdown"
+            title=""
+            onSelect={(e) => setYear(e)}
+          >
+            <Dropdown.Item eventKey="2022">2022</Dropdown.Item>
+            <Dropdown.Item eventKey="2021">2021</Dropdown.Item>
+            <Dropdown.Item eventKey="2020">2020</Dropdown.Item>
+            <Dropdown.Item eventKey="2019">2019</Dropdown.Item>
+            <Dropdown.Item eventKey="2018">2018</Dropdown.Item>
+            <Dropdown.Item eventKey="2017">2017</Dropdown.Item>
+            <Dropdown.Item eventKey="2016">2016</Dropdown.Item>
+            <Dropdown.Item eventKey="2015">2015</Dropdown.Item>
+            <Dropdown.Item eventKey="2014">2014</Dropdown.Item>
+            <Dropdown.Item eventKey="2013">2013</Dropdown.Item>
+            <Dropdown.Item eventKey="2012">2012</Dropdown.Item>
+            <Dropdown.Item eventKey="2011">2011</Dropdown.Item>
+            <Dropdown.Item eventKey="2010">2010</Dropdown.Item>
+          </DropdownButton>
+          <h1 className="d-inline pe-2 align-items-center"><b>{type === 'hb' ? 'House Bills' : 'Senate Bills'}</b></h1>
+          <DropdownButton
+            className="d-inline mt-3"
+            id="yearDropdown"
+            title=""
+            onSelect={(e) => setType(e)}
+          >
+            <Dropdown.Item eventKey="hb">House Bills</Dropdown.Item>
+            <Dropdown.Item eventKey="sb">Senate Bills</Dropdown.Item>
+          </DropdownButton>
+        </Col>
         <Row className="pt-3 px-5">
           <Col className="d-flex justify-content-center">
             <label htmlFor="Search by Bill Code">
@@ -292,13 +291,9 @@ const AllDashboard = () => {
             </label>
           </Col>
         </Row>
-        <Row>
-          <Col className="d-flex justify-content-center pb-3">
-            <Link className="pb-2 small" to="/view/DOE">
-              View Saved DOE Bill/Measures
-            </Link>
-          </Col>
-        </Row>
+        <Link className="small pb-2 text-center" to="/view/DOE">
+          View Saved DOE Bill/Measures
+        </Link>
       </Row>
     </div>
   );
