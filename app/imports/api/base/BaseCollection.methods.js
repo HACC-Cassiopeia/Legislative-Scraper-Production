@@ -37,7 +37,7 @@ export const updateMethod = new ValidatedMethod({
       // console.log('updateMethod(%o, %o)', collectionName, updateData);
       const collection = MATP.getCollection(collectionName);
       collection.assertValidRoleForMethod(this.userId);
-      collection.update(updateData.id, updateData);
+      collection.update(updateData._id, updateData);
     }
   },
 });
