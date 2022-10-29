@@ -35,8 +35,8 @@ const DesktopSideBar = (props) => {
     position: 'fixed',
     minHeight: '100vh',
     minWidth: openWidth,
-    maxWidth: openWidth,
-    width: openWidth,
+    // maxWidth: openWidth,  <- these lines mess up the layout by making the navbar too narrow
+    // width: openWidth,
     backgroundColor: '#2e374f',
     color: 'white',
     fontSize: '14px',
@@ -58,7 +58,7 @@ const DesktopSideBar = (props) => {
   const buttonStyle = {
     backgroundColor: '#2e374f',
     borderWidth: 0,
-    width: openWidth,
+    minWidth: openWidth,
     fontWeight: 'normal',
     fontSize: '20px',
     marginLeft: 0,
