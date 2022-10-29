@@ -60,6 +60,7 @@ SavedBill.propTypes = {
     doePosition: { type: String, optional: true },
     testifier: { type: String, optional: true },
     doeInternalStatus: { type: String, optional: true },
+    _id: { type: String, optional: false },
   }).isRequired,
 };
 
