@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { Container, Navbar, Nav, Row } from 'react-bootstrap';
 import { PencilSquare, FileEarmarkPlusFill, BoxArrowInDown } from 'react-bootstrap-icons';
 import BillResolutionDetails from '../components/BillResolutionDetails';
-import MobileSideBar from '../components/SideNavBar/MobileSideBar';
+import DesktopSideBar from '../components/SideNavBar/DesktopSideBar';
 
 const navBarStyle = {
   backgroundColor: '#FFFFFF',
@@ -31,7 +31,7 @@ const BillResolutionTracker = () => {
 
   return (
     <Row>
-      <MobileSideBar id="nav" />
+      <DesktopSideBar page="bill" />
       <div id="mainBody">
         {/* TODO add functionality to edit, create monitoring report, and save to db buttons */}
         <Navbar className="fixed-top justify-content-center" style={navBarStyle}>

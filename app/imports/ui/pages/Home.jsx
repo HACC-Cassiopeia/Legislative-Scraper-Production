@@ -58,7 +58,7 @@ const Home = () => {
 
   return (
     <div style={{ backgroundColor: '#ece9e9', height: '100%' }}>
-      {width < breakPoint ? <MobileSideBar page="home" /> : <DesktopSideBar id="desktopSidebar" page="home" />}
+      {width < breakPoint ? <MobileSideBar page="home" /> : <DesktopSideBar page="home" />}
       <Col style={width < breakPoint ? mobileMainBody : mainBodyStyle} className="d-flex justify-content-center">
         <Container>
           <h1 className="pt-4 m-0 text-center">

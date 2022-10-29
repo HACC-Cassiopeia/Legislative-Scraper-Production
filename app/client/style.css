@@ -129,15 +129,19 @@ html, body {
   font-weight: bold;
   --bs-btn-bg: #2e374f;
   --bs-btn-border-color: #242c41;
-  --bs-btn-hover-border-color: #333f59;
-  --bs-btn-hover-bg: #37425e;
 }
 
 .halpButton .btn-primary {
   --bs-btn-bg: #2e374f;
   --bs-btn-border-color: #242c41;
-  --bs-btn-hover-border-color: #333f59;
-  --bs-btn-hover-bg: #37425e;
+}
+
+.navButtons .btn:focus {
+  border-color: transparent;
+}
+
+.navButtons:hover {
+  color: #586586 !important;
 }
 
 .pdfFiller .form-control {

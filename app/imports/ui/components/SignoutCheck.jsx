@@ -16,11 +16,12 @@ const SignoutCheck = () => {
     fontSize: '13px',
     marginLeft: 0,
     marginRight: '3px',
+    boxShadow: 'none',
   };
 
   return (
     <>
-      <Button className="mt-2 ms-2" style={buttonStyle} variant="primary" id="navbar-sign-out" onClick={handleShow}>
+      <Button className="mt-2 ms-2 navButtons" style={buttonStyle} variant="primary" id="navbar-sign-out" onClick={handleShow}>
         <Power style={{ fontSize: '20px' }} className="mb-1 me-3" />Sign Out
       </Button>
       <Modal show={show} onHide={handleClose}>
