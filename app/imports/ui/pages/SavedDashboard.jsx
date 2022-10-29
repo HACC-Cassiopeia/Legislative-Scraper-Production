@@ -19,7 +19,6 @@ const Dashboard = () => {
 
   const [filteredMeasures, setFilteredMeasures] = useState([]);
 
-  // TODO: Find a way to save bills into filteredMeasures
   const { ready, bills } = useTracker(() => {
     const subscription = SavedMeasures.subscribeMeasureSaved();
     const rdy = subscription.ready();
@@ -43,8 +42,17 @@ const Dashboard = () => {
     document.title = 'DOELT - View DOE Bills/Measures';
   }, []);
 
+  // set bills in filteredMeasures when finished loading
+  useEffect(() => {
+    if (ready) {
+      setFilteredMeasures(bills);
+    }
+  }, [ready]);
+
+  // for filtering
   useEffect(() => {
     let filtered = bills;
+    console.log(bills);
     if (chamber) {
       filtered = filtered.filter(function (obj) { return obj.statusHorS === chamber; });
     }
@@ -54,8 +62,21 @@ const Dashboard = () => {
     if (title) {
       filtered = filtered.filter(function (obj) { return obj.measureTitle.toLowerCase().includes(title.toLowerCase()); });
     }
+    if (statusDate) {
+      filtered = filtered.filter(function (obj) { return obj.statusDate.includes(statusDate); });
+    }
+    // filter option fields from modal, first need to check if populated
+    if (hearingDate) {
+      filtered = filtered.filter(function (obj) { return obj.hearingDate ? obj.hearingDate.includes(hearingDate) : false; });
+    }
+    if (office) {
+      filtered = filtered.filter(function (obj) { return obj.office ? obj.office.includes(office) : false; });
+    }
+    if (action) {
+      filtered = filtered.filter(function (obj) { return obj.doeAction ? obj.doeAction.toLowerCase().includes(action.toLowerCase()) : false; });
+    }
     setFilteredMeasures(filtered);
-  }, [chamber, billNum, title, statusDate]);
+  }, [chamber, billNum, title, statusDate, office, action, hearingDate]);
 
   const returnFilter = () => (
     <div className="pb-3">
@@ -153,6 +174,7 @@ const Dashboard = () => {
                     title={office === '' ? 'Select an Office' : office}
                     onSelect={(e) => setOffice(e)}
                   >
+                    <Dropdown.Item eventKey="BOE">BOE</Dropdown.Item>
                     <Dropdown.Item eventKey="OCID">OCID</Dropdown.Item>
                     <Dropdown.Item eventKey="OFO">OFO</Dropdown.Item>
                     <Dropdown.Item eventKey="OFS">OFS</Dropdown.Item>
@@ -161,24 +183,18 @@ const Dashboard = () => {
                     <Dropdown.Item eventKey="OSIP">OSIP</Dropdown.Item>
                     <Dropdown.Item eventKey="OSSS">OSSS</Dropdown.Item>
                     <Dropdown.Item eventKey="OTM">OTM</Dropdown.Item>
+                    <Dropdown.Item eventKey="SUPT">SUPT</Dropdown.Item>
                   </DropdownButton>
                 </Col>
                 <Col>
                   Action <br />
-                  <DropdownButton
-                    id="dropdown-basic-button"
-                    variant="secondary"
-                    title={action === '' ? 'Select an Action' : action}
-                    onSelect={(e) => setAction(e)}
-                  >
-                    <Dropdown.Item eventKey="Action">Action</Dropdown.Item>
-                    <Dropdown.Item eventKey="Another action">
-                      Another action
-                    </Dropdown.Item>
-                    <Dropdown.Item eventKey="Something else">
-                      Something else
-                    </Dropdown.Item>
-                  </DropdownButton>
+                  <label htmlFor="Search by status date">
+                    <input
+                      type="text"
+                      placeholder="Enter action here"
+                      onChange={e => setAction(e.target.value)}
+                    />
+                  </label>
                 </Col>
                 <Col />
               </Row>
@@ -206,10 +222,10 @@ const Dashboard = () => {
           </tr>
         </thead>
         <tbody>
-          { bills.length === 0 ? ' ' : bills.map((bill) => <SavedBill key={bill._id} bill={bill} />) }
+          { filteredMeasures.length === 0 ? ' ' : filteredMeasures.map((bill) => <SavedBill key={bill._id} bill={bill} />) }
         </tbody>
       </Table>
-      { bills.length === 0 ? <div className="d-flex justify-content-center">No bills/measures found in DOE database</div> : '' }
+      { filteredMeasures.length === 0 ? <div className="d-flex justify-content-center">No bills/measures found in DOE database</div> : '' }
     </div>
   );
 

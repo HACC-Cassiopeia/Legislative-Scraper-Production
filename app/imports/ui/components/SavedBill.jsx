@@ -16,7 +16,7 @@ const SavedBill = ({ bill }) => (
         </Accordion.Item>
       </Accordion>
     </td>
-    <td>{bill.office ? bill.office : 'N/A'}</td>
+    <td>{bill.office ? bill.office.toString() : 'N/A'}</td>
     <td>{bill.doeAction ? bill.doeAction : 'N/A'}</td>
     <td>{bill.currentReferral ? bill.currentReferral : 'N/A'}</td>
     <td>

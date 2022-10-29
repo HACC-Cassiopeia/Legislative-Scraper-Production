@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal, Row, Col } from 'react-bootstrap';
-import { AutoForm, ErrorsField, SubmitField, TextField, SelectField } from 'uniforms-bootstrap5';
+import { AutoForm, SubmitField, TextField, SelectField } from 'uniforms-bootstrap5';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
 import PropTypes from 'prop-types';
@@ -14,7 +14,11 @@ const SaveBillModal = ({ show, onHide, onSubmit }) => {
   const offices = ['BOE', 'OCID', 'OFS', 'OFO', 'OHE', 'OITS', 'OSIP', 'OSSS', 'OTM', 'SUPT'];
 
   const schema = new SimpleSchema({
-    office: { label: 'Office', type: String, allowedValues: offices, optional: true },
+    office: { label: 'Office', type: Array, optional: true },
+    'office.$': {
+      type: String,
+      allowedValues: offices,
+    },
     doeAction: { label: 'Action', type: String, optional: true },
     hearingDate: { label: 'Hearing Date', type: String },
     hearingTime: { label: 'Hearing Time', type: String },
