@@ -4,9 +4,9 @@ import { Archive, FileEarmarkPdfFill, FilePdfFill, PlusCircle, Youtube } from 'r
 import { useTracker } from 'meteor/react-meteor-data';
 import { useParams } from 'react-router';
 // import { Meteor } from 'meteor/meteor';
-import LoadingSpinner from './LoadingSpinner';
-import { SavedMeasures } from '../../api/savedMeasures/SavedMeasuresCollection';
-import Legtracker from '../utilities/Legtracker';
+import LoadingSpinner from '../LoadingSpinner';
+import { SavedMeasures } from '../../../api/savedMeasures/SavedMeasuresCollection';
+import Legtracker from '../../utilities/Legtracker';
 
 const BillResolutionDetails = () => {
   const { _code } = useParams();
