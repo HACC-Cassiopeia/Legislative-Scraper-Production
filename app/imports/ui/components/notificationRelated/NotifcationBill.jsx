@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const NotificationBill = ({ bills }) => (
-  <tr>
+  <tr key={bills.code}>
     <td>{bills.code}</td>
     <td>{bills.measureTitle}</td>
     <td>{bills.currentReferral}</td>

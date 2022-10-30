@@ -156,7 +156,7 @@ const Home = () => {
                   </thead>
                   { upcomingHearings.length > 0 ? (
                     <tbody>
-                      {upcomingHearings.map((hearing) => <NotificationBody hearing={hearing} />).slice(0, 14)}
+                      {upcomingHearings.map((hearing) => <NotificationBody key={`${hearing.dateTime}`} hearing={hearing} />).slice(0, 14)}
                     </tbody>
                   ) : (
                     '-'
@@ -223,7 +223,7 @@ const Home = () => {
                   {ready ? (
                     <tbody>
                       {bills.map((bill) => (
-                        <NotificationBill key={bills._id} bills={bill} />
+                        <NotificationBill key={bill._id} bills={bill} />
                       ))}
                     </tbody>
                   ) : <LoadingSpinner />}
