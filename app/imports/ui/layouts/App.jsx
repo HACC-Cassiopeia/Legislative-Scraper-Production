@@ -27,7 +27,9 @@ import BillResolutionTracker from '../pages/BillResolutionTracker';
 import AddTestimony from '../pages/AddTestimony';
 import Test from '../Test';
 import Calendar from '../pages/Calendar';
+import EditTestimony from '../pages/EditTestimony';
 import EditMeasure from '../pages/EditMeasure';
+
 
 const App = () => (
   <Router>
@@ -39,6 +41,13 @@ const App = () => (
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signout" element={<SignOut />} />
+        <Route path="/view/all" element={<ProtectedRoute><AllDashboard /></ProtectedRoute>} />
+        <Route path="/view/DOE" element={<ProtectedRoute><SavedDashboard /></ProtectedRoute>} />
+        <Route path="/add-testimony/:_code" element={<ProtectedRoute><AddTestimony /></ProtectedRoute>} />
+        <Route path="/edit-testimony/:_code/:_id" element={<ProtectedRoute><EditTestimony /></ProtectedRoute>} />
+        <Route path="/view/:_code" element={<ProtectedRoute><BillResolutionTracker /></ProtectedRoute>} />
+        <Route path="/test" element={<Test />} />
+        <Route path="/calendar" element={<ProtectedRoute><Calendar /></ProtectedRoute>} />
         <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
         <Route path="/list" element={<ProtectedRoute><ListStuff /></ProtectedRoute>} />
         <Route path="/add" element={(<ProtectedRoute><AddStuff /></ProtectedRoute>)} />

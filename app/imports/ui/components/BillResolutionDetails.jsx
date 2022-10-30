@@ -39,7 +39,7 @@ const BillResolutionDetails = () => {
 
   const [billDetails, setBillDetails] = useState({});
   useEffect(() => {
-    document.title = `DOE Legislative Tracker - ${_code}`;
+    document.title = `DOELT - ${_code}`;
     if (ready && bill !== undefined) {
       Legtracker
         .scrapeBillDetails(billObj.bt, billObj.bn, billObj.year)
@@ -52,11 +52,6 @@ const BillResolutionDetails = () => {
   // TODO change depending on bill status
   const billStatusStyle = {
     backgroundColor: '#f5f5f5',
-  };
-
-  const fakeLink4Rob = {
-    color: '#6f5cf3',
-    textDecorationLine: 'underline',
   };
 
   function introducerShortened() {
@@ -135,8 +130,6 @@ const BillResolutionDetails = () => {
     <Container className="text-center border border-1 small mb-5">
       <Row style={{ backgroundColor: '#ddf3dd' }}>
         <Col>
-          {console.log(bill)}
-          {console.log(billDetails)}
           {/* EMPTY COL FOR ALIGNMENT */}
         </Col>
         <Col>
@@ -305,7 +298,6 @@ const BillResolutionDetails = () => {
           </Row>
           <Row className="py-2">
             <Col>
-              {/* TODO hearing date, it looks like this is scraped from the 'hearing notices' section on the bill page */}
               {billDateAndTime()}
             </Col>
           </Row>
@@ -318,7 +310,6 @@ const BillResolutionDetails = () => {
           </Row>
           <Row className="py-2">
             <Col>
-              {/* TODO hearing location, same as above */}
               {billLocation()}
             </Col>
           </Row>
@@ -337,19 +328,6 @@ const BillResolutionDetails = () => {
         </Col>
       </Row>
       <Row>
-        <Col className="border border-top-0 border-bottom-0 border-start-0">
-          <Row>
-            <Col className="border border-start-0 border-end-0">
-              <b>Committee</b>
-            </Col>
-          </Row>
-          <Row className="py-2">
-            <Col>
-              {/* TODO 'committee' section, did not see this on the bill page */}
-              **House Finance**
-            </Col>
-          </Row>
-        </Col>
         <Col>
           <Row>
             <Col className="border border-start-0 border-end-0">
@@ -372,7 +350,6 @@ const BillResolutionDetails = () => {
           </Row>
           <Row className="py-1">
             <Col>
-              {/* TODO 'versions,' needs to be scraped from bill page */}
               {versions()}
             </Col>
           </Row>
@@ -385,7 +362,6 @@ const BillResolutionDetails = () => {
           </Row>
           <Row className="py-1">
             <Col>
-              {/* TODO 'committee reports,' same as above */}
               {committeeReports()}
             </Col>
           </Row>
@@ -398,95 +374,7 @@ const BillResolutionDetails = () => {
           </Row>
           <Row className="py-1">
             <Col>
-              {/* TODO add YouTube links, same as above */}
               {youtube()}
-            </Col>
-          </Row>
-        </Col>
-      </Row>
-      <Row>
-        <Col className="py-1 border border-bottom-0 border-start-0 border-end-0">
-          {/* TODO what is this section? who are these people? */}
-          **Alysha Kim 305-9806; Annie Kalama 305-9806; Mandi Morgan 305-9806**<br />
-          **Charlene Miyakawa 305-9806; Esther Kim 305-9806; Wowie Ramos 305-9750**
-        </Col>
-      </Row>
-      <Row>
-        <Col className="border border-top-0 border-bottom-0 border-start-0 col-sm-1">
-          <Row>
-            <Col className="border border-start-0 border-end-0">
-              <b>Similar</b>
-            </Col>
-          </Row>
-          <Row className="py-2">
-            <Col>
-              {/* TODO 'similar'... no idea. I think from this section down is all internal DOE use */}
-            </Col>
-          </Row>
-        </Col>
-        <Col className="border border-top-0 border-bottom-0 border-start-0 col-sm-2">
-          <Row>
-            <Col className="border border-start-0 border-end-0">
-              <b>Lead Office Position</b>
-            </Col>
-          </Row>
-          <Row className="py-2">
-            <Col>
-              {/* TODO lead office position */}
-            </Col>
-          </Row>
-        </Col>
-        <Col className="border border-top-0 border-bottom-0 border-start-0">
-          <Row>
-            <Col className="border border-start-0 border-end-0">
-              <b>Testifier</b>
-            </Col>
-          </Row>
-          <Row className="py-2">
-            <Col>
-              {/* TODO testifier */}
-              **04/04/2022 1:30 PM - Randall T. Tanaka** <br />
-              <div style={fakeLink4Rob}>**03/22/2022 2:00 PM - Keith Hayashi / Randall Tanaka**</div>
-            </Col>
-          </Row>
-        </Col>
-        <Col>
-          <Row>
-            <Col className="border border-start-0 border-end-0">
-              <b>Approved Testimony</b>
-            </Col>
-          </Row>
-          <Row className="py-2">
-            <Col>
-              {/* TODO approved testimony list... these links are scraped from the bill page */}
-              <div style={fakeLink4Rob}><FilePdfFill /> **SB3096-HD2_EDN_04-04-22_FIN_Support.pdf**</div>
-              <div style={fakeLink4Rob}><FilePdfFill /> **SB3096-SD1_EDN_03-22-22_EDN_Support.pdf**</div>
-            </Col>
-          </Row>
-        </Col>
-      </Row>
-      <Row>
-        <Col className="border border-top-0 border-bottom-0 border-start-0">
-          <Row>
-            <Col className="border border-start-0 border-end-0">
-              <b>Monitoring Reports</b>
-            </Col>
-          </Row>
-          <Row className="py-2">
-            <Col>
-              {/* TODO 'monitoring reports' - I think this is for internal DOE use */}
-            </Col>
-          </Row>
-        </Col>
-        <Col>
-          <Row>
-            <Col className="border border-start-0 border-end-0">
-              <b>Hearing Comments</b>
-            </Col>
-          </Row>
-          <Row className="py-2">
-            <Col>
-              {/* TODO 'hearing comments' - same as above */}
             </Col>
           </Row>
         </Col>

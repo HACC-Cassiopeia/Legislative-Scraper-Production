@@ -37,7 +37,6 @@ const AllBill = ({ bill }) => {
       ...data,
       ...bill,
     };
-    console.log(definitionData);
     defineMethod.callPromise({ collectionName, definitionData })
       .catch(error => {
         swal('Error', error.message, 'error');
@@ -52,7 +51,7 @@ const AllBill = ({ bill }) => {
   });
 
   const checkSaved = saveStatus ?
-    <div style={{ textAlign: 'center', fontSize: '20px' }}><CloudCheckFill /></div>
+    <div style={{ textAlign: 'center', fontSize: '25px', color: 'darkgray' }}><CloudCheckFill /></div>
     : (
       <Button
         style={{ backgroundColor: '#418c5c', color: 'white', borderColor: '#297e4b' }}

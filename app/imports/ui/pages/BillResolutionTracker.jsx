@@ -4,7 +4,7 @@ import { Navbar, Nav, Row } from 'react-bootstrap';
 import { FileEarmarkPlusFill, BoxArrowInDown } from 'react-bootstrap-icons';
 import { useParams } from 'react-router';
 import BillResolutionDetails from '../components/BillResolutionDetails';
-import DesktopSideBarCollapsed from '../components/SideNavBar/DesktopSideBarCollapsed';
+import DesktopSideBar from '../components/SideNavBar/DesktopSideBar';
 import TestimonyTracker from '../components/testimony/TestimonyTracker';
 
 const navBarStyle = {
@@ -30,7 +30,7 @@ const BillResolutionTracker = () => {
 
   return (
     <Row>
-      <DesktopSideBarCollapsed page="bill" />
+      <DesktopSideBar page="bill" />
       <div id="mainBody">
         {/* TODO add functionality to edit, create monitoring report, and save to db buttons */}
         <Navbar className="fixed-top justify-content-center" style={navBarStyle}>

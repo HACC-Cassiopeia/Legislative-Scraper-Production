@@ -13,27 +13,21 @@ export const testimonyPublications = {
 class TestimonyCollection extends BaseCollection {
   constructor() {
     super('Testimonies', new SimpleSchema({
-      governorName: {
-        type: String,
-        defaultValue: 'DAVID Y. IGE',
-      },
-      governorTitle: {
-        type: String,
-        defaultValue: 'GOVERNOR',
-      },
+      governorName: { type: String, defaultValue: 'DAVID Y. IGE' },
+      governorTitle: { type: String, defaultValue: 'GOVERNOR' },
       testifier: String,
       testifierTitle: String,
       hearingDate: String,
       hearingTime: String,
       hearingLocation: String,
       committee: String,
-      department: {
-        type: String,
-        defaultValue: 'Education',
-      },
+      department: { type: String, defaultValue: 'Education' },
+      billCode: String,
       billTitle: String,
       billPurpose: String,
       position: String,
+      lastEditedBy: String,
+      status: { type: String, defaultValue: '-' },
     }));
   }
 
@@ -48,12 +42,13 @@ class TestimonyCollection extends BaseCollection {
    * @param hearingLocation same
    * @param committee committee on testimony page
    * @param department should always be education, but just in case
+   * @param billCode the bill code used for routing
    * @param billTitle the entire title of the bill, including the 'code', draft number, and title
    * @param billPurpose the one-liner explaining the purpose of the bill
    * @param the department's position and explanation
    */
   define({ governorName, governorTitle, testifier, testifierTitle, hearingDate, hearingTime, hearingLocation,
-    committee, department, billTitle, billPurpose, position, lastEditedBy }) {
+    committee, department, billCode, billTitle, billPurpose, position, lastEditedBy, status }) {
     const docID = this._collection.insert({
       governorName,
       governorTitle,
@@ -64,10 +59,12 @@ class TestimonyCollection extends BaseCollection {
       hearingLocation,
       committee,
       department,
+      billCode,
       billTitle,
       billPurpose,
       position,
       lastEditedBy,
+      status,
     });
     return docID;
   }
@@ -86,61 +83,25 @@ class TestimonyCollection extends BaseCollection {
    * @param billTitle the entire title of the bill, including the 'code', draft number, and title
    * @param billPurpose the one-liner explaining the purpose of the bill
    * @param the department's position and explanation
+   * @param status which stage of approval the testimony is in
    */
-  update(docID, { governorName, governorTitle, testifier, testifierTitle, hearingDate, hearingTime, hearingLocation, committee, department, billTitle, billPurpose, position, lastEditedBy }) {
+  update(docID, { governorName, governorTitle, testifier, testifierTitle, hearingDate, hearingTime, hearingLocation, committee, department, billCode, billTitle, billPurpose, position, lastEditedBy, status }) {
     const updateData = {};
-    if (governorName) {
-      updateData.governorName = governorName;
-    }
-
-    if (governorTitle) {
-      updateData.governorTitle = governorTitle;
-    }
-
-    if (testifier) {
-      updateData.testifier = testifier;
-    }
-
-    if (testifierTitle) {
-      updateData.testifierTitle = testifierTitle;
-    }
-
-    if (hearingDate) {
-      updateData.hearingDate = hearingDate;
-    }
-
-    if (hearingTime) {
-      updateData.hearingTime = hearingTime;
-    }
-
-    if (hearingLocation) {
-      updateData.hearingLocation = hearingLocation;
-    }
-
-    if (committee) {
-      updateData.committee = committee;
-    }
-
-    if (department) {
-      updateData.department = department;
-    }
-
-    if (billTitle) {
-      updateData.billTitle = billTitle;
-    }
-
-    if (billPurpose) {
-      updateData.billPurpose = billPurpose;
-    }
-
-    if (position) {
-      updateData.position = position;
-    }
-
-    if (lastEditedBy) {
-      updateData.lastEditedBy = lastEditedBy;
-    }
-
+    if (governorName) updateData.governorName = governorName;
+    if (governorTitle) updateData.governorTitle = governorTitle;
+    if (testifier) updateData.testifier = testifier;
+    if (testifierTitle) updateData.testifierTitle = testifierTitle;
+    if (hearingDate) updateData.hearingDate = hearingDate;
+    if (hearingTime) updateData.hearingTime = hearingTime;
+    if (hearingLocation) updateData.hearingLocation = hearingLocation;
+    if (committee) updateData.committee = committee;
+    if (department) updateData.department = department;
+    if (billCode) updateData.billCode = billCode;
+    if (billTitle) updateData.billTitle = billTitle;
+    if (billPurpose) updateData.billPurpose = billPurpose;
+    if (position) updateData.position = position;
+    if (lastEditedBy) updateData.lastEditedBy = lastEditedBy;
+    if (status) updateData.status = status;
     this._collection.update(docID, { $set: updateData });
   }
 
@@ -167,8 +128,8 @@ class TestimonyCollection extends BaseCollection {
       /** This subscription publishes only the documents associated with the logged in user */
       Meteor.publish(testimonyPublications.testimony, function publish() {
         if (this.userId) {
-          const username = Meteor.users.findOne(this.userId).username;
-          return instance._collection.find({ owner: username });
+          // const username = Meteor.users.findOne(this.userId).username;
+          return instance._collection.find();
         }
         return this.ready();
       });
@@ -230,12 +191,14 @@ class TestimonyCollection extends BaseCollection {
     const hearingLocation = doc.hearingLocation;
     const committee = doc.committee;
     const department = doc.department;
+    const billCode = doc.billCode;
     const billTitle = doc.billTitle;
     const billPurpose = doc.billPurpose;
     const position = doc.position;
     const lastEditedBy = doc.lastEditedBy;
+    const status = doc.status;
     return { governorName, governorTitle, testifier, testifierTitle, hearingDate, hearingTime, hearingLocation,
-      committee, department, billTitle, billPurpose, position, lastEditedBy };
+      committee, department, billCode, billTitle, billPurpose, position, lastEditedBy, status };
   }
 }
 
