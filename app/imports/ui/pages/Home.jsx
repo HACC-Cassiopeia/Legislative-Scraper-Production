@@ -9,14 +9,18 @@ import NotificationBill from '../components/notificationRelated/NotifcationBill'
 import NotificationBody from '../components/notificationRelated/NotificationBody';
 import Legtracker from '../utilities/Legtracker';
 import DesktopSideBar from '../components/SideNavBar/DesktopSideBar';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const Home = () => {
-  const bills = useTracker(() => {
-    Meteor.subscribe(SavedMeasures.subscribeMeasureSaved);
-
-    return SavedMeasures.find().fetch();
-  });
-
+  const { ready, bills } = useTracker(() => {
+    const subscription = SavedMeasures.subscribeMeasureSaved();
+    const rdy = subscription.ready();
+    const billsItems = SavedMeasures.find({}, {}).fetch();
+    return {
+      bills: billsItems,
+      ready: rdy,
+    };
+  }, false);
   const [upcomingHearings, setUpcomingHearings] = useState([]);
 
   useEffect(() => {
@@ -97,11 +101,11 @@ const Home = () => {
                         .slice(0, 14)}
                     </tbody>
                   ) : (
-                    <p />
+                    '-'
                   )}
                 </Table>
                 {upcomingHearings.length > 0 ? (
-                  <p />
+                  '-'
                 ) : (
                   <p>No upcoming hearings found.</p>
                 )}
@@ -120,7 +124,7 @@ const Home = () => {
               </Card.Header>
               <Card.Body>
                 <Table>
-                  <thead>
+                  <thead style={{ zIndex: 200 }}>
                     <tr>
                       <th>Bill</th>
                       <th>Title</th>
@@ -128,11 +132,13 @@ const Home = () => {
                       <th>Status</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    {bills.map((bill) => (
-                      <NotificationBill key={bills._id} bills={bill} />
-                    ))}
-                  </tbody>
+                  {ready ? (
+                    <tbody>
+                      {bills.map((bill) => (
+                        <NotificationBill key={bills._id} bills={bill} />
+                      ))}
+                    </tbody>
+                  ) : <LoadingSpinner />}
                 </Table>
               </Card.Body>
             </Card>
