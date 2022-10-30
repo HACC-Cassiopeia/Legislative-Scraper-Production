@@ -54,7 +54,7 @@ const CreateTestimonyModal = ({ show, handleClose, _code }) => {
 
     defineMethod.callPromise({ collectionName, definitionData })
       .then(() => {
-        swal('Success', `Testimony for ${_code} has been edited`, 'success');
+        swal('Success', `Testimony for ${_code} has been added`, 'success');
       })
       .catch(error => swal('Error', error.message, 'error'));
 
