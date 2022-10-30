@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Nav, Button, Col } from 'react-bootstrap';
-import {
+import { Save2,
   ChevronLeft,
   HouseFill,
   CardList,
@@ -136,7 +136,7 @@ const DesktopSideBar = (props) => {
               Home
             </Nav.Link>
             <Nav.Link
-              href="/view/DOE"
+              href="/view/all"
               className="py-3 navButtons"
               style={page === 'bills' ? openSelected : openReg}
             >
@@ -145,6 +145,17 @@ const DesktopSideBar = (props) => {
                 className="mb-1 me-3 ms-1"
               />
               View Bills
+            </Nav.Link>
+            <Nav.Link
+              href="/view/DOE"
+              className="py-3 navButtons"
+              style={page === 'bills' ? openSelected : openReg}
+            >
+              <Save2
+                style={{ fontSize: '20px' }}
+                className="mb-1 me-3 ms-1"
+              />
+              Saved Bills
             </Nav.Link>
             <Nav.Link
               href="/calendar"
@@ -196,11 +207,18 @@ const DesktopSideBar = (props) => {
               <HouseFill className="mb-1 ms-1" style={{ fontSize: '20px' }} />
             </Nav.Link>
             <Nav.Link
-              href="/view/DOE"
+              href="/view/all"
               className="py-3 navButtons"
               style={page === 'bills' ? closedSelected : closedReg}
             >
               <CardList className="mb-1 ms-1" style={{ fontSize: '20px' }} />
+            </Nav.Link>
+            <Nav.Link
+              href="/view/DOE"
+              className="py-3 navButtons"
+              style={page === 'bills' ? closedSelected : closedReg}
+            >
+              <Save2 className="mb-1 ms-1" style={{ fontSize: '20px' }} />
             </Nav.Link>
             <Nav.Link
               href="/calendar"

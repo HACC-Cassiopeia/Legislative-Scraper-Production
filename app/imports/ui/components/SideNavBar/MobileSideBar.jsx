@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Navbar, Nav } from 'react-bootstrap';
 import {
+  Save2,
   HouseFill,
   CardList,
   CalendarEventFill,
@@ -66,11 +67,18 @@ const MobileSideBar = (props) => {
           <HouseFill style={{ fontSize: '30px' }} className="mb-1 me-3 ms-1" />
         </Nav.Link>
         <Nav.Link
-          href="/view/DOE"
+          href="/view/all"
           className="py-3 navButtons"
           style={page === 'bills' ? openSelected : openReg}
         >
           <CardList style={{ fontSize: '30px' }} className="mb-1 me-3 ms-1" />
+        </Nav.Link>
+        <Nav.Link
+          href="/view/DOE"
+          className="py-3 navButtons"
+          style={page === 'bills' ? openSelected : openReg}
+        >
+          <Save2 style={{ fontSize: '30px' }} className="mb-1 me-3 ms-1" />
         </Nav.Link>
         <Nav.Link
           href="/calendar"

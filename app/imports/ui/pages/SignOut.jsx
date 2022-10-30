@@ -38,7 +38,7 @@ const SignOut = () => {
           </Row>
           <Row>
             <Col className="d-flex justify-content-center mt-3">
-              <Card style={{ width: '18rem', backgroundColor: '#2f374f', color: 'white' }} className="text-center">
+              <Card style={{ width: '30rem', backgroundColor: '#2f374f', color: 'white' }} className="text-center">
                 <Card.Body>
                   <Card.Header>You have sign out!</Card.Header>
                   <Card.Text>
