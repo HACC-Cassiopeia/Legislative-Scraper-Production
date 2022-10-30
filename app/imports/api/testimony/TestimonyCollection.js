@@ -174,7 +174,7 @@ class TestimonyCollection extends BaseCollection {
    * @throws { Meteor.Error } If there is no logged in user, or the user is not an Admin or User.
    */
   assertValidRoleForMethod(userId) {
-    this.assertRole(userId, [ROLE.FINAL_APV, ROLE.SUBMITTER, ROLE.OFFICE_APV, ROLE.PIPE_APV, ROLE.WRITER]);
+    this.assertRole(userId, [ROLE.ASSIGNER, ROLE.FINAL_APV, ROLE.SUBMITTER, ROLE.OFFICE_APV, ROLE.PIPE_APV, ROLE.WRITER]);
   }
 
   /**

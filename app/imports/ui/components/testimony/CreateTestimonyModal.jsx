@@ -8,7 +8,7 @@ import swal from 'sweetalert';
 import { AutoForm, ErrorsField, LongTextField, SelectField, SubmitField, TextField } from 'uniforms-bootstrap5';
 import { SavedMeasures } from '../../../api/savedMeasures/SavedMeasuresCollection';
 import LoadingSpinner from '../LoadingSpinner';
-import { Testimonies, testimonyStatuses } from '../../../api/testimony/TestimonyCollection';
+import { Testimonies } from '../../../api/testimony/TestimonyCollection';
 import { defineMethod } from '../../../api/base/BaseCollection.methods';
 
 const formSchema = new SimpleSchema({
@@ -26,7 +26,7 @@ const formSchema = new SimpleSchema({
   billPurpose: String,
   position: String,
   lastEditedBy: { type: String, defaultValue: '-' },
-  status: { type: String, defaultValue: '-', allowedValues: testimonyStatuses },
+  status: { type: String, defaultValue: 'Awaiting Writer', allowedValues: ['Awaiting Writer'] },
 });
 
 const bridge = new SimpleSchema2Bridge(formSchema);
