@@ -194,14 +194,6 @@ html, body {
   --bs-btn-border-color: #242c41;
 }
 
-.navButtons .btn:focus {
-  border-color: transparent;
-}
-
-.navButtons:hover {
-  color: #586586 !important;
-}
-
 .pdfFiller .form-control {
   padding: 0;
   margin: 0;
@@ -279,8 +271,37 @@ html, body {
   --bs-btn-border-width: 0;
 }
 
-#mobileMainBody {
+.mobileMainBody {
   margin-left: 60px;
-  z-index: 0;
-  font-size: 12px;
+  width: 90%;
+  font-size: 10px;
+}
+
+.closedNavButtonStyle {
+  background-color: #2e374f !important;
+  width: 62px !important;
+  border-radius: 0 !important;
+  border-width: 0 !important;
+  font-weight: normal !important;
+  font-size: 20px !important;
+  box-shadow: none !important;
+}
+
+.navButtonStyle {
+  background-color: #2e374f !important;
+  border-width: 0 !important;
+  border-radius: 0 !important;
+  width: 132px !important;
+  font-weight: normal !important;
+  font-size: 20px !important;
+  margin-top: 0 !important;
+  box-shadow: none !important;
+}
+
+.navButtons .btn:focus {
+  border-color: transparent;
+}
+
+.navButtons:hover {
+  color: #586586 !important;
 }

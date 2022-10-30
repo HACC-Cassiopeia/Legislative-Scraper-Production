@@ -69,14 +69,14 @@ const MobileSideBar = (props) => {
         <Nav.Link
           href="/view/all"
           className="py-3 navButtons"
-          style={page === 'bills' ? openSelected : openReg}
+          style={page === 'all-bills' ? openSelected : openReg}
         >
           <CardList style={{ fontSize: '30px' }} className="mb-1 me-3 ms-1" />
         </Nav.Link>
         <Nav.Link
           href="/view/DOE"
           className="py-3 navButtons"
-          style={page === 'bills' ? openSelected : openReg}
+          style={page === 'doe-bills' ? openSelected : openReg}
         >
           <Save2 style={{ fontSize: '30px' }} className="mb-1 me-3 ms-1" />
         </Nav.Link>
@@ -93,7 +93,7 @@ const MobileSideBar = (props) => {
         <Nav.Link
           href="#"
           className="py-3 navButtons"
-          style={page === 'calendar' ? openSelected : openReg}
+          style={page === 'question' ? openSelected : openReg}
         >
           <QuestionCircle
             style={{ fontSize: '30px' }}
@@ -102,7 +102,6 @@ const MobileSideBar = (props) => {
         </Nav.Link>
         <Nav.Link
           className="py-3 navButtons"
-          style={page === 'calendar' ? openSelected : openReg}
         >
           <MobileSignOutCheck />
         </Nav.Link>

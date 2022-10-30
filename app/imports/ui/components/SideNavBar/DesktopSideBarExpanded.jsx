@@ -1,29 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Nav, Button, Col } from 'react-bootstrap';
 import {
   HouseFill,
   CardList,
   CalendarEventFill,
   QuestionCircle,
+  Save2,
 } from 'react-bootstrap-icons';
 import PropTypes from 'prop-types';
 import SignoutCheck from '../SignoutCheck';
 
 const DesktopSideBarExpanded = (props) => {
-  // the width of the screen using React useEffect
-  const [width, setWidth] = useState(window.innerWidth);
-  // make sure that it changes with the window size
-  useEffect(() => {
-    const handleResizeWindow = () => setWidth(window.innerWidth);
-    // subscribe to window resize event "onComponentDidMount"
-    window.addEventListener('resize', handleResizeWindow);
-    return () => {
-      // unsubscribe "onComponentDestroy"
-      window.removeEventListener('resize', handleResizeWindow);
-      console.log(width);
-    };
-  }, []);
-
   const openWidth = '130px';
   const { page } = props;
 
@@ -67,15 +54,22 @@ const DesktopSideBarExpanded = (props) => {
             Home
           </Nav.Link>
           <Nav.Link
+            href="/view/all"
+            className="py-3 navButtons"
+            style={page === 'all-bills' ? openSelected : openReg}
+          >
+            <CardList className="mb-1 me-3 ms-1" style={{ fontSize: '20px' }} />
+            All Bills
+          </Nav.Link>
+          <Nav.Link
             href="/view/DOE"
             className="py-3 navButtons"
-            style={page === 'bills' ? openSelected : openReg}
+            style={page === 'doe-bills' ? openSelected : openReg}
           >
-            <CardList
+            <Save2
               style={{ fontSize: '20px' }}
               className="mb-1 me-3 ms-1"
-            />
-            View Bills
+            />DOE Bills
           </Nav.Link>
           <Nav.Link
             href="/calendar"

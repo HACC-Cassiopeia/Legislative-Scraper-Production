@@ -9,6 +9,7 @@ import SavedBill from '../components/SavedBill';
 import LoadingSpinner from '../components/LoadingSpinner';
 import DesktopSideBarCollapsed from '../components/SideNavBar/DesktopSideBarCollapsed';
 import DesktopSideBarExpanded from '../components/SideNavBar/DesktopSideBarExpanded';
+import MobileSideBar from '../components/SideNavBar/MobileSideBar';
 
 /* Renders a table containing all of the Stuff documents. Use <StuffItem> to render each row. */
 const Dashboard = () => {
@@ -28,8 +29,6 @@ const Dashboard = () => {
   );
   const [lastIndex, setLastIndex] = useState(currentPage * rowNumber);
   const [expanded, setExpanded] = useState(false);
-  const closeWidth = '62px';
-  const openWidth = '131.5px';
 
   // values: ca = bill code ascending
   //         cd = bill code descending
@@ -179,6 +178,23 @@ const Dashboard = () => {
     setFilteredMeasures(filtered);
   }, [chamber, billNum, title, keyword, office, action, hearingDate, dateSearch, sortBy]);
 
+  // the width of the screen using React useEffect
+  const [width, setWidth] = useState(window.innerWidth);
+  // make sure that it changes with the window size
+  useEffect(() => {
+    const handleResizeWindow = () => setWidth(window.innerWidth);
+    // subscribe to window resize event "onComponentDidMount"
+    window.addEventListener('resize', handleResizeWindow);
+    return () => {
+      // unsubscribe "onComponentDestroy"
+      window.removeEventListener('resize', handleResizeWindow);
+    };
+  }, []);
+  const breakPoint = 800;
+  const mobileMainBody = {
+    fontSize: '10px',
+  };
+
   function chamberTitle() {
     if (chamber === '') return 'Select a Chamber';
     if (chamber === 'S') return 'Senate';
@@ -234,26 +250,7 @@ const Dashboard = () => {
     padding: 0,
   };
   const mainBodyLeftMargin = {
-    marginLeft: expanded ? openWidth : closeWidth,
-  };
-  const closedButtonStyle = {
-    backgroundColor: '#2e374f',
-    width: closeWidth,
-    borderRadius: 0,
-    borderWidth: 0,
-    fontWeight: 'normal',
-    fontSize: '20px',
-    boxShadow: 'none',
-  };
-  const buttonStyle = {
-    backgroundColor: '#2e374f',
-    borderWidth: 0,
-    borderRadius: 0,
-    width: openWidth,
-    fontWeight: 'normal',
-    fontSize: '20px',
-    marginTop: 0,
-    boxShadow: 'none',
+    marginLeft: expanded ? '131.5px' : '62px',
   };
 
   function getCodeSort() {
@@ -298,12 +295,11 @@ const Dashboard = () => {
         <Col className="col-3" style={{ position: 'fixed' }}>
           <Button
             onClick={() => setExpanded(false)}
-            className="py-2 px-3 text-end navButtons"
-            style={buttonStyle}
+            className="py-2 px-3 text-end navButtons navButtonStyle"
           >
             <ChevronLeft />
           </Button>
-          <DesktopSideBarExpanded page="bills" />
+          <DesktopSideBarExpanded page="doe-bills" />
         </Col>
       );
     }
@@ -311,12 +307,11 @@ const Dashboard = () => {
       <Col style={{ position: 'fixed' }}>
         <Button
           onClick={() => setExpanded(true)}
-          className="py-2 px-3 text-center navButtons"
-          style={closedButtonStyle}
+          className="py-2 px-3 text-center navButtons closedNavButtonStyle"
         >
           <List />
         </Button>
-        <DesktopSideBarCollapsed page="bills" />
+        <DesktopSideBarCollapsed page="doe-bills" />
       </Col>
     );
   }
@@ -568,8 +563,8 @@ const Dashboard = () => {
 
   return (
     <div style={{ backgroundColor: '#ece9e9', height: '100%' }}>
-      {getDesktopSidebar()}
-      <Col style={mainBodyLeftMargin} className="d-flex justify-content-center">
+      {width < breakPoint ? <MobileSideBar page="doe-bills" /> : getDesktopSidebar()}
+      <div style={width < breakPoint ? mobileMainBody : mainBodyLeftMargin} className="d-flex justify-content-center">
         <Row id="dashboard-screen">
           <Col className="mx-3">
             <Row id="dashboard-filter">{returnFilter()}</Row>
@@ -577,7 +572,7 @@ const Dashboard = () => {
             { ready ? '' : <LoadingSpinner /> }
           </Col>
         </Row>
-      </Col>
+      </div>
     </div>
   );
 };

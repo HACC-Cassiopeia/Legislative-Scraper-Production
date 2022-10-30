@@ -26,8 +26,6 @@ const Home = () => {
     };
   }, false);
 
-  const closeWidth = '62px';
-  const openWidth = '131.5px';
   const [expanded, setExpanded] = useState(false);
   const [upcomingHearings, setUpcomingHearings] = useState([]);
   console.log(Meteor.user());
@@ -62,37 +60,15 @@ const Home = () => {
     };
   }, []);
   const breakPoint = 800;
-
+  const mobileMainBody = {
+    fontSize: '10px',
+  };
   const mainBodyWidth = {
     width: 0.75 * width,
     textAlign: 'center',
   };
   const mainBodyLeftMargin = {
-    marginLeft: expanded ? openWidth : closeWidth,
-  };
-  const mobileMainBody = {
-    marginLeft: '60px',
-    width: 0.9 * width,
-    fontSize: '10px',
-  };
-  const closedButtonStyle = {
-    backgroundColor: '#2e374f',
-    width: closeWidth,
-    borderRadius: 0,
-    borderWidth: 0,
-    fontWeight: 'normal',
-    fontSize: '20px',
-    boxShadow: 'none',
-  };
-  const buttonStyle = {
-    backgroundColor: '#2e374f',
-    borderWidth: 0,
-    borderRadius: 0,
-    width: openWidth,
-    fontWeight: 'normal',
-    fontSize: '20px',
-    marginTop: 0,
-    boxShadow: 'none',
+    marginLeft: expanded ? '131.5px' : '62px',
   };
   const sectionHeaders = {
     color: 'white',
@@ -105,8 +81,7 @@ const Home = () => {
         <Col className="col-3" style={{ position: 'fixed' }}>
           <Button
             onClick={() => setExpanded(false)}
-            className="py-2 px-3 text-end navButtons"
-            style={buttonStyle}
+            className="py-2 px-3 text-end navButtons navButtonStyle"
           >
             <ChevronLeft />
           </Button>
@@ -118,8 +93,7 @@ const Home = () => {
       <Col style={{ position: 'fixed' }}>
         <Button
           onClick={() => setExpanded(true)}
-          className="py-2 px-3 text-center navButtons"
-          style={closedButtonStyle}
+          className="py-2 px-3 text-center navButtons closedNavButtonStyle"
         >
           <List />
         </Button>

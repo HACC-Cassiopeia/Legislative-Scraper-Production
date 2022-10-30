@@ -16,6 +16,7 @@ import { updateMethod } from '../../api/base/BaseCollection.methods';
 import DesktopSideBarExpanded from '../components/SideNavBar/DesktopSideBarExpanded';
 import DesktopSideBarCollapsed from '../components/SideNavBar/DesktopSideBarCollapsed';
 import { ROLE } from '../../api/role/Role';
+import MobileSideBar from '../components/SideNavBar/MobileSideBar';
 
 const isFinalApprover = () => {
   const loggedInUser = Meteor.user();
@@ -53,8 +54,6 @@ const EditTestimony = () => {
   const { _id } = useParams();
   const { _code } = useParams();
   const [expanded, setExpanded] = useState(false);
-  const closeWidth = '62px';
-  const openWidth = '131.5px';
 
   const { ready, testimony } = useTracker(() => {
     const subscription = Testimonies.subscribeTestimony();
@@ -70,6 +69,27 @@ const EditTestimony = () => {
   useEffect(() => {
     document.title = `DOELT - Editing Testimony for ${_code}`;
   }, []);
+
+  // the width of the screen using React useEffect
+  const [width, setWidth] = useState(window.innerWidth);
+  // make sure that it changes with the window size
+  useEffect(() => {
+    const handleResizeWindow = () => setWidth(window.innerWidth);
+    // subscribe to window resize event "onComponentDidMount"
+    window.addEventListener('resize', handleResizeWindow);
+    return () => {
+      // unsubscribe "onComponentDestroy"
+      window.removeEventListener('resize', handleResizeWindow);
+    };
+  }, []);
+  const breakPoint = 800;
+  const mobileMainBody = {
+    fontSize: '10px',
+  };
+
+  const mainBodyLeftMargin = {
+    marginLeft: expanded ? '131.5px' : '62px',
+  };
 
   const showAssigner = () => {
     const loggedInUser = Meteor.user();
@@ -100,7 +120,13 @@ const EditTestimony = () => {
   const navBarStyle = {
     backgroundColor: '#F7F7F7',
     borderBottom: '2px solid #DDDDDD',
-    marginLeft: expanded ? openWidth : closeWidth,
+    marginLeft: expanded ? '131.5px' : '62px',
+  };
+  const mobileNavBarStyle = {
+    backgroundColor: '#F7F7F7',
+    borderBottom: '2px solid #DDDDDD',
+    paddingLeft: '20px',
+    paddingRight: '20px',
   };
   const pageStyle = {
     borderRadius: '0px',
@@ -114,36 +140,13 @@ const EditTestimony = () => {
   const lilPadding = {
     paddingTop: '2px',
   };
-  const mainBodyLeftMargin = {
-    marginLeft: expanded ? openWidth : closeWidth,
-  };
-  const closedButtonStyle = {
-    backgroundColor: '#2e374f',
-    width: closeWidth,
-    borderRadius: 0,
-    borderWidth: 0,
-    fontWeight: 'normal',
-    fontSize: '20px',
-    boxShadow: 'none',
-  };
-  const buttonStyle = {
-    backgroundColor: '#2e374f',
-    borderWidth: 0,
-    borderRadius: 0,
-    width: openWidth,
-    fontWeight: 'normal',
-    fontSize: '20px',
-    marginTop: 0,
-    boxShadow: 'none',
-  };
   function getDesktopSidebar() {
     if (expanded) {
       return (
         <Col className="col-3" style={{ position: 'fixed', zIndex: '9999' }}>
           <Button
             onClick={() => setExpanded(false)}
-            className="py-2 px-3 text-end navButtons"
-            style={buttonStyle}
+            className="py-2 px-3 text-end navButtons navButtonStyle"
           >
             <ChevronLeft />
           </Button>
@@ -155,8 +158,7 @@ const EditTestimony = () => {
       <Col style={{ position: 'fixed', zIndex: '9999' }}>
         <Button
           onClick={() => setExpanded(true)}
-          className="py-2 px-3 text-center navButtons"
-          style={closedButtonStyle}
+          className="py-2 px-3 text-center navButtons closedNavButtonStyle"
         >
           <List />
         </Button>
@@ -169,22 +171,19 @@ const EditTestimony = () => {
   let fRef = null;
 
   return (
-    <Col style={{ backgroundColor: '#e6e6e6', minWidth: '800px' }}>
-      {getDesktopSidebar()}
-      <Col style={mainBodyLeftMargin} className="d-flex justify-content-center">
+    <div style={{ backgroundColor: '#e6e6e6', minWidth: '800px' }}>
+      {width < breakPoint ? <MobileSideBar page="edit-testimony" /> : getDesktopSidebar()}
+      <div style={width < breakPoint ? mobileMainBody : mainBodyLeftMargin} className="d-flex justify-content-center">
         <AutoForm className="p-5 mt-4 d-flex justify-content-center" ref={ref => { fRef = ref; }} schema={bridge} onSubmit={data => submit(data, fRef)} model={testimony}>
-
-          <Navbar className="fixed-top d-flex justify-content-center align-items-center" style={navBarStyle}>
-            <div className="pt-3 px-4 d-flex gap-1 align-items-center justify-content-center">
-              <div className="mb-3">Status:</div>
-              <SelectField name="status" label="" readOnly={showAssigner()} />
-            </div>
+          <Navbar className="fixed-top d-flex justify-content-center align-items-center" style={width < breakPoint ? mobileNavBarStyle : navBarStyle}>
             <HddFill />
-            <SubmitField className="testimonyNavbarButtons" value="Save Changes" />
-            <FilePdfFill className="ms-3" />
+            <SubmitField className="testimonyNavbarButtons me-5" value="Save Changes" />
+            Status:&nbsp;&nbsp;
+            <SelectField style={{ top: '-11px', position: 'relative', height: '0px', width: '225px' }} className="m-0 p-0 me-3" name="status" label="" readOnly={showAssigner()} />
+            <FilePdfFill className="ms-5" />
             <Button
               id="generatePdfButton"
-              className="ms-0 p-0"
+              className="m-0 p-0"
               onClick={() => {
                 // eslint-disable-next-line new-cap
                 const doc = new jsPDF('portrait', 'mm', 'letter');
@@ -384,8 +383,8 @@ const EditTestimony = () => {
             </Row>
           ) : <LoadingSpinner /> }
         </AutoForm>
-      </Col>
-    </Col>
+      </div>
+    </div>
   );
 };
 
