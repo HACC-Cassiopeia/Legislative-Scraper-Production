@@ -1,28 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Nav, Button, Col } from 'react-bootstrap';
 import {
   HouseFill,
   CardList,
   CalendarEventFill,
   QuestionCircle,
+  Save2,
 } from 'react-bootstrap-icons';
 import PropTypes from 'prop-types';
 import MobileSignOutCheck from '../MobileSignOutCheck';
 
 const DesktopSideBarCollapsed = (props) => {
-  // the width of the screen using React useEffect
-  const [width, setWidth] = useState(window.innerWidth);
-  // make sure that it changes with the window size
-  useEffect(() => {
-    const handleResizeWindow = () => setWidth(window.innerWidth);
-    // subscribe to window resize event "onComponentDidMount"
-    window.addEventListener('resize', handleResizeWindow);
-    return () => {
-      // unsubscribe "onComponentDestroy"
-      window.removeEventListener('resize', handleResizeWindow);
-      console.log(width);
-    };
-  }, []);
 
   const closeWidth = '62px';
   const { page } = props;
@@ -65,11 +53,21 @@ const DesktopSideBarCollapsed = (props) => {
             <HouseFill className="mb-1 ms-1" style={{ fontSize: '20px' }} />
           </Nav.Link>
           <Nav.Link
-            href="/view/DOE"
+            href="/view/all"
             className="py-3 navButtons"
-            style={page === 'bills' ? closedSelected : closedReg}
+            style={page === 'all-bills' ? closedSelected : closedReg}
           >
             <CardList className="mb-1 ms-1" style={{ fontSize: '20px' }} />
+          </Nav.Link>
+          <Nav.Link
+            href="/view/DOE"
+            className="py-3 navButtons"
+            style={page === 'doe-bills' ? closedSelected : closedReg}
+          >
+            <Save2
+              style={{ fontSize: '20px' }}
+              className="mb-1 me-3 ms-1"
+            />
           </Nav.Link>
           <Nav.Link
             href="/calendar"

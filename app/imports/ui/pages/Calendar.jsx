@@ -7,6 +7,7 @@ import Legtracker from '../utilities/Legtracker';
 import CalModal from '../components/CalModal';
 import DesktopSideBarCollapsed from '../components/SideNavBar/DesktopSideBarCollapsed';
 import DesktopSideBarExpanded from '../components/SideNavBar/DesktopSideBarExpanded';
+import MobileSideBar from '../components/SideNavBar/MobileSideBar';
 
 const Calendar = () => {
   const [upcomingHearings, setUpcomingHearings] = useState([]);
@@ -21,8 +22,6 @@ const Calendar = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [expanded, setExpanded] = useState(false);
-  const closeWidth = '62px';
-  const openWidth = '131.5px';
 
   useEffect(() => {
     document.title = 'DOELT - Calendar';
@@ -48,27 +47,25 @@ const Calendar = () => {
       }
     ));
   };
+  // the width of the screen using React useEffect
+  const [width, setWidth] = useState(window.innerWidth);
+  // make sure that it changes with the window size
+  useEffect(() => {
+    const handleResizeWindow = () => setWidth(window.innerWidth);
+    // subscribe to window resize event "onComponentDidMount"
+    window.addEventListener('resize', handleResizeWindow);
+    return () => {
+      // unsubscribe "onComponentDestroy"
+      window.removeEventListener('resize', handleResizeWindow);
+    };
+  }, []);
+  const breakPoint = 800;
+  const mobileMainBody = {
+    fontSize: '10px',
+  };
+
   const mainBodyLeftMargin = {
-    marginLeft: expanded ? openWidth : closeWidth,
-  };
-  const closedButtonStyle = {
-    backgroundColor: '#2e374f',
-    width: closeWidth,
-    borderRadius: 0,
-    borderWidth: 0,
-    fontWeight: 'normal',
-    fontSize: '20px',
-    boxShadow: 'none',
-  };
-  const buttonStyle = {
-    backgroundColor: '#2e374f',
-    borderWidth: 0,
-    borderRadius: 0,
-    width: openWidth,
-    fontWeight: 'normal',
-    fontSize: '20px',
-    marginTop: 0,
-    boxShadow: 'none',
+    marginLeft: expanded ? '131.5px' : '62px',
   };
   function getDesktopSidebar() {
     if (expanded) {
@@ -76,12 +73,11 @@ const Calendar = () => {
         <Col className="col-3" style={{ position: 'fixed' }}>
           <Button
             onClick={() => setExpanded(false)}
-            className="py-2 px-3 text-end navButtons"
-            style={buttonStyle}
+            className="py-2 px-3 text-end navButtons navButtonStyle"
           >
             <ChevronLeft />
           </Button>
-          <DesktopSideBarExpanded page="home" />
+          <DesktopSideBarExpanded page="calendar" />
         </Col>
       );
     }
@@ -89,20 +85,19 @@ const Calendar = () => {
       <Col style={{ position: 'fixed' }}>
         <Button
           onClick={() => setExpanded(true)}
-          className="py-2 px-3 text-center navButtons"
-          style={closedButtonStyle}
+          className="py-2 px-3 text-center navButtons closedNavButtonStyle"
         >
           <List />
         </Button>
-        <DesktopSideBarCollapsed page="home" />
+        <DesktopSideBarCollapsed page="calendar" />
       </Col>
     );
   }
 
   return (
     <Col>
-      {getDesktopSidebar()}
-      <div style={mainBodyLeftMargin} className="d-flex justify-content-center">
+      {width < breakPoint ? <MobileSideBar page="home" /> : getDesktopSidebar()}
+      <div style={width < breakPoint ? mobileMainBody : mainBodyLeftMargin} className="d-flex justify-content-center">
         <CalModal
           show={show}
           handleClose={handleClose}

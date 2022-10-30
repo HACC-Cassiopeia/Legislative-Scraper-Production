@@ -122,7 +122,7 @@ const BillResolutionDetails = () => {
   };
   // TODO if bill not found, need to redirect to 404
   return (ready ? (
-    <Container className="text-center border border-1 small mb-5">
+    <Container className="text-center border border-1 small mb-5 mt-5 pt-2">
       <Row style={{ backgroundColor: '#ddf3dd' }}>
         <Col>
           <h3 className="pt-2">
