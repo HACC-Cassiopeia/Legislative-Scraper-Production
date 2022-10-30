@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Card, Col, Image, Nav, Navbar, Row } from 'react-bootstrap';
 import { AutoForm, DateField, ErrorsField, LongTextField, SubmitField, TextField } from 'uniforms-bootstrap5';
 import swal from 'sweetalert';
@@ -6,14 +6,15 @@ import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
 import { jsPDF } from 'jspdf';
 import { NavLink } from 'react-router-dom';
-import { EnvelopeFill, FilePdfFill, HddFill } from 'react-bootstrap-icons';
+import { ChevronLeft, EnvelopeFill, FilePdfFill, HddFill, List } from 'react-bootstrap-icons';
 import { useParams } from 'react-router';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Testimonies } from '../../api/testimony/TestimonyCollection';
 import { defineMethod } from '../../api/base/BaseCollection.methods';
 import { SavedMeasures } from '../../api/savedMeasures/SavedMeasuresCollection';
 import LoadingSpinner from '../components/LoadingSpinner';
-import DesktopSideBar from '../components/SideNavBar/DesktopSideBar';
+import DesktopSideBarExpanded from '../components/SideNavBar/DesktopSideBarExpanded';
+import DesktopSideBarCollapsed from '../components/SideNavBar/DesktopSideBarCollapsed';
 
 // Create a schema to specify the structure of the data to appear in the form.
 const formSchema = new SimpleSchema({
@@ -36,11 +37,10 @@ const bridge = new SimpleSchema2Bridge(formSchema);
 
 /* Renders the AddStuff page for adding a document. */
 const AddTestimony = () => {
-
-  // TODO 'add testimony' pulls from SavedMeasures db, 'edit testimony' pulls from Testimony db
-  //  we should probably make the 'pdf form' bit a component that can be reused in for both pages
-
   const { _code } = useParams();
+  const [expanded, setExpanded] = useState(false);
+  const closeWidth = '62px';
+  const openWidth = '131.5px';
 
   const { ready, bill } = useTracker(() => {
     const subscription = SavedMeasures.subscribeMeasureSaved();
@@ -74,12 +74,9 @@ const AddTestimony = () => {
 
   const navBarStyle = {
     backgroundColor: '#F7F7F7',
-    hover: 'green',
     borderBottom: '2px solid #DDDDDD',
-    height: '50px',
-    marginLeft: '14%',
+    marginLeft: expanded ? openWidth : closeWidth,
   };
-
   const pageStyle = {
     borderRadius: '0px',
     borderWidth: '0',
@@ -89,27 +86,76 @@ const AddTestimony = () => {
     paddingRight: '10px',
     width: '900px',
   };
-
   const lilPadding = {
     paddingTop: '2px',
   };
+  const mainBodyLeftMargin = {
+    marginLeft: expanded ? openWidth : closeWidth,
+  };
+  const closedButtonStyle = {
+    backgroundColor: '#2e374f',
+    width: closeWidth,
+    borderRadius: 0,
+    borderWidth: 0,
+    fontWeight: 'normal',
+    fontSize: '20px',
+    boxShadow: 'none',
+  };
+  const buttonStyle = {
+    backgroundColor: '#2e374f',
+    borderWidth: 0,
+    borderRadius: 0,
+    width: openWidth,
+    fontWeight: 'normal',
+    fontSize: '20px',
+    marginTop: 0,
+    boxShadow: 'none',
+  };
+  function getDesktopSidebar() {
+    if (expanded) {
+      return (
+        <Col className="col-3" style={{ position: 'fixed', zIndex: '9999' }}>
+          <Button
+            onClick={() => setExpanded(false)}
+            className="py-2 px-3 text-end navButtons"
+            style={buttonStyle}
+          >
+            <ChevronLeft />
+          </Button>
+          <DesktopSideBarExpanded page="testimony" />
+        </Col>
+      );
+    }
+    return (
+      <Col style={{ position: 'fixed', zIndex: '9999' }}>
+        <Button
+          onClick={() => setExpanded(true)}
+          className="py-2 px-3 text-center navButtons"
+          style={closedButtonStyle}
+        >
+          <List />
+        </Button>
+        <DesktopSideBarCollapsed page="testimony" />
+      </Col>
+    );
+  }
 
   // Render the form. Use Uniforms: https://github.com/vazco/uniforms
   let fRef = null;
   return (
     <Col style={{ backgroundColor: '#e6e6e6', minWidth: '800px' }}>
-      <DesktopSideBar page="testimony" />
-      <Col id="mainBody">
+      {getDesktopSidebar()}
+      <Col style={mainBodyLeftMargin} className="d-flex justify-content-center">
         <AutoForm className="p-5 mt-4 d-flex justify-content-center" ref={ref => { fRef = ref; }} schema={bridge} onSubmit={data => submit(data, fRef)}>
 
           <Navbar className="fixed-top justify-content-center" style={navBarStyle}>
             <HddFill />
-            <SubmitField className="testimonyNavbarButtons" value="Save Changes" />
-            <Nav.Link className="m-5 testimonyNavbar" as={NavLink} to="#"> <EnvelopeFill className="mb-1" />&nbsp;&nbsp;Send for Review</Nav.Link>
-            <FilePdfFill className="ms-3" />
+            <SubmitField className="testimonyNavbarButtons me-5" value="Save Changes" />
+            <Nav.Link className="testimonyNavbar me-5 ms-5" as={NavLink} to="#"> <EnvelopeFill className="mb-1" />&nbsp;&nbsp;Send for Review</Nav.Link>
+            <FilePdfFill className="ms-5" />
             <Button
               id="generatePdfButton"
-              className="my-3 ms-0 p-0"
+              className="ms-0 p-0"
               onClick={() => {
               // eslint-disable-next-line new-cap
                 const doc = new jsPDF('portrait', 'mm', 'letter');

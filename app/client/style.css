@@ -1,12 +1,11 @@
 /* Use Open Sans as the default sans serif font. */
-@import url('https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@100;200&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,700|Source+Code+Pro:300,400,500,700');
 
 /* Set up some CSS variables to theme the application. */
 :root {
   --matr-navbar-bg: #ececec;
   --matr-navbar-bg-rgb: 236, 236, 236;
-  --bs-body-font-family: 'Saira Condensed', sans-serif!important;
-  --bs-body-font-size: 18px !important;
+  --bs-body-font-family: 'Oswald', sans-serif !important;
 }
 
 /* Change bootstrap variable values.
@@ -32,8 +31,7 @@ a {
   --bs-pagination-hover-color: #2e374f;
 }
 
-html,
-body {
+html, body {
   height: 100%;
 }
 
@@ -57,8 +55,7 @@ body {
   border-radius: 8px;
 }
 
-#filter-border .accordion-button:not(.collapsed),
-.accordion-item:not(.collapsed) {
+#filter-border .accordion-button:not(.collapsed), .accordion-item:not(.collapsed)  {
   --bs-accordion-active-bg: #3e465d;
   --bs-accordion-active-color: white;
   --bs-accordion-border-color: #7d828a;
@@ -246,65 +243,44 @@ body {
   padding-left: 10px;
   --bs-btn-border-width: 0;
   --bs-btn-color: black;
-  --bs-btn-bg: #f7f7f7;
+  --bs-btn-bg: #F7F7F7;
   --bs-btn-disabled-color: gray;
   --bs-btn-disabled-bg: F7F7F7;
   --bs-btn-hover-color: gray;
-  --bs-btn-hover-bg: #f7f7f7;
-  --bs-btn-focus-shadow-rgb: #f7f7f7;
+  --bs-btn-hover-bg: #F7F7F7;
+  --bs-btn-focus-shadow-rgb: #F7F7F7;
   --bs-btn-active-color: #gray;
-  --bs-btn-active-bg: #f7f7f7;
-  --bs-btn-active-border-color: #f7f7f7;
+  --bs-btn-active-bg: #F7F7F7;
+  --bs-btn-active-border-color: #F7F7F7;
   --bs-btn-active-shadow: none;
-  --bs-btn-disabled-border-color: #f7f7f7;
+  --bs-btn-disabled-border-color: #F7F7F7;
 }
 
 .testimonyNavbarButtons .btn-primary {
   padding-left: 10px;
   --bs-btn-border-width: 0;
   --bs-btn-color: black;
-  --bs-btn-bg: #f7f7f7;
+  --bs-btn-bg: #F7F7F7;
   --bs-btn-disabled-color: gray;
   --bs-btn-disabled-bg: F7F7F7;
   --bs-btn-hover-color: gray;
-  --bs-btn-hover-bg: #f7f7f7;
-  --bs-btn-focus-shadow-rgb: #f7f7f7;
+  --bs-btn-hover-bg: #F7F7F7;
+  --bs-btn-focus-shadow-rgb: #F7F7F7;
   --bs-btn-active-color: #gray;
-  --bs-btn-active-bg: #f7f7f7;
-  --bs-btn-active-border-color: #f7f7f7;
+  --bs-btn-active-bg: #F7F7F7;
+  --bs-btn-active-border-color: #F7F7F7;
   --bs-btn-active-shadow: none;
-  --bs-btn-disabled-border-color: #f7f7f7;
+  --bs-btn-disabled-border-color: #F7F7F7;
 }
 
-.testimonyNavbarButtons .bth.disabled,
-.btn:disabled {
+.testimonyNavbarButtons .bth.disabled, .btn:disabled {
   --bs-btn-disabled-color: black;
   --bs-btn-disabled-bg: F7F7F7;
   --bs-btn-border-width: 0;
 }
 
-#navBar {
-  width: 15%;
-  color: #418c5c;
-}
-
-#mainBody {
-  margin-left: 90px;
-  width: calc(100% - 135px);
-  z-index: 0;
-}
-
 #mobileMainBody {
+  margin-left: 60px;
   z-index: 0;
-  font-size: 10px;
-}
-
-.expandedNavbar {
-  width: 60px;
-}
-
-@media screen and (max-width: 480px) {
-  .text {
-    font-size: 16px;
-  }
+  font-size: 12px;
 }

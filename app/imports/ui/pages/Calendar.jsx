@@ -1,26 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import { Container, Col } from 'react-bootstrap';
+import { Container, Col, Button } from 'react-bootstrap';
+import { ChevronLeft, List } from 'react-bootstrap-icons';
 import Legtracker from '../utilities/Legtracker';
 import CalModal from '../components/CalModal';
-import MobileSideBar from '../components/SideNavBar/MobileSideBar';
-import DesktopSideBar from '../components/SideNavBar/DesktopSideBar';
+import DesktopSideBarCollapsed from '../components/SideNavBar/DesktopSideBarCollapsed';
+import DesktopSideBarExpanded from '../components/SideNavBar/DesktopSideBarExpanded';
 
 const Calendar = () => {
-  // the width of the screen using React useEffect
-  const [width, setWidth] = useState(window.innerWidth);
-  useEffect(() => {
-    const handleResizeWindow = () => setWidth(window.innerWidth);
-    // subscribe to window resize event "onComponentDidMount"
-    window.addEventListener('resize', handleResizeWindow);
-    return () => {
-      // unsubscribe "onComponentDestroy"
-      window.removeEventListener('resize', handleResizeWindow);
-    };
-  }, []);
-  const breakPoint = 800;
-
   const [upcomingHearings, setUpcomingHearings] = useState([]);
   // modal states
   const [show, setShow] = useState(false);
@@ -32,46 +20,89 @@ const Calendar = () => {
   const [noticeLinkPdf, setNoticeLinkPdf] = useState('');
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const [expanded, setExpanded] = useState(false);
+  const closeWidth = '62px';
+  const openWidth = '131.5px';
+
   useEffect(() => {
     document.title = 'DOELT - Calendar';
-    Legtracker.scrapeUpcomingHearings().then((initialData) => {
-      setUpcomingHearings(initialData.upcomingHearings);
-    });
+    Legtracker
+      .scrapeUpcomingHearings()
+      .then(initialData => {
+        setUpcomingHearings(initialData.upcomingHearings);
+      });
   }, []);
 
   const hasUpcomingHearings = () => {
     if (upcomingHearings.length === 0) {
       return [];
     }
-    return upcomingHearings.map((data) => ({
-      title: data.measure,
-      start: data.dateTime,
-      room: data.room,
-      youtube: data.youtubeURL,
-      noticeLink: data.noticeURL,
-      noticePdfLink: data.noticePdfURL,
-    }));
+    return upcomingHearings.map(data => (
+      {
+        title: data.measure,
+        start: data.dateTime,
+        room: data.room,
+        youtube: data.youtubeURL,
+        noticeLink: data.noticeURL,
+        noticePdfLink: data.noticePdfURL,
+      }
+    ));
   };
-  const mainBodyStyle = {
-    marginLeft: '90px',
-    width: 'calc(100% - 135px)',
-    zIndex: '0',
+  const mainBodyLeftMargin = {
+    marginLeft: expanded ? openWidth : closeWidth,
   };
-
-  const mobileMainBody = {
-    paddingTop: 0.2 * window.innerHeight,
-    zIndex: 0,
-    fontSize: '14px',
+  const closedButtonStyle = {
+    backgroundColor: '#2e374f',
+    width: closeWidth,
+    borderRadius: 0,
+    borderWidth: 0,
+    fontWeight: 'normal',
+    fontSize: '20px',
+    boxShadow: 'none',
   };
+  const buttonStyle = {
+    backgroundColor: '#2e374f',
+    borderWidth: 0,
+    borderRadius: 0,
+    width: openWidth,
+    fontWeight: 'normal',
+    fontSize: '20px',
+    marginTop: 0,
+    boxShadow: 'none',
+  };
+  function getDesktopSidebar() {
+    if (expanded) {
+      return (
+        <Col className="col-3" style={{ position: 'fixed' }}>
+          <Button
+            onClick={() => setExpanded(false)}
+            className="py-2 px-3 text-end navButtons"
+            style={buttonStyle}
+          >
+            <ChevronLeft />
+          </Button>
+          <DesktopSideBarExpanded page="home" />
+        </Col>
+      );
+    }
+    return (
+      <Col style={{ position: 'fixed' }}>
+        <Button
+          onClick={() => setExpanded(true)}
+          className="py-2 px-3 text-center navButtons"
+          style={closedButtonStyle}
+        >
+          <List />
+        </Button>
+        <DesktopSideBarCollapsed page="home" />
+      </Col>
+    );
+  }
 
   return (
     <Col>
-      {width < breakPoint ? (
-        <MobileSideBar page="calendar" />
-      ) : (
-        <DesktopSideBar page="calendar" />
-      )}
-      <div style={width < breakPoint ? mobileMainBody : mainBodyStyle}>
+      {getDesktopSidebar()}
+      <div style={mainBodyLeftMargin} className="d-flex justify-content-center">
         <CalModal
           show={show}
           handleClose={handleClose}
@@ -108,6 +139,7 @@ const Calendar = () => {
         </Container>
       </div>
     </Col>
+
   );
 };
 
