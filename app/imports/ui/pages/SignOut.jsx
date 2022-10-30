@@ -2,7 +2,7 @@ import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { Button, Row, Image, Table, Card } from 'react-bootstrap';
 import Col from 'react-bootstrap/Col';
-import { BsDoorOpen } from 'react-bootstrap-icons';
+import { DoorOpen } from 'react-bootstrap-icons';
 
 /* After the user clicks the "SignOut" link in the NavBar, log them out and display this page. */
 const SignOut = () => {
@@ -40,11 +40,11 @@ const SignOut = () => {
             <Col className="d-flex justify-content-center mt-3">
               <Card style={{ width: '30rem', backgroundColor: '#2f374f', color: 'white' }} className="text-center">
                 <Card.Body>
-                  <Card.Header>You have sign out!</Card.Header>
+                  <Card.Header>You have successfully logged out.</Card.Header>
                   <Card.Text>
-                    Click on the button below to enter our system again.
+                    Click the button below to sign in again.
                   </Card.Text>
-                  <Button href="/signin">Sign In <BsDoorOpen /></Button>
+                  <Button href="/signin">Sign In <DoorOpen /></Button>
                 </Card.Body>
               </Card>
             </Col>
