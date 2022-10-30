@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { Navbar, Nav, Col, Button } from 'react-bootstrap';
 import { FileEarmarkPlusFill, BoxArrowInDown, ChevronLeft, List } from 'react-bootstrap-icons';
 import { useParams } from 'react-router';
-import BillResolutionDetails from '../components/BillResolutionDetails';
+import BillResolutionDetails from '../components/billDetails/BillResolutionDetails';
 import TestimonyTracker from '../components/testimony/TestimonyTracker';
 import DesktopSideBarExpanded from '../components/SideNavBar/DesktopSideBarExpanded';
 import DesktopSideBarCollapsed from '../components/SideNavBar/DesktopSideBarCollapsed';
