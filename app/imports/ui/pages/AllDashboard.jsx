@@ -40,7 +40,7 @@ const AllDashboard = () => {
   //         cd = bill code descending
   //         sa = status date ascending
   //         sd = status date descending
-  const [sortBy, setSortBy] = useState('');
+  const [sortBy, setSortBy] = useState('cd');
 
   let items = [];
 

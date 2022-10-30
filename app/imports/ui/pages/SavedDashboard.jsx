@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Accordion, Button, ButtonGroup, Col, Dropdown, DropdownButton, Pagination, Row, Table } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Link } from 'react-router-dom';
+import { CaretDownFill, CaretUpFill } from 'react-bootstrap-icons';
+import { _ } from 'meteor/underscore';
 import { SavedMeasures } from '../../api/savedMeasures/SavedMeasuresCollection';
 import SavedBill from '../components/SavedBill';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -24,6 +26,16 @@ const Dashboard = () => {
     currentPage * rowNumber - rowNumber,
   );
   const [lastIndex, setLastIndex] = useState(currentPage * rowNumber);
+
+  // values: ca = bill code ascending
+  //         cd = bill code descending
+  //         oa = status date ascending
+  //         od = status date descending
+  //         ha = hearing date ascending
+  //         hd = hearing date descending
+  //         sa = status ascending
+  //         sd = status descending
+  const [sortBy, setSortBy] = useState('cd');
 
   let items = [];
 
@@ -82,9 +94,43 @@ const Dashboard = () => {
     setLastIndex(page * rowNumber);
   };
 
+  // values: ca = bill code ascending
+  //         cd = bill code descending
+  //         oa = status date ascending
+  //         od = status date descending
+  //         ha = hearing date ascending
+  //         hd = hearing date descending
+  //         sa = status ascending
+  //         sd = status descending
+
   // for filtering
   useEffect(() => {
     let filtered = bills;
+    switch (sortBy) {
+    case 'cd':
+      filtered = _.sortBy(filtered, 'code').reverse();
+      break;
+    case 'oa':
+      filtered = _.sortBy(filtered, 'office');
+      break;
+    case 'od':
+      filtered = _.sortBy(filtered, 'office').reverse();
+      break;
+    case 'ha':
+      filtered = _.sortBy(filtered, 'hearingDate');
+      break;
+    case 'hd':
+      filtered = _.sortBy(filtered, 'hearingDate').reverse();
+      break;
+    case 'sa':
+      filtered = _.sortBy(filtered, 'doeInternalStatus');
+      break;
+    case 'sd':
+      filtered = _.sortBy(filtered, 'doeInternalStatus').reverse();
+      break;
+    default:
+      filtered = _.sortBy(filtered, 'code');
+    }
     if (chamber) {
       filtered = filtered.filter(function (obj) { return obj.statusHorS === chamber; });
     }
@@ -127,7 +173,7 @@ const Dashboard = () => {
       filtered = filtered.filter(function (obj) { return obj.doeAction ? obj.doeAction.toLowerCase().includes(action.toLowerCase()) : false; });
     }
     setFilteredMeasures(filtered);
-  }, [chamber, billNum, title, keyword, office, action, hearingDate, dateSearch]);
+  }, [chamber, billNum, title, keyword, office, action, hearingDate, dateSearch, sortBy]);
 
   function chamberTitle() {
     if (chamber === '') return 'Select a Chamber';
@@ -175,6 +221,50 @@ const Dashboard = () => {
         </Pagination.Item>,
       );
     }
+  }
+  const tableButtonStyle = {
+    fontWeight: 'bold',
+    backgroundColor: 'transparent',
+    borderWidth: 0,
+    color: 'black',
+    padding: 0,
+  };
+
+  function getCodeSort() {
+    if (sortBy === 'cd') {
+      return <CaretDownFill />;
+    }
+    if (sortBy === 'ca') {
+      return <CaretUpFill />;
+    }
+    return '';
+  }
+  function getOfficeSort() {
+    if (sortBy === 'od') {
+      return <CaretDownFill />;
+    }
+    if (sortBy === 'oa') {
+      return <CaretUpFill />;
+    }
+    return '';
+  }
+  function getHearingDateSort() {
+    if (sortBy === 'hd') {
+      return <CaretDownFill />;
+    }
+    if (sortBy === 'ha') {
+      return <CaretUpFill />;
+    }
+    return '';
+  }
+  function getStatusSort() {
+    if (sortBy === 'sd') {
+      return <CaretDownFill />;
+    }
+    if (sortBy === 'sa') {
+      return <CaretUpFill />;
+    }
+    return '';
   }
 
   const returnFilter = () => (
@@ -355,14 +445,54 @@ const Dashboard = () => {
       <Table striped className="border border-2">
         <thead style={{ zIndex: 200 }}>
           <tr>
-            <th>Bill / Resolution</th>
-            <th>Office</th>
+            <th>
+              <Button
+                style={tableButtonStyle}
+                onClick={() => {
+                  setSortBy(sortBy === 'cd' ? 'ca' : 'cd');
+                  setCurrentPage(1);
+                }}
+              >
+                Bill / Resolution {getCodeSort()}
+              </Button>
+            </th>
+            <th style={{ width: '100px' }}>
+              <Button
+                style={tableButtonStyle}
+                onClick={() => {
+                  setSortBy(sortBy === 'od' ? 'oa' : 'od');
+                  setCurrentPage(1);
+                }}
+              >
+                Office {getOfficeSort()}
+              </Button>
+            </th>
             <th>Action</th>
             <th>Committee</th>
-            <th>Hearing</th>
+            <th style={{ width: '100px' }}>
+              <Button
+                style={tableButtonStyle}
+                onClick={() => {
+                  setSortBy(sortBy === 'hd' ? 'ha' : 'hd');
+                  setCurrentPage(1);
+                }}
+              >
+                Hearing {getHearingDateSort()}
+              </Button>
+            </th>
             <th>Position</th>
             <th>Testifier</th>
-            <th>Status</th>
+            <th style={{ width: '100px' }}>
+              <Button
+                style={tableButtonStyle}
+                onClick={() => {
+                  setSortBy(sortBy === 'sd' ? 'sa' : 'sd');
+                  setCurrentPage(1);
+                }}
+              >
+                Status {getStatusSort()}
+              </Button>
+            </th>
             <th>Edit</th>
           </tr>
         </thead>
