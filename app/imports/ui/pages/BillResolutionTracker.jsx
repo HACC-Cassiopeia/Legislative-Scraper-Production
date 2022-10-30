@@ -69,7 +69,7 @@ const BillResolutionTracker = () => {
 
   return (
     <Col>
-      {width < breakPoint ? <MobileSideBar page="home" /> : getDesktopSidebar()}
+      {width < breakPoint ? <MobileSideBar page="deets" /> : getDesktopSidebar()}
       <Col>
         <div style={width < breakPoint ? mobileMainBody : mainBodyLeftMargin} className="d-flex justify-content-center">
           <Navbar className="fixed-top justify-content-center" style={width < breakPoint ? mobileMainBody : navBarStyle}>

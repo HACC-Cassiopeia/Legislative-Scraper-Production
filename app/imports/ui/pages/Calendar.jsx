@@ -96,7 +96,7 @@ const Calendar = () => {
 
   return (
     <Col>
-      {width < breakPoint ? <MobileSideBar page="home" /> : getDesktopSidebar()}
+      {width < breakPoint ? <MobileSideBar page="calendar" /> : getDesktopSidebar()}
       <div style={width < breakPoint ? mobileMainBody : mainBodyLeftMargin} className="d-flex justify-content-center">
         <CalModal
           show={show}

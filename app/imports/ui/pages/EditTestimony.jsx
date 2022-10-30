@@ -172,7 +172,7 @@ const EditTestimony = () => {
 
   return (
     <div style={{ backgroundColor: '#e6e6e6', minWidth: '800px' }}>
-      {width < breakPoint ? <MobileSideBar page="home" /> : getDesktopSidebar()}
+      {width < breakPoint ? <MobileSideBar page="edit-testimony" /> : getDesktopSidebar()}
       <div style={width < breakPoint ? mobileMainBody : mainBodyLeftMargin} className="d-flex justify-content-center">
         <AutoForm className="p-5 mt-4 d-flex justify-content-center" ref={ref => { fRef = ref; }} schema={bridge} onSubmit={data => submit(data, fRef)} model={testimony}>
           <Navbar className="fixed-top d-flex justify-content-center align-items-center" style={width < breakPoint ? mobileNavBarStyle : navBarStyle}>

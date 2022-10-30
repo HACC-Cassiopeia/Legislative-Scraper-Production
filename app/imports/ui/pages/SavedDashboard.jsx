@@ -563,7 +563,7 @@ const Dashboard = () => {
 
   return (
     <div style={{ backgroundColor: '#ece9e9', height: '100%' }}>
-      {width < breakPoint ? <MobileSideBar page="home" /> : getDesktopSidebar()}
+      {width < breakPoint ? <MobileSideBar page="doe-bills" /> : getDesktopSidebar()}
       <div style={width < breakPoint ? mobileMainBody : mainBodyLeftMargin} className="d-flex justify-content-center">
         <Row id="dashboard-screen">
           <Col className="mx-3">
