@@ -3,6 +3,8 @@ import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Card, Row, Container, Table, Col } from 'react-bootstrap';
 import * as Icon from 'react-bootstrap-icons';
+import { Roles } from 'meteor/alanning:roles';
+import { FileText } from 'react-bootstrap-icons';
 import MobileSideBar from '../components/SideNavBar/MobileSideBar';
 import { SavedMeasures } from '../../api/savedMeasures/SavedMeasuresCollection';
 import NotificationBill from '../components/notificationRelated/NotifcationBill';
@@ -10,6 +12,8 @@ import NotificationBody from '../components/notificationRelated/NotificationBody
 import Legtracker from '../utilities/Legtracker';
 import DesktopSideBar from '../components/SideNavBar/DesktopSideBar';
 import LoadingSpinner from '../components/LoadingSpinner';
+import TestimonyRow from '../components/testimony/TestimonyRow';
+import { Testimonies } from '../../api/testimony/TestimonyCollection';
 
 const Home = () => {
   const { ready, bills } = useTracker(() => {
@@ -21,14 +25,38 @@ const Home = () => {
       ready: rdy,
     };
   }, false);
-  const [upcomingHearings, setUpcomingHearings] = useState([]);
 
+  const isAdmin = () => {
+    const loggedInUser = Meteor.user();
+    if (loggedInUser) {
+      if (Roles.userIsInRole(loggedInUser, ['ADMIN'])) {
+        console.log('user is an admin');
+      }
+    } else {
+      console.log('user is not an admin');
+    }
+  };
+
+  isAdmin();
+  const [upcomingHearings, setUpcomingHearings] = useState([]);
+  console.log(Meteor.user());
   useEffect(() => {
     document.title = 'DOELT - Home';
     Legtracker.scrapeUpcomingHearings().then((initialData) => {
       setUpcomingHearings(initialData.upcomingHearings);
     });
   }, []);
+
+  const { readyTestimony, testimonies } = useTracker(() => {
+    const subscription = Testimonies.subscribeTestimony();
+    const rdy = subscription.ready();
+    // TODO replace billcode with _code
+    const testimoniesItems = Testimonies.find({}, {}).fetch();
+    return {
+      testimonies: testimoniesItems,
+      readyTestimony: rdy,
+    };
+  }, false);
 
   // the width of the screen using React useEffect
   const [width, setWidth] = useState(window.innerWidth);
@@ -60,7 +88,7 @@ const Home = () => {
   };
 
   return (
-    <div style={{ backgroundColor: '#ece9e9', height: '100%' }}>
+    <div style={{ backgroundColor: '#ece9e9', height: '100%', overflow: 'auto' }}>
       {width < breakPoint ? (
         <MobileSideBar page="home" />
       ) : (
@@ -109,6 +137,36 @@ const Home = () => {
                 ) : (
                   <p>No upcoming hearings found.</p>
                 )}
+              </Card.Body>
+            </Card>
+          </Row>
+          <br />
+          <Row>
+            <Card className="p-0">
+              <Card.Header style={sectionHeaders}>
+                <FileText /> &nbsp; Testimonies
+              </Card.Header>
+              <Card.Body>
+                <Table>
+                  <thead style={{ zIndex: 200 }}>
+                    <tr>
+                      <th>Hearing Date</th>
+                      <th>Bill No</th>
+                      <th>Testifier</th>
+                      <th>Status</th>
+                      <th>Edit</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {testimonies.map(testimony => (
+                      <TestimonyRow
+                        key={testimony._id}
+                        testimony={testimony}
+                        _code={testimony.billCode}
+                      />
+                    ))}
+                  </tbody>
+                </Table>
               </Card.Body>
             </Card>
           </Row>
