@@ -19,6 +19,7 @@ body {
 
 a {
   --bs-link-color: #57749f;
+  --bs-link-hover-color: #7693c0;
 }
 
 .page-link {

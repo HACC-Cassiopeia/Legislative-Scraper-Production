@@ -9,7 +9,9 @@ import {
   ButtonGroup,
   Button,
 } from 'react-bootstrap';
+import { CaretDownFill, CaretUpFill } from 'react-bootstrap-icons';
 import { Link } from 'react-router-dom';
+import { _ } from 'meteor/underscore';
 import LoadingSpinner from '../components/LoadingSpinner';
 import AllBill from '../components/AllBill';
 import LegTracker from '../utilities/Legtracker';
@@ -34,6 +36,12 @@ const AllDashboard = () => {
   );
   const [lastIndex, setLastIndex] = useState(currentPage * rowNumber);
 
+  // values: ca = bill code ascending
+  //         cd = bill code descending
+  //         sa = status date ascending
+  //         sd = status date descending
+  const [sortBy, setSortBy] = useState('');
+
   let items = [];
 
   /* When the filtered data needs to call the api */
@@ -50,6 +58,7 @@ const AllDashboard = () => {
         setLoading(false);
         setKeyword('');
         setDateSearch(1);
+        setSortBy('cd');
 
         document.title = 'DOELT - View All Bills/Measures';
       });
@@ -58,6 +67,20 @@ const AllDashboard = () => {
   /* When the filtered data can just search the current array */
   useEffect(() => {
     let filtered = measures;
+    switch (sortBy) {
+    case 'cd':
+      filtered = _.sortBy(filtered, 'code').reverse();
+      break;
+    case 'sa':
+      filtered = _.sortBy(filtered, 'statusDate');
+      break;
+    case 'sd':
+      filtered = _.sortBy(filtered, 'statusDate').reverse();
+      break;
+    default:
+      filtered = _.sortBy(filtered, 'code');
+    }
+
     if (billNum) {
       filtered = filtered.filter(function (obj) { return obj.code.toLowerCase().includes(billNum.toLowerCase()); });
     }
@@ -88,7 +111,7 @@ const AllDashboard = () => {
       });
     }
     setFilteredMeasures(filtered);
-  }, [keyword, billNum, title, statusDate, dateSearch]);
+  }, [keyword, billNum, title, statusDate, dateSearch, sortBy]);
 
   const handleClick = (page) => {
     setCurrentPage(page);
@@ -96,6 +119,26 @@ const AllDashboard = () => {
     setFirstIndex(page * rowNumber - rowNumber);
     setLastIndex(page * rowNumber);
   };
+
+  function getCodeSort() {
+    if (sortBy === 'cd') {
+      return <CaretDownFill />;
+    }
+    if (sortBy === 'ca') {
+      return <CaretUpFill />;
+    }
+    return '';
+  }
+
+  function getStatusDateSort() {
+    if (sortBy === 'sd') {
+      return <CaretDownFill />;
+    }
+    if (sortBy === 'sa') {
+      return <CaretUpFill />;
+    }
+    return '';
+  }
 
   const beforeDate = {
     color: dateSearch === 1 ? 'white' : 'grey',
@@ -123,6 +166,13 @@ const AllDashboard = () => {
     paddingBottom: '4px',
     paddingRight: '8px',
   };
+  const tableButtonStyle = {
+    fontWeight: 'bold',
+    backgroundColor: 'transparent',
+    borderWidth: 0,
+    color: 'black',
+    padding: 0,
+  };
 
   if (Math.ceil(filteredMeasures.length / rowNumber) > 10) {
     items = [];
@@ -147,6 +197,8 @@ const AllDashboard = () => {
     items.push(
       <Pagination.Item
         key={Math.ceil(filteredMeasures.length / rowNumber)}
+        active={Math.ceil(filteredMeasures.length / rowNumber) === currentPage}
+        onClick={() => handleClick(Math.ceil(filteredMeasures.length / rowNumber))}
       >
         {Math.ceil(filteredMeasures.length / rowNumber)}
       </Pagination.Item>,
@@ -307,8 +359,28 @@ const AllDashboard = () => {
         <thead style={{ zIndex: 200 }}>
           <tr>
             <th>DOE DB</th>
-            <th>Bill / Resolution</th>
-            <th>Status</th>
+            <th>
+              <Button
+                style={tableButtonStyle}
+                onClick={() => {
+                  setSortBy(sortBy === 'cd' ? 'ca' : 'cd');
+                  setCurrentPage(1);
+                }}
+              >
+                Bill / Resolution {getCodeSort()}
+              </Button>
+            </th>
+            <th>
+              <Button
+                style={tableButtonStyle}
+                onClick={() => {
+                  setSortBy(sortBy === 'sd' ? 'sa' : 'sd');
+                  setCurrentPage(1);
+                }}
+              >
+                Status {getStatusDateSort()}
+              </Button>
+            </th>
             <th>Introducer(s)</th>
             <th>Referral</th>
             <th>Companion</th>
