@@ -1,14 +1,14 @@
 import React from 'react';
-import { Nav, Button, Col } from 'react-bootstrap';
+import { Nav, Col } from 'react-bootstrap';
 import {
   HouseFill,
   CardList,
   CalendarEventFill,
-  QuestionCircle,
   Save2,
 } from 'react-bootstrap-icons';
 import PropTypes from 'prop-types';
 import MobileSignOutCheck from '../MobileSignOutCheck';
+import HalpModal from '../HelpModal';
 
 const DesktopSideBarCollapsed = (props) => {
 
@@ -80,20 +80,8 @@ const DesktopSideBarCollapsed = (props) => {
             />
           </Nav.Link>
           <MobileSignOutCheck style={{ fontSize: '20px' }} />
-          <Button
-            className="navButtons"
-            style={{
-              position: 'absolute',
-              bottom: 0,
-              left: '8px',
-              fontSize: '20px',
-              backgroundColor: '#2e374f',
-              borderWidth: 0,
-              boxShadow: 'none',
-            }}
-          >
-            <QuestionCircle />
-          </Button>
+          <br />
+          <HalpModal />
         </Nav.Item>
       </Nav>
     </Col>
