@@ -9,7 +9,6 @@ import { SavedMeasures } from '../../api/savedMeasures/SavedMeasuresCollection';
 import NotificationBill from '../components/notificationRelated/NotifcationBill';
 import NotificationBody from '../components/notificationRelated/NotificationBody';
 import Legtracker from '../utilities/Legtracker';
-import LoadingSpinner from '../components/LoadingSpinner';
 import TestimonyRow from '../components/testimony/TestimonyRow';
 import { Testimonies } from '../../api/testimony/TestimonyCollection';
 import DesktopSideBarCollapsed from '../components/SideNavBar/DesktopSideBarCollapsed';
@@ -28,7 +27,6 @@ const Home = () => {
 
   const [expanded, setExpanded] = useState(false);
   const [upcomingHearings, setUpcomingHearings] = useState([]);
-  console.log(Meteor.user());
   useEffect(() => {
     document.title = 'DOELT - Home';
     Legtracker.scrapeUpcomingHearings().then((initialData) => {
