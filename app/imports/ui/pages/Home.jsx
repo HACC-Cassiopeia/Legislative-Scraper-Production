@@ -3,7 +3,6 @@ import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Card, Row, Container, Table, Col, Button } from 'react-bootstrap';
 import * as Icon from 'react-bootstrap-icons';
-import { Roles } from 'meteor/alanning:roles';
 import { FileText, ChevronLeft, List } from 'react-bootstrap-icons';
 import MobileSideBar from '../components/SideNavBar/MobileSideBar';
 import { SavedMeasures } from '../../api/savedMeasures/SavedMeasuresCollection';
@@ -27,18 +26,6 @@ const Home = () => {
     };
   }, false);
 
-  const isAdmin = () => {
-    const loggedInUser = Meteor.user();
-    if (loggedInUser) {
-      if (Roles.userIsInRole(loggedInUser, ['ADMIN'])) {
-        console.log('user is an admin');
-      }
-    } else {
-      console.log('user is not an admin');
-    }
-  };
-
-  isAdmin();
   const closeWidth = '62px';
   const openWidth = '131.5px';
   const [expanded, setExpanded] = useState(false);
@@ -142,7 +129,7 @@ const Home = () => {
   }
 
   return (
-    <div style={{ backgroundColor: '#ece9e9', height: '100%' }}>
+    <div style={{ backgroundColor: '#ece9e9', height: '100vh' }}>
       {width < breakPoint ? <MobileSideBar page="home" /> : getDesktopSidebar()}
       <Col style={width < breakPoint ? mobileMainBody : mainBodyLeftMargin} className="d-flex justify-content-center">
         <Container style={mainBodyWidth}>
@@ -201,13 +188,13 @@ const Home = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {testimonies.map(testimony => (
+                    {readyTestimony ? testimonies.map(testimony => (
                       <TestimonyRow
                         key={testimony._id}
                         testimony={testimony}
                         _code={testimony.billCode}
                       />
-                    ))}
+                    )) : <LoadingSpinner />}
                   </tbody>
                 </Table>
               </Card.Body>
