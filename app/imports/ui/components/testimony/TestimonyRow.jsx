@@ -13,7 +13,7 @@ const TestimonyRow = ({ testimony, _code }) => (
       <div> { testimony.billCode ? testimony.billCode : '-' }</div>
     </td>
     <td>
-      <div>{ testimony.testifier ? testimony.billCode : '-'}</div>
+      <div>{ testimony.testifier ? testimony.testifier : '-'}</div>
     </td>
     <td>
       <div> { testimony.status ? testimony.status : '-'}</div>
