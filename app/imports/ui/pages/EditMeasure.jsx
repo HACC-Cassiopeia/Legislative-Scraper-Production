@@ -26,12 +26,12 @@ const EditMeasure = () => {
     // Determine if the subscription is ready
     const rdy = subscription.ready();
     // Get the document
-    const document = SavedMeasures.findDoc(_id);
+    const document = SavedMeasures.find({ _id: _id }).fetch();
     return {
-      doc: document,
+      doc: document[0],
       ready: rdy,
     };
-  }, [_id]);
+  }, false);
   const [expanded, setExpanded] = useState(false);
   const closeWidth = '62px';
   const openWidth = '131.5px';
@@ -42,10 +42,10 @@ const EditMeasure = () => {
       hearingLocation, doePosition, testifier, doeInternalStatus } = data;
     const collectionName = SavedMeasures.getCollectionName();
     // eslint-disable-next-line max-len
-    const updateData = { id: _id, office, archive, code, measurePdfUrl, measureArchiveUrl, measureTitle, reportTitle, description, statusHorS, statusDescription, statusDate, introducer, currentReferral, companion, doeAction, hearingDate, hearingTime, hearingLocation, doePosition, testifier, doeInternalStatus };
+    const updateData = { _id: _id, office, archive, code, measurePdfUrl, measureArchiveUrl, measureTitle, reportTitle, description, statusHorS, statusDescription, statusDate, introducer, currentReferral, companion, doeAction, hearingDate, hearingTime, hearingLocation, doePosition, testifier, doeInternalStatus };
     updateMethod.callPromise({ collectionName, updateData })
-      .catch(error => swal('Error', error.message, 'error'))
-      .then(() => swal('Success', 'Measure updated successfully', 'success'));
+      .then(() => swal('Success', 'Measure updated successfully', 'success'))
+      .catch(error => swal('Error', error.message, 'error'));
   };
   // const mainBodyLeftMargin = {
   //   marginLeft: expanded ? openWidth : closeWidth,
@@ -97,13 +97,15 @@ const EditMeasure = () => {
       </Col>
     );
   }
+  let fRef = null;
   // TODO add nav bar and style this page
   return ready ? (
     <Container id={PAGE_IDS.EDIT_BILL} className="py-3">
+      {console.log(doc)}
       <Row className="justify-content-center">
         <Col xs={12}>
           <Col className="text-center"><h2>Edit Bill</h2></Col>
-          <AutoForm schema={bridge} onSubmit={data => submit(data)} model={doc}>
+          <AutoForm schema={bridge} ref={ref => { fRef = ref; }} onSubmit={data => submit(data, fRef)} model={doc}>
             <Card>
               <Card.Body>
                 <Row>
