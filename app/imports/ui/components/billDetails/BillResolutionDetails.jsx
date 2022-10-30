@@ -49,11 +49,6 @@ const BillResolutionDetails = () => {
     }
   }, [ready]);
 
-  // TODO change depending on bill status
-  const billStatusStyle = {
-    backgroundColor: '#f5f5f5',
-  };
-
   function introducerShortened() {
     // eslint-disable-next-line for-direction
     for (let i = 0; i < bill.introducer.length; i++) {
