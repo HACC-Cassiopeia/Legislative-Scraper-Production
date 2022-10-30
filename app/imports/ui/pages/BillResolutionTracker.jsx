@@ -6,11 +6,12 @@ import BillResolutionDetails from '../components/billDetails/BillResolutionDetai
 import DesktopSideBar from '../components/SideNavBar/DesktopSideBar';
 import TestimonyTracker from '../components/testimony/TestimonyTracker';
 import CreateTestimonyModal from '../components/testimony/CreateTestimonyModal';
+import { useTracker } from 'meteor/react-meteor-data';
+import { SavedMeasures } from '../../api/savedMeasures/SavedMeasuresCollection';
 
 const BillResolutionTracker = () => {
   const { _code } = useParams();
   const [show, setShow] = useState(false);
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -25,7 +26,7 @@ const BillResolutionTracker = () => {
           </Button>
           <CreateTestimonyModal
             show={show}
-            handleShow={handleShow}
+            _code={_code}
             handleClose={handleClose}
           />
           <BillResolutionDetails />

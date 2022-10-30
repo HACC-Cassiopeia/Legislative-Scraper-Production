@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Row, Col, Card, Accordion, Button } from 'react-bootstrap';
-import { Archive, FileEarmarkPdfFill, FilePdfFill, PlusCircle, Youtube } from 'react-bootstrap-icons';
+import { Container, Row, Col, Accordion } from 'react-bootstrap';
+import { FilePdfFill, Youtube } from 'react-bootstrap-icons';
 import { useTracker } from 'meteor/react-meteor-data';
 import { useParams } from 'react-router';
 // import { Meteor } from 'meteor/meteor';
