@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { SavedMeasures } from '../../api/savedMeasures/SavedMeasuresCollection';
 import SavedBill from '../components/SavedBill';
 import LoadingSpinner from '../components/LoadingSpinner';
-import DesktopSideBar from '../components/SideNavBar/DesktopSideBar';
+import DesktopSideBarCollapsed from '../components/SideNavBar/DesktopSideBarCollapsed';
 
 /* Renders a table containing all of the Stuff documents. Use <StuffItem> to render each row. */
 const Dashboard = () => {
@@ -184,7 +184,7 @@ const Dashboard = () => {
 
   return (
     <Col>
-      <DesktopSideBar page="bills" />
+      <DesktopSideBarCollapsed page="bills" />
       <div id="mainBody">
         <Row id="dashboard-screen">
           <Col>

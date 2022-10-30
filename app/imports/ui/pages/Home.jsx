@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
-import { Card, Row, Container, Table, Col } from 'react-bootstrap';
+import { Card, Row, Container, Table, Col, Button } from 'react-bootstrap';
 import * as Icon from 'react-bootstrap-icons';
 import MobileSideBar from '../components/SideNavBar/MobileSideBar';
 import { SavedMeasures } from '../../api/savedMeasures/SavedMeasuresCollection';
 import NotificationBill from '../components/notificationRelated/NotifcationBill';
 import NotificationBody from '../components/notificationRelated/NotificationBody';
 import Legtracker from '../utilities/Legtracker';
-import DesktopSideBar from '../components/SideNavBar/DesktopSideBar';
+import DesktopSideBarCollapsed from '../components/SideNavBar/DesktopSideBarCollapsed';
+import DesktopSideBarExpanded from '../components/SideNavBar/DesktopSideBarExpanded';
 
 const Home = () => {
   const bills = useTracker(() => {
@@ -17,6 +18,7 @@ const Home = () => {
     return SavedMeasures.find().fetch();
   });
 
+  const [expanded, setExpanded] = useState(false);
   const [upcomingHearings, setUpcomingHearings] = useState([]);
 
   useEffect(() => {
@@ -56,9 +58,26 @@ const Home = () => {
     backgroundColor: '#37425e',
   };
 
+  function getDesktopSidebar() {
+    if (expanded) {
+      return (
+        <Col>
+          <Button>hi</Button>
+          <DesktopSideBarExpanded page="home" />
+        </Col>
+      );
+    }
+    return (
+        <Col>
+          <Button>hi</Button>
+          <DesktopSideBarCollapsed page="home" />
+        </Col>
+    );
+  }
+
   return (
     <div style={{ backgroundColor: '#ece9e9', height: '100%' }}>
-      {width < breakPoint ? <MobileSideBar page="home" /> : <DesktopSideBar page="home" />}
+      {width < breakPoint ? <MobileSideBar page="home" /> : getDesktopSidebar()}
       <Col style={width < breakPoint ? mobileMainBody : mainBodyStyle} className="d-flex justify-content-center">
         <Container>
           <h1 className="pt-4 m-0 text-center">

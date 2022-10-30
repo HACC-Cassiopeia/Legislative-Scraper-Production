@@ -1,9 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Container, Navbar, Nav, Row } from 'react-bootstrap';
-import { PencilSquare, FileEarmarkPlusFill, BoxArrowInDown } from 'react-bootstrap-icons';
+import { Navbar, Nav, Row } from 'react-bootstrap';
+import { FileEarmarkPlusFill, BoxArrowInDown } from 'react-bootstrap-icons';
+import { useParams } from 'react-router';
 import BillResolutionDetails from '../components/BillResolutionDetails';
-import DesktopSideBar from '../components/SideNavBar/DesktopSideBar';
+import DesktopSideBarCollapsed from '../components/SideNavBar/DesktopSideBarCollapsed';
+import TestimonyTracker from '../components/testimony/TestimonyTracker';
 
 const navBarStyle = {
   backgroundColor: '#FFFFFF',
@@ -24,26 +26,22 @@ const saveStyle = {
 };
 
 const BillResolutionTracker = () => {
-  // TODO add bill name to title?
-  useEffect(() => {
-    document.title = 'DOELT - View Bill Details';
-  }, []);
+  const { _code } = useParams();
 
   return (
     <Row>
-      <DesktopSideBar page="bill" />
+      <DesktopSideBarCollapsed page="bill" />
       <div id="mainBody">
         {/* TODO add functionality to edit, create monitoring report, and save to db buttons */}
         <Navbar className="fixed-top justify-content-center" style={navBarStyle}>
-          <Nav.Link className="m-4" as={NavLink} to="#"> <PencilSquare className="mb-1" />&nbsp;&nbsp;Edit</Nav.Link>
-          <Nav.Link className="m-4" as={NavLink} to="/add-testimony"> <FileEarmarkPlusFill className="mb-1" />&nbsp;&nbsp;Create Testimony</Nav.Link>
+          <Nav.Link className="m-4" as={NavLink} to={`/add-testimony/${_code}`}> <FileEarmarkPlusFill className="mb-1" />&nbsp;&nbsp;Create New Testimony</Nav.Link>
           <Nav.Link className="m-4" as={NavLink} to="#"> <FileEarmarkPlusFill className="mb-1" />&nbsp;&nbsp;Create Monitoring Report</Nav.Link>
           <Nav.Link className="m-4" style={saveStyle} as={NavLink} to="#"> <BoxArrowInDown className="mb-1" />&nbsp;&nbsp;Save to Database</Nav.Link>
         </Navbar>
         <div className="mt-5">
           <BillResolutionDetails />
         </div>
-        <Container className="text-center"><h3>TODO: Bottom section (list of hearings w/ more info)</h3></Container>
+        <TestimonyTracker _code={_code} />
       </div>
     </Row>
   );
