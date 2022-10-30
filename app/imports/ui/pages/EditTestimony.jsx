@@ -10,9 +10,9 @@ import { EnvelopeFill, FilePdfFill, HddFill } from 'react-bootstrap-icons';
 import { useParams } from 'react-router';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Testimonies } from '../../api/testimony/TestimonyCollection';
-import { defineMethod } from '../../api/base/BaseCollection.methods';
 import LoadingSpinner from '../components/LoadingSpinner';
 import MobileSideBar from '../components/SideNavBar/MobileSideBar';
+import { updateMethod } from '../../api/base/BaseCollection.methods';
 
 // Create a schema to specify the structure of the data to appear in the form.
 const formSchema = new SimpleSchema({
@@ -60,16 +60,15 @@ const EditTestimony = () => {
   }, []);
 
   // On submit, insert the data.
-  const submit = (data, formRef) => {
+  const submit = (data) => {
     const { governorName, governorTitle, testifier, testifierTitle, hearingDate, hearingTime, hearingLocation, committee, department, billCode, billTitle, billPurpose, position, lastEditedBy, status } = data;
 
     const collectionName = Testimonies.getCollectionName();
-    const definitionData = { governorName, governorTitle, testifier, testifierTitle, hearingDate, hearingTime, hearingLocation, committee, department, billCode, billTitle, billPurpose, position, lastEditedBy, status };
+    const updateData = { _id: _id, governorName, governorTitle, testifier, testifierTitle, hearingDate, hearingTime, hearingLocation, committee, department, billCode, billTitle, billPurpose, position, lastEditedBy, status };
 
-    defineMethod.callPromise({ collectionName, definitionData })
+    updateMethod.callPromise({ collectionName, updateData })
       .then(() => {
-        swal('Success', 'Item added successfully', 'success');
-        formRef.reset();
+        swal('Success', `Testimony for ${_code} has been edited`, 'success');
       })
       .catch(error => swal('Error', error.message, 'error'));
 
@@ -105,7 +104,7 @@ const EditTestimony = () => {
       <MobileSideBar id="nav" />
       {console.log('testimony', testimony)}
       <Col id="mainBody">
-        <AutoForm className="p-5 mt-4 d-flex justify-content-center" ref={ref => { fRef = ref; }} schema={bridge} onSubmit={data => submit(data, fRef)}>
+        <AutoForm className="p-5 mt-4 d-flex justify-content-center" ref={ref => { fRef = ref; }} schema={bridge} onSubmit={data => submit(data, fRef)} model={testimony}>
 
           <Navbar className="fixed-top justify-content-center" style={navBarStyle}>
             <HddFill />
@@ -158,10 +157,10 @@ const EditTestimony = () => {
                 doc.setFontSize(6);
                 doc.setFont('helvetica', 'bold');
                 doc.text(governorName, 15, 35);
-                doc.text(testifier, midPage * 2 - 15, 35, { align: 'right' });
+                doc.text(testifier, midPage * 2 - 25, 35, { align: 'right' });
                 doc.setFont('helvetica', 'normal');
                 doc.text('GOVERNOR', 15.5, 38);
-                doc.text(testifierTitle, midPage * 2 - 20, 38, { align: 'right' });
+                doc.text(testifierTitle, midPage * 2 - 22, 38, { align: 'right' });
                 doc.addImage('/images/hawaii-state-seal.png', 'png', midPage - 11, 24, 22, 22);
                 doc.setFontSize(8);
                 doc.setFont('helvetica', 'bold');
@@ -246,7 +245,7 @@ const EditTestimony = () => {
                     <Row>
                       <Col className="d-flex justify-content-start">
                         <b style={lilPadding}>Date:</b>
-                        <DateField className="m-0 ps-2" name="hearingDate" label="" type="date" placeholder="00/00/0000" />
+                        <TextField className="m-0 ps-2" name="hearingDate" label="" placeholder="00/00/0000" />
                       </Col>
                     </Row>
                     <Row style={{ top: '-18px', position: 'relative' }}>
