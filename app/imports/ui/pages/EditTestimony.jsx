@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Card, Col, Image, Nav, Navbar, Row } from 'react-bootstrap';
 import { AutoForm, ErrorsField, LongTextField, SelectField, SubmitField, TextField } from 'uniforms-bootstrap5';
 import swal from 'sweetalert';
@@ -6,14 +6,14 @@ import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
 import { jsPDF } from 'jspdf';
 import { NavLink } from 'react-router-dom';
-import { EnvelopeFill, FilePdfFill, HddFill } from 'react-bootstrap-icons';
+import { ChevronLeft, EnvelopeFill, FilePdfFill, HddFill, List } from 'react-bootstrap-icons';
 import { useParams } from 'react-router';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Testimonies, testimonyStatuses } from '../../api/testimony/TestimonyCollection';
 import LoadingSpinner from '../components/LoadingSpinner';
-import MobileSideBar from '../components/SideNavBar/MobileSideBar';
 import { updateMethod } from '../../api/base/BaseCollection.methods';
-import DesktopSideBar from '../components/SideNavBar/DesktopSideBar';
+import DesktopSideBarExpanded from '../components/SideNavBar/DesktopSideBarExpanded';
+import DesktopSideBarCollapsed from '../components/SideNavBar/DesktopSideBarCollapsed';
 
 // Create a schema to specify the structure of the data to appear in the form.
 const formSchema = new SimpleSchema({
@@ -40,6 +40,9 @@ const bridge = new SimpleSchema2Bridge(formSchema);
 const EditTestimony = () => {
   const { _id } = useParams();
   const { _code } = useParams();
+  const [expanded, setExpanded] = useState(false);
+  const closeWidth = '62px';
+  const openWidth = '131.5px';
 
   const { ready, testimony } = useTracker(() => {
     const subscription = Testimonies.subscribeTestimony();
@@ -73,11 +76,9 @@ const EditTestimony = () => {
 
   const navBarStyle = {
     backgroundColor: '#F7F7F7',
-    hover: 'green',
     borderBottom: '2px solid #DDDDDD',
-    zIndex: 200,
+    marginLeft: expanded ? openWidth : closeWidth
   };
-
   const pageStyle = {
     borderRadius: '0px',
     borderWidth: '0',
@@ -87,19 +88,67 @@ const EditTestimony = () => {
     paddingRight: '10px',
     width: '900px',
   };
-
   const lilPadding = {
     paddingTop: '2px',
   };
+  const mainBodyLeftMargin = {
+    marginLeft: expanded ? openWidth : closeWidth,
+  };
+  const closedButtonStyle = {
+    backgroundColor: '#2e374f',
+    width: closeWidth,
+    borderRadius: 0,
+    borderWidth: 0,
+    fontWeight: 'normal',
+    fontSize: '20px',
+    boxShadow: 'none',
+  };
+  const buttonStyle = {
+    backgroundColor: '#2e374f',
+    borderWidth: 0,
+    borderRadius: 0,
+    width: openWidth,
+    fontWeight: 'normal',
+    fontSize: '20px',
+    marginTop: 0,
+    boxShadow: 'none',
+  };
+  function getDesktopSidebar() {
+    if (expanded) {
+      return (
+        <Col className="col-3" style={{ position: 'fixed', zIndex: '9999' }}>
+          <Button
+            onClick={() => setExpanded(false)}
+            className="py-2 px-3 text-end navButtons"
+            style={buttonStyle}
+          >
+            <ChevronLeft />
+          </Button>
+          <DesktopSideBarExpanded page="home" />
+        </Col>
+      );
+    }
+    return (
+      <Col style={{ position: 'fixed', zIndex: '9999' }}>
+        <Button
+          onClick={() => setExpanded(true)}
+          className="py-2 px-3 text-center navButtons"
+          style={closedButtonStyle}
+        >
+          <List />
+        </Button>
+        <DesktopSideBarCollapsed page="home" />
+      </Col>
+    );
+  }
 
   // Render the form. Use Uniforms: https://github.com/vazco/uniforms
   let fRef = null;
 
-  return (ready ? (
+  return (
     <Col style={{ backgroundColor: '#e6e6e6', minWidth: '800px' }}>
-      <DesktopSideBar id="nav" />
-      {console.log('testimony', testimony)}
-      <Col id="mainBody">
+      {getDesktopSidebar()}
+      <Col style={mainBodyLeftMargin} className="d-flex justify-content-center">
         <AutoForm className="p-5 mt-4 d-flex justify-content-center" ref={ref => { fRef = ref; }} schema={bridge} onSubmit={data => submit(data, fRef)} model={testimony}>
 
           <Navbar className="fixed-top d-flex justify-content-center align-items-center" style={navBarStyle}>
@@ -112,7 +161,7 @@ const EditTestimony = () => {
             <FilePdfFill className="ms-3" />
             <Button
               id="generatePdfButton"
-              className="my-3 ms-0 p-0"
+              className="ms-0 p-0"
               onClick={() => {
                 // eslint-disable-next-line new-cap
                 const doc = new jsPDF('portrait', 'mm', 'letter');
@@ -204,118 +253,119 @@ const EditTestimony = () => {
               &nbsp;&nbsp;Generate PDF
             </Button>
           </Navbar>
-          <Row>
-            <ErrorsField style={{ width: '900px' }} />
-            <Card style={pageStyle} className="shadow">
-              <Card.Body className="pdfFiller">
-                <Row className="pt-3">
-                  <Col className="d-flex justify-content-center col-3 ps-5">
-                    <Row>
-                      <TextField className="m-0 pt-5 p-0 testimonyName" name="governorName" label="" placeholder="DAVID Y. IGE" />
-                      <TextField className="m-0 p-0 testimonyTitle" name="governorTitle" label="" placeholder="GOVERNOR" />
-                    </Row>
-                  </Col>
-                  <Col className="d-flex justify-content-center mt-5">
-                    <Image
-                      style={{ width: '10%', minWidth: '6em' }}
-                      src="/images/hawaii-state-seal.png"
-                      alt="HI state seal"
-                    />
-                  </Col>
-                  <Col className="d-flex justify-content-center col-3 pe-5">
-                    <Row>
-                      <TextField className="m-0 pt-5 p-0 testimonyName" name="testifier" label="" placeholder="KEITH T. HAYASHI" />
-                      <TextField className="m-0 p-0 testimonyTitle" name="testifierTitle" label="" placeholder="SUPERINTENDENT" />
-                    </Row>
-                  </Col>
-                </Row>
-                <Row className="pb-2">
-                  <Col className="text-center testimonyAddress pt-3">
-                    <b>STATE OF HAWAI&apos;I<br />
-                      DEPARTMENT OF EDUCATION<br />
-                    </b>
-                    P.O. BOX 2360<br />
-                    HONOLULU, HAWAI&apos;I 96804
-                  </Col>
-                </Row>
-                <Row className="mt-4">
-                  <Col>{/* Empty col for spacing */}</Col>
-                  <Col style={{ lineHeight: '1.2em' }}>
-                    <Row>
-                      <Col className="d-flex justify-content-start">
-                        <b style={lilPadding}>Date:</b>
-                        <TextField className="m-0 ps-2" name="hearingDate" label="" placeholder="00/00/0000" />
-                      </Col>
-                    </Row>
-                    <Row style={{ top: '-18px', position: 'relative' }}>
-                      <Col className="d-flex justify-content-start">
-                        <b style={lilPadding}>Time:</b>
-                        <TextField className="m-0 ps-2" name="hearingTime" label="" placeholder="00:00 AM" />
-                      </Col>
-                    </Row>
-                    <Row style={{ top: '-35px', position: 'relative' }}>
-                      <Col className="d-flex justify-content-start">
-                        <b style={lilPadding}>Location:</b>
-                        <TextField className="m-0 ps-2" name="hearingLocation" label="" placeholder="Hearing Location" />
-                      </Col>
-                    </Row>
-                    <Row style={{ top: '-52px', position: 'relative' }}>
-                      <Col className="d-flex justify-content-start">
-                        <b style={lilPadding}>Committee:</b>
-                        <LongTextField style={{ width: '60%' }} className="m-0 ps-2" name="committee" label="" placeholder="Committee Name" />
-                      </Col>
-                    </Row>
-                  </Col>
-                </Row>
-                <Row style={{ top: '-60px', position: 'relative' }} className="mx-5">
-                  <Col className="col-3">
-                    <b>Department:</b>
-                  </Col>
-                  <Col>
-                    <TextField style={{ width: '40%' }} name="department" label="" placeholder="Education" />
-                  </Col>
-                </Row>
-                <Row style={{ top: '-62px', position: 'relative' }} className="mx-5">
-                  <Col className="col-3">
-                    <b>Person Testifying:</b>
-                  </Col>
-                  <Col>
-                    <TextField style={{ width: '94%' }} name="testifier" label="" placeholder="Keith T. Hayashi" />
-                    <TextField style={{ width: '94%' }} name="testifierTitle" label="" placeholder="Superintendent of Education" />
-                  </Col>
-                </Row>
-                <Row style={{ top: '-62px', position: 'relative' }} className="mx-5">
-                  <Col className="col-3">
-                    <b>Title of Bill:</b>
-                  </Col>
-                  <Col>
-                    <TextField style={{ width: '94%' }} name="billTitle" label="" placeholder="Bill Title Goes Here" />
-                  </Col>
-                </Row>
-                <Row style={{ top: '-62px', position: 'relative' }} className="mx-5">
-                  <Col className="col-3">
-                    <b>Purpose of Bill:</b>
-                  </Col>
-                  <Col>
-                    <LongTextField style={{ width: '94%' }} name="billPurpose" label="" placeholder="Bill Purpose Goes Here" />
-                  </Col>
-                </Row>
-                <Row style={{ top: '-62px', position: 'relative' }} className="mx-5">
-                  <b>Department&apos;s Position:</b>
-                </Row>
-                <Row style={{ top: '-62px', position: 'relative' }}>
-                  <Col className="d-flex justify-content-center">
-                    <LongTextField className="doePosition" style={{ width: '85.9%' }} name="position" label="" placeholder="Department Position Goes Here" />
-                  </Col>
-                </Row>
-              </Card.Body>
-            </Card>
-          </Row>
+          {ready ? (
+            <Row>
+              <ErrorsField style={{ width: '900px' }} />
+              <Card style={pageStyle} className="shadow">
+                <Card.Body className="pdfFiller">
+                  <Row className="pt-3">
+                    <Col className="d-flex justify-content-center col-3 ps-5">
+                      <Row>
+                        <TextField className="m-0 pt-5 p-0 testimonyName" name="governorName" label="" placeholder="DAVID Y. IGE" />
+                        <TextField className="m-0 p-0 testimonyTitle" name="governorTitle" label="" placeholder="GOVERNOR" />
+                      </Row>
+                    </Col>
+                    <Col className="d-flex justify-content-center mt-5">
+                      <Image
+                        style={{ width: '10%', minWidth: '6em' }}
+                        src="/images/hawaii-state-seal.png"
+                        alt="HI state seal"
+                      />
+                    </Col>
+                    <Col className="d-flex justify-content-center col-3 pe-5">
+                      <Row>
+                        <TextField className="m-0 pt-5 p-0 testimonyName" name="testifier" label="" placeholder="KEITH T. HAYASHI" />
+                        <TextField className="m-0 p-0 testimonyTitle" name="testifierTitle" label="" placeholder="SUPERINTENDENT" />
+                      </Row>
+                    </Col>
+                  </Row>
+                  <Row className="pb-2">
+                    <Col className="text-center testimonyAddress pt-3">
+                      <b>STATE OF HAWAI&apos;I<br />
+                        DEPARTMENT OF EDUCATION<br />
+                      </b>
+                      P.O. BOX 2360<br />
+                      HONOLULU, HAWAI&apos;I 96804
+                    </Col>
+                  </Row>
+                  <Row className="mt-4">
+                    <Col>{/* Empty col for spacing */}</Col>
+                    <Col style={{ lineHeight: '1.2em' }}>
+                      <Row>
+                        <Col className="d-flex justify-content-start">
+                          <b style={lilPadding}>Date:</b>
+                          <TextField className="m-0 ps-2" name="hearingDate" label="" placeholder="00/00/0000" />
+                        </Col>
+                      </Row>
+                      <Row style={{ top: '-18px', position: 'relative' }}>
+                        <Col className="d-flex justify-content-start">
+                          <b style={lilPadding}>Time:</b>
+                          <TextField className="m-0 ps-2" name="hearingTime" label="" placeholder="00:00 AM" />
+                        </Col>
+                      </Row>
+                      <Row style={{ top: '-35px', position: 'relative' }}>
+                        <Col className="d-flex justify-content-start">
+                          <b style={lilPadding}>Location:</b>
+                          <TextField className="m-0 ps-2" name="hearingLocation" label="" placeholder="Hearing Location" />
+                        </Col>
+                      </Row>
+                      <Row style={{ top: '-52px', position: 'relative' }}>
+                        <Col className="d-flex justify-content-start">
+                          <b style={lilPadding}>Committee:</b>
+                          <LongTextField style={{ width: '60%' }} className="m-0 ps-2" name="committee" label="" placeholder="Committee Name" />
+                        </Col>
+                      </Row>
+                    </Col>
+                  </Row>
+                  <Row style={{ top: '-60px', position: 'relative' }} className="mx-5">
+                    <Col className="col-3">
+                      <b>Department:</b>
+                    </Col>
+                    <Col>
+                      <TextField style={{ width: '40%' }} name="department" label="" placeholder="Education" />
+                    </Col>
+                  </Row>
+                  <Row style={{ top: '-62px', position: 'relative' }} className="mx-5">
+                    <Col className="col-3">
+                      <b>Person Testifying:</b>
+                    </Col>
+                    <Col>
+                      <TextField style={{ width: '94%' }} name="testifier" label="" placeholder="Keith T. Hayashi" />
+                      <TextField style={{ width: '94%' }} name="testifierTitle" label="" placeholder="Superintendent of Education" />
+                    </Col>
+                  </Row>
+                  <Row style={{ top: '-62px', position: 'relative' }} className="mx-5">
+                    <Col className="col-3">
+                      <b>Title of Bill:</b>
+                    </Col>
+                    <Col>
+                      <TextField style={{ width: '94%' }} name="billTitle" label="" placeholder="Bill Title Goes Here" />
+                    </Col>
+                  </Row>
+                  <Row style={{ top: '-62px', position: 'relative' }} className="mx-5">
+                    <Col className="col-3">
+                      <b>Purpose of Bill:</b>
+                    </Col>
+                    <Col>
+                      <LongTextField style={{ width: '94%' }} name="billPurpose" label="" placeholder="Bill Purpose Goes Here" />
+                    </Col>
+                  </Row>
+                  <Row style={{ top: '-62px', position: 'relative' }} className="mx-5">
+                    <b>Department&apos;s Position:</b>
+                  </Row>
+                  <Row style={{ top: '-62px', position: 'relative' }}>
+                    <Col className="d-flex justify-content-center">
+                      <LongTextField className="doePosition" style={{ width: '85.9%' }} name="position" label="" placeholder="Department Position Goes Here" />
+                    </Col>
+                  </Row>
+                </Card.Body>
+              </Card>
+            </Row>
+          ) : <LoadingSpinner /> }
         </AutoForm>
       </Col>
-
     </Col>
-  ) : <LoadingSpinner />);
+  );
 };
 
 export default EditTestimony;

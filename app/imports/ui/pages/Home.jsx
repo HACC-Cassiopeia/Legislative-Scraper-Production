@@ -1,19 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
-import { Card, Row, Container, Table, Col } from 'react-bootstrap';
+import { Card, Row, Container, Table, Col, Button } from 'react-bootstrap';
 import * as Icon from 'react-bootstrap-icons';
 import { Roles } from 'meteor/alanning:roles';
 import { FileText } from 'react-bootstrap-icons';
+import { ChevronLeft, List } from 'react-bootstrap-icons';
 import MobileSideBar from '../components/SideNavBar/MobileSideBar';
 import { SavedMeasures } from '../../api/savedMeasures/SavedMeasuresCollection';
 import NotificationBill from '../components/notificationRelated/NotifcationBill';
 import NotificationBody from '../components/notificationRelated/NotificationBody';
 import Legtracker from '../utilities/Legtracker';
-import DesktopSideBar from '../components/SideNavBar/DesktopSideBar';
 import LoadingSpinner from '../components/LoadingSpinner';
 import TestimonyRow from '../components/testimony/TestimonyRow';
 import { Testimonies } from '../../api/testimony/TestimonyCollection';
+import DesktopSideBarCollapsed from '../components/SideNavBar/DesktopSideBarCollapsed';
+import DesktopSideBarExpanded from '../components/SideNavBar/DesktopSideBarExpanded';
 
 const Home = () => {
   const { ready, bills } = useTracker(() => {
@@ -38,6 +40,9 @@ const Home = () => {
   };
 
   isAdmin();
+  const closeWidth = '62px';
+  const openWidth = '131.5px';
+  const [expanded, setExpanded] = useState(false);
   const [upcomingHearings, setUpcomingHearings] = useState([]);
   console.log(Meteor.user());
   useEffect(() => {
@@ -72,33 +77,76 @@ const Home = () => {
   }, []);
   const breakPoint = 800;
 
-  const mainBodyStyle = {
-    paddingLeft: '22%',
-    width: 0.8 * width,
+  const mainBodyWidth = {
+    width: 0.75 * width,
     textAlign: 'center',
+  };
+  const mainBodyLeftMargin = {
+    marginLeft: expanded ? openWidth : closeWidth,
   };
   const mobileMainBody = {
-    textAlign: 'center',
+    marginLeft: '60px',
+    width: 0.9 * width,
     fontSize: '10px',
   };
-
+  const closedButtonStyle = {
+    backgroundColor: '#2e374f',
+    width: closeWidth,
+    borderRadius: 0,
+    borderWidth: 0,
+    fontWeight: 'normal',
+    fontSize: '20px',
+    boxShadow: 'none',
+  };
+  const buttonStyle = {
+    backgroundColor: '#2e374f',
+    borderWidth: 0,
+    borderRadius: 0,
+    width: openWidth,
+    fontWeight: 'normal',
+    fontSize: '20px',
+    marginTop: 0,
+    boxShadow: 'none',
+  };
   const sectionHeaders = {
     color: 'white',
     backgroundColor: '#37425e',
   };
 
+  function getDesktopSidebar() {
+    if (expanded) {
+      return (
+        <Col className="col-3" style={{ position: 'fixed' }}>
+          <Button
+            onClick={() => setExpanded(false)}
+            className="py-2 px-3 text-end navButtons"
+            style={buttonStyle}
+          >
+            <ChevronLeft />
+          </Button>
+          <DesktopSideBarExpanded page="home" />
+        </Col>
+      );
+    }
+    return (
+      <Col style={{ position: 'fixed' }}>
+        <Button
+          onClick={() => setExpanded(true)}
+          className="py-2 px-3 text-center navButtons"
+          style={closedButtonStyle}
+        >
+          <List />
+        </Button>
+        <DesktopSideBarCollapsed page="home" />
+      </Col>
+    );
+  }
+
   return (
-    <div style={{ backgroundColor: '#ece9e9', height: '100%', overflow: 'auto' }}>
-      {width < breakPoint ? (
-        <MobileSideBar page="home" />
-      ) : (
-        <DesktopSideBar page="home" />
-      )}
-      <Col
-        style={width < breakPoint ? mobileMainBody : mainBodyStyle}
-        className="d-flex justify-content-center"
-      >
-        <Container>
+    <div style={{ backgroundColor: '#ece9e9', height: '100%' }}>
+      {width < breakPoint ? <MobileSideBar page="home" /> : getDesktopSidebar()}
+      <Col style={width < breakPoint ? mobileMainBody : mainBodyLeftMargin} className="d-flex justify-content-center">
+        <Container style={mainBodyWidth}>
           <h1 className="pt-4 m-0 text-center">
             <b>DOELT</b>
           </h1>
@@ -120,13 +168,9 @@ const Home = () => {
                       <th>PDF</th>
                     </tr>
                   </thead>
-                  {upcomingHearings.length > 0 ? (
+                  { upcomingHearings.length > 0 ? (
                     <tbody>
-                      {upcomingHearings
-                        .map((hearing) => (
-                          <NotificationBody hearing={hearing} />
-                        ))
-                        .slice(0, 14)}
+                      {upcomingHearings.map((hearing) => <NotificationBody hearing={hearing} />).slice(0, 14)}
                     </tbody>
                   ) : (
                     '-'
