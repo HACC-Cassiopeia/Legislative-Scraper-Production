@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
-import { Card, Row, Container, Table, Col, Button } from 'react-bootstrap';
+import { Card, Row, Container, Table, Col, Button, Spinner } from 'react-bootstrap';
 import * as Icon from 'react-bootstrap-icons';
 import { FileText, ChevronLeft, List } from 'react-bootstrap-icons';
 import MobileSideBar from '../components/SideNavBar/MobileSideBar';
@@ -159,14 +159,13 @@ const Home = () => {
                       {upcomingHearings.map((hearing) => <NotificationBody key={`${hearing.dateTime}`} hearing={hearing} />).slice(0, 14)}
                     </tbody>
                   ) : (
-                    '-'
+                    <tbody>
+                      <tr>
+                        <td>There are currently no hearings</td>
+                      </tr>
+                    </tbody>
                   )}
                 </Table>
-                {upcomingHearings.length > 0 ? (
-                  '-'
-                ) : (
-                  <p>No upcoming hearings found.</p>
-                )}
               </Card.Body>
             </Card>
           </Row>
@@ -194,7 +193,7 @@ const Home = () => {
                         testimony={testimony}
                         _code={testimony.billCode}
                       />
-                    )) : <LoadingSpinner />}
+                    )) : <tr><td><Spinner animation="border" /></td></tr>}
                   </tbody>
                 </Table>
               </Card.Body>
@@ -226,7 +225,7 @@ const Home = () => {
                         <NotificationBill key={bill._id} bills={bill} />
                       ))}
                     </tbody>
-                  ) : <LoadingSpinner />}
+                  ) : <tr><td><Spinner animation="border" /></td></tr>}
                 </Table>
               </Card.Body>
             </Card>
