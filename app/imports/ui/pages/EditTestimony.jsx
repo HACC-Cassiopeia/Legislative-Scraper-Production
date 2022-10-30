@@ -17,6 +17,16 @@ import DesktopSideBarExpanded from '../components/SideNavBar/DesktopSideBarExpan
 import DesktopSideBarCollapsed from '../components/SideNavBar/DesktopSideBarCollapsed';
 import { ROLE } from '../../api/role/Role';
 
+const isFinalApprover = () => {
+  const loggedInUser = Meteor.user();
+  if (loggedInUser) {
+    if (!Roles.userIsInRole(loggedInUser, ROLE.FINAL_APV)) {
+      return testimonyStatuses;
+    }
+  }
+  return testimonyStatuses.slice(0, testimonyStatuses.length - 2);
+};
+
 // Create a schema to specify the structure of the data to appear in the form.
 const formSchema = new SimpleSchema({
   governorName: { type: String, defaultValue: 'DAVID Y. IGE' },
@@ -33,7 +43,7 @@ const formSchema = new SimpleSchema({
   billPurpose: String,
   position: String,
   lastEditedBy: String,
-  status: { type: String, allowedValues: testimonyStatuses },
+  status: { type: String, allowedValues: isFinalApprover() },
 });
 
 const bridge = new SimpleSchema2Bridge(formSchema);
