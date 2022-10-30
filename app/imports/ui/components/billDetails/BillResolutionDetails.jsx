@@ -3,7 +3,6 @@ import { Container, Row, Col, Accordion } from 'react-bootstrap';
 import { FilePdfFill, Youtube } from 'react-bootstrap-icons';
 import { useTracker } from 'meteor/react-meteor-data';
 import { useParams } from 'react-router';
-// import { Meteor } from 'meteor/meteor';
 import LoadingSpinner from '../LoadingSpinner';
 import { SavedMeasures } from '../../../api/savedMeasures/SavedMeasuresCollection';
 import Legtracker from '../../utilities/Legtracker';
@@ -69,6 +68,16 @@ const BillResolutionDetails = () => {
     return bill.introducer;
   }
 
+  const billOffice = () => {
+    let offices = bill.office[0];
+    // eslint-disable-next-line no-restricted-syntax
+    for (let i = 1; i < bill.office.length; i++) {
+      offices += ', ';
+      offices += bill.office[i];
+    }
+    return offices;
+  };
+
   // Hearing Date and Time
   const billDateAndTime = () => {
     if (billDetails.hearingNotices !== undefined && billDetails.hearingNotices.length !== 0) {
@@ -122,7 +131,7 @@ const BillResolutionDetails = () => {
   };
   // TODO if bill not found, need to redirect to 404
   return (ready ? (
-    <Container className="text-center border border-1 small mb-5 mt-5 pt-2">
+    <Container className="text-center border border-1 small mb-5 mx-3" style={{ backgroundColor: 'white', marginTop: '55px' }}>
       <Row style={{ backgroundColor: '#ddf3dd' }}>
         <Col>
           <h3 className="pt-2">
@@ -172,7 +181,7 @@ const BillResolutionDetails = () => {
           </Row>
           <Row>
             <Col className="py-2">
-              {/* TODO get offices, need to add this to the saved measures db */}
+              {billOffice()}
             </Col>
           </Row>
         </Col>
@@ -184,7 +193,7 @@ const BillResolutionDetails = () => {
           </Row>
           <Row>
             <Col className="py-2">
-              {/* TODO add 'action,' not sure if this is something that they add or what. didn't see it on the bill's page */}
+              {bill.doeAction}
             </Col>
           </Row>
         </Col>

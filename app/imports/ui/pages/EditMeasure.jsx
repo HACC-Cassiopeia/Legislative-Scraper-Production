@@ -1,86 +1,94 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import swal from 'sweetalert';
-import { Button, Card, Col, Container, Row } from 'react-bootstrap';
-import { AutoForm, ErrorsField, LongTextField, SelectField, SubmitField, TextField } from 'uniforms-bootstrap5';
+import { Button, Col, Container, Row, Navbar, Nav } from 'react-bootstrap';
+import { AutoField, AutoForm, SubmitField, TextField } from 'uniforms-bootstrap5';
 import { useTracker } from 'meteor/react-meteor-data';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import { useParams } from 'react-router';
-import { ChevronLeft, List } from 'react-bootstrap-icons';
+import { ChevronLeft, XCircle, HddFill, List, } from 'react-bootstrap-icons';
+import { Link } from 'react-router-dom';
 import { SavedMeasures } from '../../api/savedMeasures/SavedMeasuresCollection';
 import { updateMethod } from '../../api/base/BaseCollection.methods';
-import LoadingSpinner from '../components/LoadingSpinner';
 import { PAGE_IDS } from '../utilities/PageIDs';
+import LoadingSpinner from '../components/LoadingSpinner';
 import DesktopSideBarExpanded from '../components/SideNavBar/DesktopSideBarExpanded';
 import DesktopSideBarCollapsed from '../components/SideNavBar/DesktopSideBarCollapsed';
+import MobileSideBar from '../components/SideNavBar/MobileSideBar';
 
 const bridge = new SimpleSchema2Bridge(SavedMeasures._schema);
 
 /* Renders the EditBill page for editing a single document. */
 const EditMeasure = () => {
-  // Get the documentID from the URL field. See imports/ui/layouts/App.jsx for the route containing :_id.
-  const { _id } = useParams();
-  // useTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker
+  const { _code } = useParams();
   const { doc, ready } = useTracker(() => {
-    // Get access to Stuff documents.
     const subscription = SavedMeasures.subscribeMeasureSaved();
-    // Determine if the subscription is ready
     const rdy = subscription.ready();
-    // Get the document
-    const document = SavedMeasures.findDoc(_id);
+    const document = SavedMeasures.findDoc({ code: _code });
     return {
       doc: document,
       ready: rdy,
     };
-  }, [_id]);
+  }, [_code]);
   const [expanded, setExpanded] = useState(false);
-  const closeWidth = '62px';
-  const openWidth = '131.5px';
+
+  // the width of the screen using React useEffect
+  const [width, setWidth] = useState(window.innerWidth);
+  // make sure that it changes with the window size
+  useEffect(() => {
+    const handleResizeWindow = () => setWidth(window.innerWidth);
+    // subscribe to window resize event "onComponentDidMount"
+    window.addEventListener('resize', handleResizeWindow);
+    return () => {
+      // unsubscribe "onComponentDestroy"
+      window.removeEventListener('resize', handleResizeWindow);
+    };
+  }, []);
+  const breakPoint = 800;
+  const mobileMainBody = {
+    fontSize: '10px',
+  };
+  const mainBodyLeftMargin = {
+    marginLeft: expanded ? '132px' : '62px',
+  };
 
   // On successful submit, insert the data.
   const submit = (data) => {
-    const { office, archive, code, measurePdfUrl, measureArchiveUrl, measureTitle, reportTitle, description, statusHorS, statusDescription, statusDate, introducer, currentReferral, companion, doeAction, hearingDate, hearingTime,
+    const { office, archive, code, measurePdfUrl, measureArchiveUrl, measureTitle, reportTitle, description, statusHorS,
+      statusDescription, statusDate, introducer, currentReferral, companion, doeAction, hearingDate, hearingTime,
       hearingLocation, doePosition, testifier, doeInternalStatus } = data;
     const collectionName = SavedMeasures.getCollectionName();
     // eslint-disable-next-line max-len
-    const updateData = { id: _id, office, archive, code, measurePdfUrl, measureArchiveUrl, measureTitle, reportTitle, description, statusHorS, statusDescription, statusDate, introducer, currentReferral, companion, doeAction, hearingDate, hearingTime, hearingLocation, doePosition, testifier, doeInternalStatus };
+    const updateData = { id: doc._id, office, archive, code, measurePdfUrl, measureArchiveUrl, measureTitle, reportTitle,
+      description, statusHorS, statusDescription, statusDate, introducer, currentReferral, companion, doeAction, hearingDate,
+      hearingTime, hearingLocation, doePosition, testifier, doeInternalStatus };
     updateMethod.callPromise({ collectionName, updateData })
-      .catch(error => swal('Error', error.message, 'error'))
-      .then(() => swal('Success', 'Measure updated successfully', 'success'));
+        .catch(error => swal('Error', error.message, 'error'))
+        .then(() => swal('Success', 'Measure updated successfully', 'success'));
   };
-  // const mainBodyLeftMargin = {
-  //   marginLeft: expanded ? openWidth : closeWidth,
-  // };
-  const closedButtonStyle = {
-    backgroundColor: '#2e374f',
-    width: closeWidth,
-    borderRadius: 0,
-    borderWidth: 0,
-    fontWeight: 'normal',
-    fontSize: '20px',
-    boxShadow: 'none',
+
+  const navBarStyle = {
+    backgroundColor: '#F7F7F7',
+    borderBottom: '2px solid #DDDDDD',
+    marginLeft: expanded ? '132px' : '62px',
   };
-  const buttonStyle = {
-    backgroundColor: '#2e374f',
-    borderWidth: 0,
-    borderRadius: 0,
-    width: openWidth,
-    fontWeight: 'normal',
-    fontSize: '20px',
-    marginTop: 0,
-    boxShadow: 'none',
+  const mobileNavBarStyle = {
+    backgroundColor: '#F7F7F7',
+    borderBottom: '2px solid #DDDDDD',
+    paddingLeft: '20px',
+    paddingRight: '20px',
   };
+
   function getDesktopSidebar() {
     if (expanded) {
       return (
         <Col className="col-3" style={{ position: 'fixed' }}>
           <Button
             onClick={() => setExpanded(false)}
-            className="py-2 px-3 text-end navButtons"
-            style={buttonStyle}
+            className="py-2 px-3 text-end navButtons navButtonStyle"
           >
             <ChevronLeft />
           </Button>
-          <DesktopSideBarExpanded page="home" />
+          <DesktopSideBarExpanded page="edit-bill" />
         </Col>
       );
     }
@@ -88,72 +96,225 @@ const EditMeasure = () => {
       <Col style={{ position: 'fixed' }}>
         <Button
           onClick={() => setExpanded(true)}
-          className="py-2 px-3 text-center navButtons"
-          style={closedButtonStyle}
+          className="py-2 px-3 text-center navButtons closedNavButtonStyle"
         >
           <List />
         </Button>
-        <DesktopSideBarCollapsed page="home" />
+        <DesktopSideBarCollapsed page="edit-bill" />
       </Col>
     );
   }
-  // TODO add nav bar and style this page
-  return ready ? (
-    <Container id={PAGE_IDS.EDIT_BILL} className="py-3">
-      <Row className="justify-content-center">
-        <Col xs={12}>
-          <Col className="text-center"><h2>Edit Bill</h2></Col>
-          <AutoForm schema={bridge} onSubmit={data => submit(data)} model={doc}>
-            <Card>
-              <Card.Body>
-                <Row>
-                  <Col sm={3}><TextField name="code" /></Col>
-                  <Col sm={5}><TextField name="measureTitle" /></Col>
-                  <Col sm={4}> <TextField name="introducer" /></Col>
-                </Row>
-                <Row>
-                  <Col sm={3}> <SelectField name="office" /></Col>
-                  <Col sm={9}><LongTextField name="description" /></Col>
-                </Row>
 
-                <Row>
-                  <Col sm={3}> <TextField name="testifier" /></Col>
-                  <Col sm={3}><TextField name="currentReferral" /></Col>
-                  <Col sm={6}><TextField name="reportTitle" /></Col>
-                </Row>
-
-                <br />
-
-                <Row>
-                  <Col sm={6}> <LongTextField name="statusDescription" /></Col>
-                  <Col sm={3}> <TextField name="statusDate" /></Col>
-                  <Col sm={3}><TextField name="statusHorS" /></Col>
-                </Row>
-
-                <Row>
-                  <Col sm={6}> <TextField name="hearingLocation" /></Col>
-                  <Col sm={3}><TextField name="hearingDate" /></Col>
-                  <Col sm={3}><TextField name="hearingTime" /></Col>
-                </Row>
-
-                <Row>
-                  <Col sm={3}><TextField name="doeAction" /></Col>
-                  <Col sm={6}><TextField name="doePosition" /></Col>
-                  <Col sm={3}> <TextField name="doeInternalStatus" /></Col>
-                </Row>
-
-                <TextField name="measurePdfUrl" />
-                <TextField name="measureArchiveUrl" />
-
-                <SubmitField value="Submit" />
-                <ErrorsField />
-              </Card.Body>
-            </Card>
+  return (
+    <Col id={PAGE_IDS.EDIT_BILL} >
+      {width < breakPoint ? <MobileSideBar page="deets" /> : getDesktopSidebar()}
+      {ready ? (
+        <Col style={width < breakPoint ? mobileMainBody : mainBodyLeftMargin} className="d-flex justify-content-center">
+          <AutoForm className="p-5 d-flex justify-content-center" schema={bridge} onSubmit={data => submit(data)} model={doc}>
+            <Navbar className="fixed-top d-flex justify-content-center align-items-center" style={width < breakPoint ? mobileNavBarStyle : navBarStyle}>
+              <HddFill />
+              <SubmitField className="testimonyNavbarButtons me-5" value="Save Changes" />
+              <Nav.Link className="mx-5 my-1" as={Link} to={`/view/${_code}`}><XCircle className="ms-5 me-2 mb-1" />Discard Changes</Nav.Link>
+            </Navbar>
+            <Container className="text-center border border-1 small m-3" style={{ backgroundColor: 'white' }}>
+              <Row style={{ backgroundColor: '#ddf3dd' }}>
+                <Col>
+                  <h3 className="pt-2"><b>{`Editing ${_code}`}</b></h3>
+                </Col>
+              </Row>
+              <Row className="py-1">
+                <b>{doc.measureTitle}</b>
+              </Row>
+              <Row>
+                <Col>
+                  <Row>
+                    <Col className="border border-start-0 border-end-0">
+                      <b>Report Title</b>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col className="py-2">
+                      {doc.reportTitle}
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Row>
+                    <Col className="border border-start-0 border-end-0">
+                      <b>Description</b>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col className="py-2">
+                      {doc.description}
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
+              <Row className="border border-bottom-0 border-start-0 border-end-0">
+                <Col>
+                  <Row>
+                    <Col className="border border-top-0 border-start-0 border-end-0">
+                      <b>Office</b>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col className="py-2">
+                      <AutoField name="office" label="" />
+                    </Col>
+                  </Row>
+                </Col>
+                <Col className="border border-top-0 border-bottom-0">
+                  <Row>
+                    <Col className="border border-top-0 border-start-0 border-end-0">
+                      <b>Action</b>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col className="py-2">
+                      <TextField name="doeAction" label="" />
+                    </Col>
+                  </Row>
+                </Col>
+                <Col>
+                  <Row>
+                    <Col className="border border-top-0 border-start-0 border-end-0">
+                      <b>Companion</b>
+                    </Col>
+                  </Row>
+                  <Row className="py-2">
+                    <Col>
+                      {doc.companion}
+                    </Col>
+                  </Row>
+                </Col>
+                <Col className="border border-top-0 border-bottom-0 border-end-0">
+                  <Row>
+                    <Col className="border border-top-0 border-start-0 border-end-0">
+                      <b>Leg Type</b>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col className="py-2">
+                      {/* LEG TYPE TODO aren't these all bills? Putting this as bill temp. */}
+                      Bill
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
+              <Row className="border border-start-0 border-end-0 border-bottom-0">
+                <Col className="border border-top-0 border-bottom-0 border-start-0">
+                  <Row>
+                    <Col className="border border-top-0 border-start-0 border-end-0">
+                      <b>Introduced by</b>
+                    </Col>
+                  </Row>
+                  <Row className="py-2">
+                    <Col>
+                      {doc.introducer}
+                    </Col>
+                  </Row>
+                </Col>
+                <Col className="border border-top-0 border-bottom-0 border-start-0">
+                  <Row>
+                    <Col className="border border-top-0 border-start-0 border-end-0">
+                      <b>Committee Referral</b>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col className="py-2">
+                      {doc.currentReferral}
+                    </Col>
+                  </Row>
+                </Col>
+                <Col className="border border-top-0 border-bottom-0 border-start-0">
+                  <Row>
+                    <Col className="border border-top-0 border-start-0 border-end-0">
+                      <b>Act #</b>
+                    </Col>
+                  </Row>
+                  <Row className="py-2">
+                    <Col>
+                      {/* TODO act num? not sure what this is */}
+                    </Col>
+                  </Row>
+                </Col>
+                <Col>
+                  <Row>
+                    <Col className="border border-top-0 border-start-0 border-end-0">
+                      <b>Supt&apos;s</b>
+                    </Col>
+                  </Row>
+                  <Row className="py-2">
+                    <Col>
+                      {/* TODO supplements, not sure what this is either */}
+                      <input type="checkbox" />
+                  &nbsp;Binder
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
+              <Row>
+                <Col className="border border-top-0 border-bottom-0 border-start-0">
+                  <Row>
+                    <Col className="border border-start-0 border-end-0">
+                      <b>Hearing Date and Time</b>
+                    </Col>
+                  </Row>
+                  <Row className="py-2">
+                    <Col>
+                      <TextField name="hearingDate" />
+                      <TextField name="hearingTime" />
+                    </Col>
+                  </Row>
+                </Col>
+                <Col className="border border-top-0 border-bottom-0 border-start-0">
+                  <Row>
+                    <Col className="border border-start-0 border-end-0">
+                      <b>Hearing Location</b>
+                    </Col>
+                  </Row>
+                  <Row className="py-2">
+                    <Col>
+                      <TextField name="hearingLocation" />
+                    </Col>
+                  </Row>
+                </Col>
+                <Col>
+                  <Row>
+                    <Col className="border border-start-0 border-end-0">
+                      <b>Notified of Hearings</b>
+                    </Col>
+                  </Row>
+                  <Row className="py-2">
+                    <Col>
+                      {/* TODO 'notified of hearings' section from lotus notes. no idea */}
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Row>
+                    <Col className="border border-start-0 border-end-0">
+                      <b>Last Status Text</b>
+                    </Col>
+                  </Row>
+                  <Row className="py-2">
+                    <Col>
+                      {`${doc.statusDate}: ${doc.statusDescription}`}
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
+            </Container>
           </AutoForm>
         </Col>
-      </Row>
-    </Container>
-  ) : <LoadingSpinner />;
+      ) : <LoadingSpinner /> }
+    </Col>
+  );
 };
 
 export default EditMeasure;

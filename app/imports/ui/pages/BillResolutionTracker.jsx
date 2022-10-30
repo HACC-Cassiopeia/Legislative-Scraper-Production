@@ -8,6 +8,7 @@ import DesktopSideBarExpanded from '../components/SideNavBar/DesktopSideBarExpan
 import DesktopSideBarCollapsed from '../components/SideNavBar/DesktopSideBarCollapsed';
 import CreateTestimonyModal from '../components/testimony/CreateTestimonyModal';
 import MobileSideBar from '../components/SideNavBar/MobileSideBar';
+import { Link } from 'react-router-dom';
 
 const BillResolutionTracker = () => {
   const { _code } = useParams();
@@ -33,12 +34,12 @@ const BillResolutionTracker = () => {
     fontSize: '10px',
   };
   const mainBodyLeftMargin = {
-    marginLeft: expanded ? '131.5px' : '62px',
+    marginLeft: expanded ? '132px' : '62px',
   };
   const navBarStyle = {
     backgroundColor: '#FFFFFF',
     borderBottom: '2px solid #DDDDDD',
-    marginLeft: expanded ? '131.5px' : '62px',
+    marginLeft: expanded ? '132px' : '62px',
   };
   function getDesktopSidebar() {
     if (expanded) {
@@ -74,7 +75,7 @@ const BillResolutionTracker = () => {
         <div style={width < breakPoint ? mobileMainBody : mainBodyLeftMargin} className="d-flex justify-content-center">
           <Navbar className="fixed-top justify-content-center" style={width < breakPoint ? mobileMainBody : navBarStyle}>
             <Nav.Link className="mx-5 my-1" as={NavLink} onClick={handleShow}> <FileEarmarkPlusFill className="mb-1" />&nbsp;&nbsp;Create New Testimony</Nav.Link>
-            <Nav.Link className="mx-5 my-1" as={NavLink} to="#"> <PencilSquare className="mb-1" />&nbsp;&nbsp;Edit Bill Details</Nav.Link>
+            <Nav.Link className="mx-5 my-1" as={Link} to={`/edit/${_code}`}> <PencilSquare className="mb-1" />&nbsp;&nbsp;Edit Bill Details</Nav.Link>
             <Nav.Link className="mx-5 my-1" style={{ color: 'red' }} as={NavLink} to="#"> <Trash3Fill className="mb-1" />&nbsp;&nbsp;Remove from DOE DB</Nav.Link>
           </Navbar>
           <CreateTestimonyModal

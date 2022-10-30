@@ -250,7 +250,7 @@ const Dashboard = () => {
     padding: 0,
   };
   const mainBodyLeftMargin = {
-    marginLeft: expanded ? '131.5px' : '62px',
+    marginLeft: expanded ? '132px' : '62px',
   };
 
   function getCodeSort() {
@@ -542,7 +542,6 @@ const Dashboard = () => {
                 Status {getStatusSort()}
               </Button>
             </th>
-            <th>Edit</th>
           </tr>
         </thead>
         <tbody>
@@ -562,7 +561,7 @@ const Dashboard = () => {
   );
 
   return (
-    <div style={{ backgroundColor: '#ece9e9', height: '100%' }}>
+    <div>
       {width < breakPoint ? <MobileSideBar page="doe-bills" /> : getDesktopSidebar()}
       <div style={width < breakPoint ? mobileMainBody : mainBodyLeftMargin} className="d-flex justify-content-center">
         <Row id="dashboard-screen">

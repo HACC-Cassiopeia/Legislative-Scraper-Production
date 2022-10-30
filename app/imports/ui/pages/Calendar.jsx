@@ -65,7 +65,7 @@ const Calendar = () => {
   };
 
   const mainBodyLeftMargin = {
-    marginLeft: expanded ? '131.5px' : '62px',
+    marginLeft: expanded ? '132px' : '62px',
   };
   function getDesktopSidebar() {
     if (expanded) {

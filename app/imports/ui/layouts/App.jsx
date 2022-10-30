@@ -39,7 +39,7 @@ const App = () => (
         <Route path="/view/:_code" element={<ProtectedRoute><BillResolutionTracker /></ProtectedRoute>} />
         <Route path="/calendar" element={<ProtectedRoute><Calendar /></ProtectedRoute>} />
         <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
-        <Route path="/edit-measure/:_id" element={<ProtectedRoute><EditMeasure /></ProtectedRoute>} />
+        <Route path="/edit/:_code" element={<ProtectedRoute><EditMeasure /></ProtectedRoute>} />
         <Route path="/notauthorized" element={<NotAuthorized />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

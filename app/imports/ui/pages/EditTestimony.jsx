@@ -88,7 +88,7 @@ const EditTestimony = () => {
   };
 
   const mainBodyLeftMargin = {
-    marginLeft: expanded ? '131.5px' : '62px',
+    marginLeft: expanded ? '132px' : '62px',
   };
 
   const showAssigner = () => {
@@ -120,7 +120,7 @@ const EditTestimony = () => {
   const navBarStyle = {
     backgroundColor: '#F7F7F7',
     borderBottom: '2px solid #DDDDDD',
-    marginLeft: expanded ? '131.5px' : '62px',
+    marginLeft: expanded ? '132px' : '62px',
   };
   const mobileNavBarStyle = {
     backgroundColor: '#F7F7F7',

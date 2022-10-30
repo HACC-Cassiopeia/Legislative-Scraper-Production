@@ -26,9 +26,6 @@ const SavedBill = ({ bill }) => (
     <td>{bill.doePosition ? bill.doePosition : 'N/A'}</td>
     <td>{bill.testifier ? bill.testifier : 'N/A'}</td>
     <td>{bill.doeInternalStatus ? bill.doeInternalStatus : 'N/A'}</td> {/* THIS IS AN INTERNALLY TRACKED DOE STATUS, NOT THE STATUS ON THE STATE WEBSITE */}
-    <td>
-      <Link to={`/edit-measure/${bill._id}`}>Edit</Link>
-    </td>
   </tr>
 );
 

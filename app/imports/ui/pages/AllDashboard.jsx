@@ -194,7 +194,7 @@ const AllDashboard = () => {
     padding: 0,
   };
   const mainBodyLeftMargin = {
-    marginLeft: expanded ? '131.5px' : '62px',
+    marginLeft: expanded ? '132px' : '62px',
   };
 
   function getDesktopSidebar() {
@@ -455,7 +455,7 @@ const AllDashboard = () => {
   );
 
   return (
-    <div style={{ backgroundColor: '#ece9e9', height: '100%' }}>
+    <div>
       {width < breakPoint ? <MobileSideBar page="all-bills" /> : getDesktopSidebar()}
       <div style={width < breakPoint ? mobileMainBody : mainBodyLeftMargin} className="d-flex justify-content-center">
 

@@ -68,7 +68,7 @@ const Home = () => {
     textAlign: 'center',
   };
   const mainBodyLeftMargin = {
-    marginLeft: expanded ? '131.5px' : '62px',
+    marginLeft: expanded ? '132px' : '62px',
   };
   const sectionHeaders = {
     color: 'white',
@@ -103,7 +103,7 @@ const Home = () => {
   }
 
   return (
-    <div style={{ backgroundColor: '#ece9e9', height: '100vh' }}>
+    <div>
       {width < breakPoint ? <MobileSideBar page="home" /> : getDesktopSidebar()}
       <Col style={width < breakPoint ? mobileMainBody : mainBodyLeftMargin} className="d-flex justify-content-center">
         <Container style={mainBodyWidth}>
