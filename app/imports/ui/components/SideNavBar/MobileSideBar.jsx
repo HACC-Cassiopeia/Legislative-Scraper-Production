@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Nav } from 'react-bootstrap';
-import { HouseFill, CardList, CalendarEventFill, QuestionCircle } from 'react-bootstrap-icons';
+import { Navbar, Nav } from 'react-bootstrap';
+import {
+  HouseFill,
+  CardList,
+  CalendarEventFill,
+  QuestionCircle,
+} from 'react-bootstrap-icons';
 import '../style/Component.css';
 import PropTypes from 'prop-types';
 import MobileSignOutCheck from '../MobileSignOutCheck';
@@ -19,55 +24,82 @@ const MobileSideBar = (props) => {
     };
   }, []);
 
-  const closeSideBarStyle = {
-    position: 'fixed',
-    width: '60px',
-    minHeight: '100vh',
-    backgroundColor: '#2e374f',
-    color: 'white',
-    fontSize: '14px',
-    zIndex: 300,
-  };
-
-  const closedSelected = {
-    width: '60px',
+  const mobileBottomMenuStyle = {
     color: 'white',
     backgroundColor: '#242c41',
+    zIndex: '100px',
+    fontSize: '20px',
   };
 
-  const closedReg = {
-    width: '60px',
+  const openSelected = {
+    color: 'white',
+    backgroundColor: '#242c41',
+    width: width * 0.2,
+    minWidth: width * 0.2,
+    maxWidth: width * 0.2,
+    textAlign: 'center',
+  };
+
+  const openReg = {
     color: 'white',
     backgroundColor: '#2e374f',
+    width: width * 0.2,
+    minWidth: width * 0.2,
+    maxWidth: width * 0.2,
+    textAlign: 'center',
   };
-
   const { page } = props;
 
   return (
-    <Nav className="justify-content-start" style={closeSideBarStyle} activeKey="/home">
-      <Nav.Item>
-        <Nav.Link href="/" className="py-3" style={page === 'home' ? closedSelected : closedReg}>
-          <HouseFill className="mb-1 ms-1" style={{ fontSize: '20px' }} />
+    <Navbar
+      className="justify-content-start"
+      style={mobileBottomMenuStyle}
+      fixed="bottom"
+      activeKey="/home"
+    >
+      <Nav>
+        <Nav.Link
+          href="/"
+          className="py-3 navButtons"
+          style={page === 'home' ? openSelected : openReg}
+        >
+          <HouseFill style={{ fontSize: '30px' }} className="mb-1 me-3 ms-1" />
         </Nav.Link>
-        <Nav.Link href="/view/DOE" className="py-3" style={page === 'bills' ? closedSelected : closedReg}>
-          <CardList className="mb-1 ms-1" style={{ fontSize: '20px' }} />
+        <Nav.Link
+          href="/view/DOE"
+          className="py-3 navButtons"
+          style={page === 'bills' ? openSelected : openReg}
+        >
+          <CardList style={{ fontSize: '30px' }} className="mb-1 me-3 ms-1" />
         </Nav.Link>
-        <Nav.Link href="/calendar" className="py-3" style={page === 'calendar' ? closedSelected : closedReg}>
-          <CalendarEventFill className="mb-1 ms-1" style={{ fontSize: '20px' }} />
+        <Nav.Link
+          href="/calendar"
+          className="py-3 navButtons"
+          style={page === 'calendar' ? openSelected : openReg}
+        >
+          <CalendarEventFill
+            style={{ fontSize: '30px' }}
+            className="mb-1 me-3 ms-1"
+          />
         </Nav.Link>
-        <MobileSignOutCheck style={{ fontSize: '20px' }} />
-        <Button style={{
-          position: 'absolute',
-          bottom: 0,
-          left: '8px',
-          fontSize: '20px',
-          backgroundColor: '#2e374f',
-          borderWidth: 0,
-        }}
-        ><QuestionCircle />
-        </Button>
-      </Nav.Item>
-    </Nav>
+        <Nav.Link
+          href="#"
+          className="py-3 navButtons"
+          style={page === 'calendar' ? openSelected : openReg}
+        >
+          <QuestionCircle
+            style={{ fontSize: '30px' }}
+            className="mb-1 me-3 ms-1"
+          />
+        </Nav.Link>
+        <Nav.Link
+          className="py-3 navButtons"
+          style={page === 'calendar' ? openSelected : openReg}
+        >
+          <MobileSignOutCheck />
+        </Nav.Link>
+      </Nav>
+    </Navbar>
   );
 };
 

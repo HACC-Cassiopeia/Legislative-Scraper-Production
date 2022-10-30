@@ -9,7 +9,9 @@ import {
   ButtonGroup,
   Button,
 } from 'react-bootstrap';
+import { CaretDownFill, CaretUpFill } from 'react-bootstrap-icons';
 import { Link } from 'react-router-dom';
+import { _ } from 'meteor/underscore';
 import LoadingSpinner from '../components/LoadingSpinner';
 import AllBill from '../components/AllBill';
 import LegTracker from '../utilities/Legtracker';
@@ -27,8 +29,20 @@ const AllDashboard = () => {
   const [measures, setMeasures] = useState([]);
   const [filteredMeasures, setFilteredMeasures] = useState([]);
   const [loading, setLoading] = useState(false);
-
+  const [currentPage, setCurrentPage] = useState(1);
   const rowNumber = 15;
+  const [firstIndex, setFirstIndex] = useState(
+    currentPage * rowNumber - rowNumber,
+  );
+  const [lastIndex, setLastIndex] = useState(currentPage * rowNumber);
+
+  // values: ca = bill code ascending
+  //         cd = bill code descending
+  //         sa = status date ascending
+  //         sd = status date descending
+  const [sortBy, setSortBy] = useState('cd');
+
+  let items = [];
 
   /* When the filtered data needs to call the api */
   useEffect(() => {
@@ -44,6 +58,7 @@ const AllDashboard = () => {
         setLoading(false);
         setKeyword('');
         setDateSearch(1);
+        setSortBy('cd');
 
         document.title = 'DOELT - View All Bills/Measures';
       });
@@ -52,6 +67,20 @@ const AllDashboard = () => {
   /* When the filtered data can just search the current array */
   useEffect(() => {
     let filtered = measures;
+    switch (sortBy) {
+    case 'cd':
+      filtered = _.sortBy(filtered, 'code').reverse();
+      break;
+    case 'sa':
+      filtered = _.sortBy(filtered, 'statusDate');
+      break;
+    case 'sd':
+      filtered = _.sortBy(filtered, 'statusDate').reverse();
+      break;
+    default:
+      filtered = _.sortBy(filtered, 'code');
+    }
+
     if (billNum) {
       filtered = filtered.filter(function (obj) { return obj.code.toLowerCase().includes(billNum.toLowerCase()); });
     }
@@ -82,15 +111,7 @@ const AllDashboard = () => {
       });
     }
     setFilteredMeasures(filtered);
-  }, [keyword, billNum, title, statusDate, dateSearch]);
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const [firstIndex, setFirstIndex] = useState(
-    currentPage * rowNumber - rowNumber,
-  );
-  const [lastIndex, setLastIndex] = useState(currentPage * rowNumber);
-
-  let items = [];
+  }, [keyword, billNum, title, statusDate, dateSearch, sortBy]);
 
   const handleClick = (page) => {
     setCurrentPage(page);
@@ -98,6 +119,26 @@ const AllDashboard = () => {
     setFirstIndex(page * rowNumber - rowNumber);
     setLastIndex(page * rowNumber);
   };
+
+  function getCodeSort() {
+    if (sortBy === 'cd') {
+      return <CaretDownFill />;
+    }
+    if (sortBy === 'ca') {
+      return <CaretUpFill />;
+    }
+    return '';
+  }
+
+  function getStatusDateSort() {
+    if (sortBy === 'sd') {
+      return <CaretDownFill />;
+    }
+    if (sortBy === 'sa') {
+      return <CaretUpFill />;
+    }
+    return '';
+  }
 
   const beforeDate = {
     color: dateSearch === 1 ? 'white' : 'grey',
@@ -125,6 +166,13 @@ const AllDashboard = () => {
     paddingBottom: '4px',
     paddingRight: '8px',
   };
+  const tableButtonStyle = {
+    fontWeight: 'bold',
+    backgroundColor: 'transparent',
+    borderWidth: 0,
+    color: 'black',
+    padding: 0,
+  };
 
   if (Math.ceil(filteredMeasures.length / rowNumber) > 10) {
     items = [];
@@ -149,6 +197,8 @@ const AllDashboard = () => {
     items.push(
       <Pagination.Item
         key={Math.ceil(filteredMeasures.length / rowNumber)}
+        active={Math.ceil(filteredMeasures.length / rowNumber) === currentPage}
+        onClick={() => handleClick(Math.ceil(filteredMeasures.length / rowNumber))}
       >
         {Math.ceil(filteredMeasures.length / rowNumber)}
       </Pagination.Item>,
@@ -170,42 +220,48 @@ const AllDashboard = () => {
 
   const returnFilter = () => (
     <div className="pb-3">
-      <Row className="mt-5">
+      <Row className="pt-4">
+        <Col className="d-flex justify-content-center align-bottom">
+          <h1 className="d-inline pe-2 align-items-center"><b>{year}</b></h1>
+          <DropdownButton
+            className="d-inline pe-3 mt-3"
+            id="allBillsDropdown"
+            title=""
+            onSelect={(e) => setYear(e)}
+          >
+            <Dropdown.Item eventKey="2022">2022</Dropdown.Item>
+            <Dropdown.Item eventKey="2021">2021</Dropdown.Item>
+            <Dropdown.Item eventKey="2020">2020</Dropdown.Item>
+            <Dropdown.Item eventKey="2019">2019</Dropdown.Item>
+            <Dropdown.Item eventKey="2018">2018</Dropdown.Item>
+            <Dropdown.Item eventKey="2017">2017</Dropdown.Item>
+            <Dropdown.Item eventKey="2016">2016</Dropdown.Item>
+            <Dropdown.Item eventKey="2015">2015</Dropdown.Item>
+            <Dropdown.Item eventKey="2014">2014</Dropdown.Item>
+            <Dropdown.Item eventKey="2013">2013</Dropdown.Item>
+            <Dropdown.Item eventKey="2012">2012</Dropdown.Item>
+            <Dropdown.Item eventKey="2011">2011</Dropdown.Item>
+            <Dropdown.Item eventKey="2010">2010</Dropdown.Item>
+          </DropdownButton>
+          <h1 className="d-inline pe-2 align-items-center"><b>{type === 'hb' ? 'House Bills' : 'Senate Bills'}</b></h1>
+          <DropdownButton
+            className="d-inline mt-3"
+            id="allBillsDropdown"
+            title=""
+            onSelect={(e) => setType(e)}
+          >
+            <Dropdown.Item eventKey="hb">House Bills</Dropdown.Item>
+            <Dropdown.Item eventKey="sb">Senate Bills</Dropdown.Item>
+          </DropdownButton>
+        </Col>
         <Row>
-          <Col className="d-flex justify-content-end">
-            <DropdownButton
-              id="yearDropdown"
-              title={year}
-              onSelect={(e) => setYear(e)}
-            >
-              <Dropdown.Item eventKey="2022">2022</Dropdown.Item>
-              <Dropdown.Item eventKey="2021">2021</Dropdown.Item>
-              <Dropdown.Item eventKey="2020">2020</Dropdown.Item>
-              <Dropdown.Item eventKey="2019">2019</Dropdown.Item>
-              <Dropdown.Item eventKey="2018">2018</Dropdown.Item>
-              <Dropdown.Item eventKey="2017">2017</Dropdown.Item>
-              <Dropdown.Item eventKey="2016">2016</Dropdown.Item>
-              <Dropdown.Item eventKey="2015">2015</Dropdown.Item>
-              <Dropdown.Item eventKey="2014">2014</Dropdown.Item>
-              <Dropdown.Item eventKey="2013">2013</Dropdown.Item>
-              <Dropdown.Item eventKey="2012">2012</Dropdown.Item>
-              <Dropdown.Item eventKey="2011">2011</Dropdown.Item>
-              <Dropdown.Item eventKey="2010">2010</Dropdown.Item>
-            </DropdownButton>
+          <Col className="d-flex justify-content-center">
+            <Link className="small mb-2 text-center" to="/view/DOE">
+              View Saved DOE Bill/Measures
+            </Link>
           </Col>
-          <Col className="d-flex justify-content-start">
-            <DropdownButton
-              id="yearDropdown"
-              title={type === 'hb' ? 'House Bills' : 'Senate Bills'}
-              onSelect={(e) => setType(e)}
-            >
-              <Dropdown.Item eventKey="hb">House Bills</Dropdown.Item>
-              <Dropdown.Item eventKey="sb">Senate Bills</Dropdown.Item>
-            </DropdownButton>
-          </Col>
-          <Col className="col-1" />
         </Row>
-        <Row className="pt-3 px-5">
+        <Row className="py-2 px-5">
           <Col className="d-flex justify-content-center">
             <label htmlFor="Search by Bill Code">
               <Col className="d-flex justify-content-center mb-1 small" style={{ color: '#313131' }}>
@@ -292,13 +348,6 @@ const AllDashboard = () => {
             </label>
           </Col>
         </Row>
-        <Row>
-          <Col className="d-flex justify-content-center pb-3">
-            <Link className="pb-2 small" to="/view/DOE">
-              View Saved DOE Bill/Measures
-            </Link>
-          </Col>
-        </Row>
       </Row>
     </div>
   );
@@ -306,12 +355,32 @@ const AllDashboard = () => {
   const returnList = () => (
     <div style={{ height: '100vh', overflowY: 'visible' }}>
       <div style={{ textAlign: 'center' }} />
-      <Table striped>
+      <Table striped className="border border-2">
         <thead style={{ zIndex: 200 }}>
           <tr>
             <th>DOE DB</th>
-            <th>Bill / Resolution</th>
-            <th>Status</th>
+            <th>
+              <Button
+                style={tableButtonStyle}
+                onClick={() => {
+                  setSortBy(sortBy === 'cd' ? 'ca' : 'cd');
+                  setCurrentPage(1);
+                }}
+              >
+                Bill / Resolution {getCodeSort()}
+              </Button>
+            </th>
+            <th>
+              <Button
+                style={tableButtonStyle}
+                onClick={() => {
+                  setSortBy(sortBy === 'sd' ? 'sa' : 'sd');
+                  setCurrentPage(1);
+                }}
+              >
+                Status {getStatusDateSort()}
+              </Button>
+            </th>
             <th>Introducer(s)</th>
             <th>Referral</th>
             <th>Companion</th>
