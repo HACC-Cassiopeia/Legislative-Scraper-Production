@@ -27,8 +27,14 @@ const AllDashboard = () => {
   const [measures, setMeasures] = useState([]);
   const [filteredMeasures, setFilteredMeasures] = useState([]);
   const [loading, setLoading] = useState(false);
-
+  const [currentPage, setCurrentPage] = useState(1);
   const rowNumber = 15;
+  const [firstIndex, setFirstIndex] = useState(
+    currentPage * rowNumber - rowNumber,
+  );
+  const [lastIndex, setLastIndex] = useState(currentPage * rowNumber);
+
+  let items = [];
 
   /* When the filtered data needs to call the api */
   useEffect(() => {
@@ -83,14 +89,6 @@ const AllDashboard = () => {
     }
     setFilteredMeasures(filtered);
   }, [keyword, billNum, title, statusDate, dateSearch]);
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const [firstIndex, setFirstIndex] = useState(
-    currentPage * rowNumber - rowNumber,
-  );
-  const [lastIndex, setLastIndex] = useState(currentPage * rowNumber);
-
-  let items = [];
 
   const handleClick = (page) => {
     setCurrentPage(page);
@@ -175,7 +173,7 @@ const AllDashboard = () => {
           <h1 className="d-inline pe-2 align-items-center"><b>{year}</b></h1>
           <DropdownButton
             className="d-inline pe-3 mt-3"
-            id="yearDropdown"
+            id="allBillsDropdown"
             title=""
             onSelect={(e) => setYear(e)}
           >
@@ -196,7 +194,7 @@ const AllDashboard = () => {
           <h1 className="d-inline pe-2 align-items-center"><b>{type === 'hb' ? 'House Bills' : 'Senate Bills'}</b></h1>
           <DropdownButton
             className="d-inline mt-3"
-            id="yearDropdown"
+            id="allBillsDropdown"
             title=""
             onSelect={(e) => setType(e)}
           >

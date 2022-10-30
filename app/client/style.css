@@ -104,7 +104,8 @@ html, body {
   padding-bottom: 20px;
 }
 
-#yearDropdown {
+/* the main dropdowns on the 'all bills' page */
+#allBillsDropdown {
   background-color: transparent;
   padding: 0;
   color: #313131;
@@ -112,6 +113,14 @@ html, body {
   font-size: 1.5em;
   font-weight: bold;
   --bs-btn-focus-shadow-rgb: none;
+}
+
+#savedFilterDropdown {
+  background-color: #404d70;
+  color: white;
+  border-width: 0;
+  --bs-btn-focus-shadow-rgb: none;
+  width: 170px;
 }
 
 /*  not sure how to do the bootstrap attributes (eg --bs-accordion-active-bg) in the .jsx files so these stay here for now -Rob */

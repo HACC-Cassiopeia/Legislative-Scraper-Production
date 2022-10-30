@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Accordion, Col, Dropdown, DropdownButton, Row, Table } from 'react-bootstrap';
+import { Accordion, Button, ButtonGroup, Col, Dropdown, DropdownButton, Pagination, Row, Table } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Link } from 'react-router-dom';
 import { SavedMeasures } from '../../api/savedMeasures/SavedMeasuresCollection';
@@ -12,12 +12,20 @@ const Dashboard = () => {
   const [office, setOffice] = useState('');
   const [action, setAction] = useState('');
   const [chamber, setChamber] = useState('');
+  const [keyword, setKeyword] = useState('');
+  const [dateSearch, setDateSearch] = useState(1);
   const [billNum, setBillNum] = useState('');
-  const [statusDate, setStatusDate] = useState('');
   const [hearingDate, setHearingDate] = useState('');
   const [title, setTitle] = useState('');
-
+  const rowNumber = 15;
+  const [currentPage, setCurrentPage] = useState(1);
   const [filteredMeasures, setFilteredMeasures] = useState([]);
+  const [firstIndex, setFirstIndex] = useState(
+    currentPage * rowNumber - rowNumber,
+  );
+  const [lastIndex, setLastIndex] = useState(currentPage * rowNumber);
+
+  let items = [];
 
   const { ready, bills } = useTracker(() => {
     const subscription = SavedMeasures.subscribeMeasureSaved();
@@ -37,6 +45,24 @@ const Dashboard = () => {
     paddingBottom: '4px',
     paddingRight: '8px',
   };
+  const beforeDate = {
+    color: dateSearch === 1 ? 'white' : 'grey',
+    backgroundColor: dateSearch === 1 ? '#57749f' : '#F6F6F6',
+    borderColor: dateSearch === 1 ? '#425e88' : '#ece9e9',
+    borderWidth: '2px',
+  };
+  const onDate = {
+    color: dateSearch === 2 ? 'white' : 'grey',
+    backgroundColor: dateSearch === 2 ? '#57749f' : '#F6F6F6',
+    borderColor: dateSearch === 2 ? '#425e88' : '#ece9e9',
+    borderWidth: '2px',
+  };
+  const afterDate = {
+    color: dateSearch === 3 ? 'white' : 'grey',
+    backgroundColor: dateSearch === 3 ? '#57749f' : '#F6F6F6',
+    borderColor: dateSearch === 3 ? '#425e88' : '#ece9e9',
+    borderWidth: '2px',
+  };
 
   useEffect(() => {
     document.title = 'DOELT - View DOE Bills/Measures';
@@ -49,10 +75,16 @@ const Dashboard = () => {
     }
   }, [ready]);
 
+  const handleClick = (page) => {
+    setCurrentPage(page);
+
+    setFirstIndex(page * rowNumber - rowNumber);
+    setLastIndex(page * rowNumber);
+  };
+
   // for filtering
   useEffect(() => {
     let filtered = bills;
-    console.log(bills);
     if (chamber) {
       filtered = filtered.filter(function (obj) { return obj.statusHorS === chamber; });
     }
@@ -62,12 +94,31 @@ const Dashboard = () => {
     if (title) {
       filtered = filtered.filter(function (obj) { return obj.measureTitle.toLowerCase().includes(title.toLowerCase()); });
     }
-    if (statusDate) {
-      filtered = filtered.filter(function (obj) { return obj.statusDate.includes(statusDate); });
+    if (keyword) {
+      filtered = filtered.filter(function (obj) {
+        return (
+          obj.description.toLowerCase().includes(keyword.toLowerCase()) ||
+            obj.reportTitle.toLowerCase().includes(keyword.toLowerCase())
+        );
+      });
     }
     // filter option fields from modal, first need to check if populated
     if (hearingDate) {
-      filtered = filtered.filter(function (obj) { return obj.hearingDate ? obj.hearingDate.includes(hearingDate) : false; });
+      filtered = filtered.filter(function (obj) {
+        if (obj.hearingDate) {
+          const slash = obj.hearingDate.search('/');
+          const objDate = +`${obj.hearingDate.substring(0, slash)}.${
+            obj.hearingDate.substring(slash + 1, obj.hearingDate.substring(slash + 1).search('/') + obj.hearingDate.substring(0, slash).length + 1)}`;
+          if (dateSearch === 1) {
+            return objDate < +hearingDate;
+          }
+          if (dateSearch === 2) {
+            return objDate === +hearingDate;
+          }
+          return objDate > +hearingDate;
+        }
+        return '';
+      });
     }
     if (office) {
       filtered = filtered.filter(function (obj) { return obj.office ? obj.office.includes(office) : false; });
@@ -76,7 +127,55 @@ const Dashboard = () => {
       filtered = filtered.filter(function (obj) { return obj.doeAction ? obj.doeAction.toLowerCase().includes(action.toLowerCase()) : false; });
     }
     setFilteredMeasures(filtered);
-  }, [chamber, billNum, title, statusDate, office, action, hearingDate]);
+  }, [chamber, billNum, title, keyword, office, action, hearingDate, dateSearch]);
+
+  function chamberTitle() {
+    if (chamber === '') return 'Select a Chamber';
+    if (chamber === 'S') return 'Senate';
+    return 'House';
+  }
+
+  if (Math.ceil(filteredMeasures.length / rowNumber) > 10) {
+    items = [];
+    for (let number = 1; number <= 10; number++) {
+      items.push(
+        <Pagination.Item
+          key={number}
+          active={number === currentPage}
+          onClick={() => handleClick(number)}
+        >
+          {number}
+        </Pagination.Item>,
+      );
+    }
+    items.push(
+      <Pagination.Item
+        key="..."
+      >
+        ...
+      </Pagination.Item>,
+    );
+    items.push(
+      <Pagination.Item
+        key={Math.ceil(filteredMeasures.length / rowNumber)}
+      >
+        {Math.ceil(filteredMeasures.length / rowNumber)}
+      </Pagination.Item>,
+    );
+  } else {
+    items = [];
+    for (let number = 1; number <= Math.ceil(filteredMeasures.length / rowNumber); number++) {
+      items.push(
+        <Pagination.Item
+          key={number}
+          active={number === currentPage}
+          onClick={() => handleClick(number)}
+        >
+          {number}
+        </Pagination.Item>,
+      );
+    }
+  }
 
   const returnFilter = () => (
     <div className="pb-3">
@@ -95,7 +194,7 @@ const Dashboard = () => {
               Filter Options
             </Accordion.Header>
             <Accordion.Body>
-              <Row className="py-3 px-3">
+              <Row className="pt-3 px-3">
                 <Col className="d-flex justify-content-center">
                   <label htmlFor="Search by Bill Code">
                     <Col className="d-flex justify-content-center mb-1 small" style={{ color: '#313131' }}>
@@ -125,72 +224,118 @@ const Dashboard = () => {
                   </label>
                 </Col>
                 <Col className="d-flex justify-content-center">
-                  <label htmlFor="Search by hearing date">
+                  <label htmlFor="Search by keyword">
                     <Col className="d-flex justify-content-center mb-1 small" style={{ color: '#313131' }}>
-                      Hearing Date
+                      Keyword
                     </Col>
                     <input
                       type="text"
                       className="shadow-sm"
                       style={textBoxStyle}
-                      placeholder="Enter date here"
-                      onChange={e => setHearingDate(e.target.value)}
+                      placeholder="Enter keyword"
+                      onChange={e => setKeyword(e.target.value)}
                     />
                   </label>
                 </Col>
                 <Col className="d-flex justify-content-center">
-                  <label htmlFor="Search by status date">
+                  <label htmlFor="Hearing Date" className="text-center">
+                    <Col>
+                      <div className="mb-1 small" style={{ color: '#313131' }}>
+                        Hearing Date
+                      </div>
+                      <input
+                        type="date"
+                        className="shadow-sm"
+                        style={textBoxStyle}
+                        placeholder="Enter date here"
+                        onChange={e => {
+                          const month = e.target.value.substring(5, 7);
+                          const day = e.target.value.substring(8);
+                          setHearingDate(`${month}.${day}`);
+                        }}
+                      />
+                      <ButtonGroup className="btn-group-sm mt-1 ms-1">
+                        <Button
+                          onClick={() => setDateSearch(1)}
+                          className="dateFilterButtons"
+                          style={beforeDate}
+                        >
+                          Before
+                        </Button>
+                        <Button
+                          onClick={() => setDateSearch(2)}
+                          className="dateFilterButtons"
+                          style={onDate}
+                        >
+                          On
+                        </Button>
+                        <Button
+                          onClick={() => setDateSearch(3)}
+                          className="dateFilterButtons"
+                          style={afterDate}
+                        >
+                          After
+                        </Button>
+                      </ButtonGroup>
+                    </Col>
+                  </label>
+                </Col>
+              </Row>
+              <Row className="pb-4 pt-0 px-3">
+                <Col className="d-flex justify-content-center">
+                  {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+                  <label htmlFor="Filter chamber">
                     <Col className="d-flex justify-content-center mb-1 small" style={{ color: '#313131' }}>
-                      Status Date
+                      Current Chamber
+                    </Col>
+                    <DropdownButton
+                      id="savedFilterDropdown"
+                      variant="secondary"
+                      title={chamberTitle()}
+                      onSelect={(e) => setChamber(e)}
+                    >
+                      <Dropdown.Item eventKey="">Any</Dropdown.Item>
+                      <Dropdown.Item eventKey="S">Senate</Dropdown.Item>
+                      <Dropdown.Item eventKey="H">House</Dropdown.Item>
+                    </DropdownButton>
+                  </label>
+                </Col>
+                <Col className="d-flex justify-content-center">
+                  {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+                  <label htmlFor="Filter office">
+                    <Col className="d-flex justify-content-center mb-1 small" style={{ color: '#313131' }}>
+                      Office
+                    </Col>
+                    <DropdownButton
+                      id="savedFilterDropdown"
+                      variant="secondary"
+                      title={office === '' ? 'Select an Office' : office}
+                      onSelect={(e) => setOffice(e)}
+                    >
+                      <Dropdown.Item eventKey="">Any</Dropdown.Item>
+                      <Dropdown.Item eventKey="BOE">BOE</Dropdown.Item>
+                      <Dropdown.Item eventKey="OCID">OCID</Dropdown.Item>
+                      <Dropdown.Item eventKey="OFO">OFO</Dropdown.Item>
+                      <Dropdown.Item eventKey="OFS">OFS</Dropdown.Item>
+                      <Dropdown.Item eventKey="OHE">OHE</Dropdown.Item>
+                      <Dropdown.Item eventKey="OITS">OITS</Dropdown.Item>
+                      <Dropdown.Item eventKey="OSIP">OSIP</Dropdown.Item>
+                      <Dropdown.Item eventKey="OSSS">OSSS</Dropdown.Item>
+                      <Dropdown.Item eventKey="OTM">OTM</Dropdown.Item>
+                      <Dropdown.Item eventKey="SUPT">SUPT</Dropdown.Item>
+                    </DropdownButton>
+                  </label>
+
+                </Col>
+                <Col className="d-flex justify-content-center">
+                  <label htmlFor="Search by action">
+                    <Col className="mb-1 small d-flex justify-content-center" style={{ color: '#313131' }}>
+                      Action
                     </Col>
                     <input
                       type="text"
                       className="shadow-sm"
                       style={textBoxStyle}
-                      placeholder="Enter date here"
-                      onChange={e => setStatusDate(e.target.value)}
-                    />
-                  </label>
-                </Col>
-              </Row>
-              <Row className="py-3 px-3">
-                <Col>
-                  Chamber <br />
-                  <DropdownButton
-                    id="dropdown-basic-button"
-                    variant="secondary"
-                    title={chamber === '' ? 'Select a Chamber' : chamber}
-                    onSelect={(e) => setChamber(e)}
-                  >
-                    <Dropdown.Item eventKey="S">S</Dropdown.Item>
-                    <Dropdown.Item eventKey="H">H</Dropdown.Item>
-                  </DropdownButton>
-                </Col>
-                <Col>
-                  Office <br />
-                  <DropdownButton
-                    id="dropdown-basic-button"
-                    variant="secondary"
-                    title={office === '' ? 'Select an Office' : office}
-                    onSelect={(e) => setOffice(e)}
-                  >
-                    <Dropdown.Item eventKey="BOE">BOE</Dropdown.Item>
-                    <Dropdown.Item eventKey="OCID">OCID</Dropdown.Item>
-                    <Dropdown.Item eventKey="OFO">OFO</Dropdown.Item>
-                    <Dropdown.Item eventKey="OFS">OFS</Dropdown.Item>
-                    <Dropdown.Item eventKey="OHE">OHE</Dropdown.Item>
-                    <Dropdown.Item eventKey="OITS">OITS</Dropdown.Item>
-                    <Dropdown.Item eventKey="OSIP">OSIP</Dropdown.Item>
-                    <Dropdown.Item eventKey="OSSS">OSSS</Dropdown.Item>
-                    <Dropdown.Item eventKey="OTM">OTM</Dropdown.Item>
-                    <Dropdown.Item eventKey="SUPT">SUPT</Dropdown.Item>
-                  </DropdownButton>
-                </Col>
-                <Col>
-                  Action <br />
-                  <label htmlFor="Search by status date">
-                    <input
-                      type="text"
                       placeholder="Enter action here"
                       onChange={e => setAction(e.target.value)}
                     />
@@ -222,10 +367,18 @@ const Dashboard = () => {
           </tr>
         </thead>
         <tbody>
-          { filteredMeasures.length === 0 ? ' ' : filteredMeasures.map((bill) => <SavedBill key={bill._id} bill={bill} />) }
+          { filteredMeasures.length === 0 ? '' : filteredMeasures
+            .map((bill) => <SavedBill key={bill._id} bill={bill} />)
+            .slice(firstIndex, lastIndex)}
         </tbody>
       </Table>
       { filteredMeasures.length === 0 ? <div className="d-flex justify-content-center">No bills/measures found in DOE database</div> : '' }
+      <Col className="d-flex justify-content-center">
+        <Pagination className="pt-3 mb-2" style={{ color: 'black' }}>{items}</Pagination>
+      </Col>
+      <Row className="d-flex justify-content-center text-center pb-3">
+        { !ready ? ' ' : `${filteredMeasures.length} Results`}
+      </Row>
     </div>
   );
 
