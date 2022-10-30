@@ -11,8 +11,6 @@ import LoadingSpinner from '../LoadingSpinner';
 import { Testimonies } from '../../../api/testimony/TestimonyCollection';
 import { defineMethod } from '../../../api/base/BaseCollection.methods';
 
-const statuses = ['-', 'Awaiting Writer', 'Awaiting Office Approval', 'Awaiting PIPE Approval', 'Awaiting Final Approval', 'Approved'];
-
 const formSchema = new SimpleSchema({
   governorName: String,
   governorTitle: { type: String, defaultValue: 'GOVERNOR' },
@@ -28,7 +26,7 @@ const formSchema = new SimpleSchema({
   billPurpose: String,
   position: String,
   lastEditedBy: { type: String, defaultValue: '-' },
-  status: { type: String, defaultValue: '-', allowedValues: statuses },
+  status: { type: String, defaultValue: 'Awaiting Writer', allowedValues: ['Awaiting Writer'] },
 });
 
 const bridge = new SimpleSchema2Bridge(formSchema);

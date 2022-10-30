@@ -3,33 +3,51 @@ import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Card, Row, Container, Table, Col, Button } from 'react-bootstrap';
 import * as Icon from 'react-bootstrap-icons';
-import { ChevronLeft, List } from 'react-bootstrap-icons';
+import { FileText, ChevronLeft, List } from 'react-bootstrap-icons';
 import MobileSideBar from '../components/SideNavBar/MobileSideBar';
 import { SavedMeasures } from '../../api/savedMeasures/SavedMeasuresCollection';
 import NotificationBill from '../components/notificationRelated/NotifcationBill';
 import NotificationBody from '../components/notificationRelated/NotificationBody';
 import Legtracker from '../utilities/Legtracker';
+import LoadingSpinner from '../components/LoadingSpinner';
+import TestimonyRow from '../components/testimony/TestimonyRow';
+import { Testimonies } from '../../api/testimony/TestimonyCollection';
 import DesktopSideBarCollapsed from '../components/SideNavBar/DesktopSideBarCollapsed';
 import DesktopSideBarExpanded from '../components/SideNavBar/DesktopSideBarExpanded';
 
 const Home = () => {
-  const bills = useTracker(() => {
-    Meteor.subscribe(SavedMeasures.subscribeMeasureSaved);
-
-    return SavedMeasures.find().fetch();
-  });
+  const { ready, bills } = useTracker(() => {
+    const subscription = SavedMeasures.subscribeMeasureSaved();
+    const rdy = subscription.ready();
+    const billsItems = SavedMeasures.find({}, {}).fetch();
+    return {
+      bills: billsItems,
+      ready: rdy,
+    };
+  }, false);
 
   const closeWidth = '62px';
   const openWidth = '131.5px';
   const [expanded, setExpanded] = useState(false);
   const [upcomingHearings, setUpcomingHearings] = useState([]);
-
+  console.log(Meteor.user());
   useEffect(() => {
     document.title = 'DOELT - Home';
     Legtracker.scrapeUpcomingHearings().then((initialData) => {
       setUpcomingHearings(initialData.upcomingHearings);
     });
   }, []);
+
+  const { readyTestimony, testimonies } = useTracker(() => {
+    const subscription = Testimonies.subscribeTestimony();
+    const rdy = subscription.ready();
+    // TODO replace billcode with _code
+    const testimoniesItems = Testimonies.find({}, {}).fetch();
+    return {
+      testimonies: testimoniesItems,
+      readyTestimony: rdy,
+    };
+  }, false);
 
   // the width of the screen using React useEffect
   const [width, setWidth] = useState(window.innerWidth);
@@ -111,7 +129,7 @@ const Home = () => {
   }
 
   return (
-    <div style={{ backgroundColor: '#ece9e9', height: '100%' }}>
+    <div style={{ backgroundColor: '#ece9e9', height: '100vh' }}>
       {width < breakPoint ? <MobileSideBar page="home" /> : getDesktopSidebar()}
       <Col style={width < breakPoint ? mobileMainBody : mainBodyLeftMargin} className="d-flex justify-content-center">
         <Container style={mainBodyWidth}>
@@ -140,9 +158,15 @@ const Home = () => {
                     <tbody>
                       {upcomingHearings.map((hearing) => <NotificationBody hearing={hearing} />).slice(0, 14)}
                     </tbody>
-                  ) : <p /> }
+                  ) : (
+                    '-'
+                  )}
                 </Table>
-                { upcomingHearings.length > 0 ? <p /> : <p>No upcoming hearings found.</p> }
+                {upcomingHearings.length > 0 ? (
+                  '-'
+                ) : (
+                  <p>No upcoming hearings found.</p>
+                )}
               </Card.Body>
             </Card>
           </Row>
@@ -150,11 +174,45 @@ const Home = () => {
           <Row>
             <Card className="p-0">
               <Card.Header style={sectionHeaders}>
-                <Icon.CardChecklist className="mb-1" style={{ fontSize: '20px' }} /> &nbsp; Mini Dashboard
+                <FileText /> &nbsp; Testimonies
               </Card.Header>
               <Card.Body>
                 <Table>
-                  <thead>
+                  <thead style={{ zIndex: 200 }}>
+                    <tr>
+                      <th>Hearing Date</th>
+                      <th>Bill No</th>
+                      <th>Testifier</th>
+                      <th>Status</th>
+                      <th>Edit</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {readyTestimony ? testimonies.map(testimony => (
+                      <TestimonyRow
+                        key={testimony._id}
+                        testimony={testimony}
+                        _code={testimony.billCode}
+                      />
+                    )) : <LoadingSpinner />}
+                  </tbody>
+                </Table>
+              </Card.Body>
+            </Card>
+          </Row>
+          <br />
+          <Row>
+            <Card className="p-0">
+              <Card.Header style={sectionHeaders}>
+                <Icon.CardChecklist
+                  className="mb-1"
+                  style={{ fontSize: '20px' }}
+                />{' '}
+                &nbsp; Mini Dashboard
+              </Card.Header>
+              <Card.Body>
+                <Table>
+                  <thead style={{ zIndex: 200 }}>
                     <tr>
                       <th>Bill</th>
                       <th>Title</th>
@@ -162,11 +220,13 @@ const Home = () => {
                       <th>Status</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    {bills.map((bill) => (
-                      <NotificationBill key={bills._id} bills={bill} />
-                    ))}
-                  </tbody>
+                  {ready ? (
+                    <tbody>
+                      {bills.map((bill) => (
+                        <NotificationBill key={bills._id} bills={bill} />
+                      ))}
+                    </tbody>
+                  ) : <LoadingSpinner />}
                 </Table>
               </Card.Body>
             </Card>
