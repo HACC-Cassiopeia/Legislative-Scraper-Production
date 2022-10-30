@@ -19,6 +19,7 @@ body {
 
 a {
   --bs-link-color: #57749f;
+  --bs-link-hover-color: #7693c0;
 }
 
 .page-link {
@@ -49,10 +50,18 @@ html, body {
 }
 
 #filter-border {
-  border-style: solid;
-  border-color: lightgray;
+  border-style: none;
   background-color: white;
-  border-radius: 10px;
+  border-radius: 8px;
+}
+
+#filter-border .accordion-button:not(.collapsed), .accordion-item:not(.collapsed)  {
+  --bs-accordion-active-bg: #3e465d;
+  --bs-accordion-active-color: white;
+  --bs-accordion-border-color: #7d828a;
+  --bs-accordion-border-width: 2px;
+  --bs-accordion-border-radius: 8px;
+  --bs-btn-active-color: white;
 }
 
 .perPage .btn-primary {
@@ -96,14 +105,23 @@ html, body {
   padding-bottom: 20px;
 }
 
-#yearDropdown {
+/* the main dropdowns on the 'all bills' page */
+#allBillsDropdown {
   background-color: transparent;
   padding: 0;
   color: #313131;
   border-width: 0;
-  font-size: 2.7em;
+  font-size: 1.5em;
   font-weight: bold;
   --bs-btn-focus-shadow-rgb: none;
+}
+
+#savedFilterDropdown {
+  background-color: #404d70;
+  color: white;
+  border-width: 0;
+  --bs-btn-focus-shadow-rgb: none;
+  width: 170px;
 }
 
 /*  not sure how to do the bootstrap attributes (eg --bs-accordion-active-bg) in the .jsx files so these stay here for now -Rob */
