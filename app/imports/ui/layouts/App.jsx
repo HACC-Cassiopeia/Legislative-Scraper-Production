@@ -9,7 +9,6 @@ import AddStuff from '../pages/stuffPages/AddStuff';
 import EditStuff from '../pages/stuffPages/EditStuff';
 import NotFound from '../pages/stuffPages/NotFound';
 import SignUp from '../pages/stuffPages/SignUp';
-import SignOut from '../pages/stuffPages/SignOut';
 import SignIn from '../pages/SignIn';
 import NotAuthorized from '../pages/stuffPages/NotAuthorized';
 import { ROLE } from '../../api/role/Role';
@@ -29,6 +28,7 @@ import Test from '../Test';
 import Calendar from '../pages/Calendar';
 import EditTestimony from '../pages/EditTestimony';
 import EditMeasure from '../pages/EditMeasure';
+import SignOut from '../pages/SignOut';
 
 const App = () => (
   <Router>
