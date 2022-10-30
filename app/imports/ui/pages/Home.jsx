@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Card, Row, Container, Table, Col, Button, Spinner } from 'react-bootstrap';
 import * as Icon from 'react-bootstrap-icons';
