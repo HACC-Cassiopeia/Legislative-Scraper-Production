@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import swal from 'sweetalert';
-import { Card, Col, Container, Row } from 'react-bootstrap';
+import { Button, Card, Col, Container, Row } from 'react-bootstrap';
 import { AutoForm, ErrorsField, LongTextField, SelectField, SubmitField, TextField } from 'uniforms-bootstrap5';
 import { useTracker } from 'meteor/react-meteor-data';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import { useParams } from 'react-router';
+import { ChevronLeft, List } from 'react-bootstrap-icons';
 import { SavedMeasures } from '../../api/savedMeasures/SavedMeasuresCollection';
 import { updateMethod } from '../../api/base/BaseCollection.methods';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { PAGE_IDS } from '../utilities/PageIDs';
+import DesktopSideBarExpanded from '../components/SideNavBar/DesktopSideBarExpanded';
+import DesktopSideBarCollapsed from '../components/SideNavBar/DesktopSideBarCollapsed';
 
 const bridge = new SimpleSchema2Bridge(SavedMeasures._schema);
 
@@ -29,6 +32,9 @@ const EditMeasure = () => {
       ready: rdy,
     };
   }, [_id]);
+  const [expanded, setExpanded] = useState(false);
+  const closeWidth = '62px';
+  const openWidth = '131.5px';
 
   // On successful submit, insert the data.
   const submit = (data) => {
@@ -41,7 +47,57 @@ const EditMeasure = () => {
       .catch(error => swal('Error', error.message, 'error'))
       .then(() => swal('Success', 'Measure updated successfully', 'success'));
   };
-
+  // const mainBodyLeftMargin = {
+  //   marginLeft: expanded ? openWidth : closeWidth,
+  // };
+  const closedButtonStyle = {
+    backgroundColor: '#2e374f',
+    width: closeWidth,
+    borderRadius: 0,
+    borderWidth: 0,
+    fontWeight: 'normal',
+    fontSize: '20px',
+    boxShadow: 'none',
+  };
+  const buttonStyle = {
+    backgroundColor: '#2e374f',
+    borderWidth: 0,
+    borderRadius: 0,
+    width: openWidth,
+    fontWeight: 'normal',
+    fontSize: '20px',
+    marginTop: 0,
+    boxShadow: 'none',
+  };
+  function getDesktopSidebar() {
+    if (expanded) {
+      return (
+        <Col className="col-3" style={{ position: 'fixed' }}>
+          <Button
+            onClick={() => setExpanded(false)}
+            className="py-2 px-3 text-end navButtons"
+            style={buttonStyle}
+          >
+            <ChevronLeft />
+          </Button>
+          <DesktopSideBarExpanded page="home" />
+        </Col>
+      );
+    }
+    return (
+      <Col style={{ position: 'fixed' }}>
+        <Button
+          onClick={() => setExpanded(true)}
+          className="py-2 px-3 text-center navButtons"
+          style={closedButtonStyle}
+        >
+          <List />
+        </Button>
+        <DesktopSideBarCollapsed page="home" />
+      </Col>
+    );
+  }
+  // TODO add nav bar and style this page
   return ready ? (
     <Container id={PAGE_IDS.EDIT_BILL} className="py-3">
       <Row className="justify-content-center">

@@ -279,23 +279,8 @@ html, body {
   --bs-btn-border-width: 0;
 }
 
-#navBar {
-  width: 15%;
-  color: #418c5c;
-}
-
-#mainBody {
-  margin-left: 90px;
-  width: calc(100% - 135px);
-  z-index: 0;
-}
-
 #mobileMainBody {
   margin-left: 60px;
   z-index: 0;
   font-size: 12px;
-}
-
-.expandedNavbar {
-  width: 60px;
 }

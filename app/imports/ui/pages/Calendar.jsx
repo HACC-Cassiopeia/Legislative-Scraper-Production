@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import { Container, Col } from 'react-bootstrap';
+import { Container, Col, Button } from 'react-bootstrap';
+import { ChevronLeft, List } from 'react-bootstrap-icons';
 import Legtracker from '../utilities/Legtracker';
 import CalModal from '../components/CalModal';
 import DesktopSideBarCollapsed from '../components/SideNavBar/DesktopSideBarCollapsed';
+import DesktopSideBarExpanded from '../components/SideNavBar/DesktopSideBarExpanded';
 
 const Calendar = () => {
   const [upcomingHearings, setUpcomingHearings] = useState([]);
@@ -18,6 +20,10 @@ const Calendar = () => {
   const [noticeLinkPdf, setNoticeLinkPdf] = useState('');
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const [expanded, setExpanded] = useState(false);
+  const closeWidth = '62px';
+  const openWidth = '131.5px';
+
   useEffect(() => {
     document.title = 'DOELT - Calendar';
     Legtracker
@@ -42,11 +48,61 @@ const Calendar = () => {
       }
     ));
   };
+  const mainBodyLeftMargin = {
+    marginLeft: expanded ? openWidth : closeWidth,
+  };
+  const closedButtonStyle = {
+    backgroundColor: '#2e374f',
+    width: closeWidth,
+    borderRadius: 0,
+    borderWidth: 0,
+    fontWeight: 'normal',
+    fontSize: '20px',
+    boxShadow: 'none',
+  };
+  const buttonStyle = {
+    backgroundColor: '#2e374f',
+    borderWidth: 0,
+    borderRadius: 0,
+    width: openWidth,
+    fontWeight: 'normal',
+    fontSize: '20px',
+    marginTop: 0,
+    boxShadow: 'none',
+  };
+  function getDesktopSidebar() {
+    if (expanded) {
+      return (
+        <Col className="col-3" style={{ position: 'fixed' }}>
+          <Button
+            onClick={() => setExpanded(false)}
+            className="py-2 px-3 text-end navButtons"
+            style={buttonStyle}
+          >
+            <ChevronLeft />
+          </Button>
+          <DesktopSideBarExpanded page="home" />
+        </Col>
+      );
+    }
+    return (
+      <Col style={{ position: 'fixed' }}>
+        <Button
+          onClick={() => setExpanded(true)}
+          className="py-2 px-3 text-center navButtons"
+          style={closedButtonStyle}
+        >
+          <List />
+        </Button>
+        <DesktopSideBarCollapsed page="home" />
+      </Col>
+    );
+  }
 
   return (
     <Col>
-      <DesktopSideBarCollapsed page="calendar" />
-      <div id="mainBody">
+      {getDesktopSidebar()}
+      <div style={mainBodyLeftMargin} className="d-flex justify-content-center">
         <CalModal
           show={show}
           handleClose={handleClose}

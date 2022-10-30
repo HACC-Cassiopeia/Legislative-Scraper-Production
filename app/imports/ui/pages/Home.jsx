@@ -3,6 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Card, Row, Container, Table, Col, Button } from 'react-bootstrap';
 import * as Icon from 'react-bootstrap-icons';
+import { ChevronLeft, List } from 'react-bootstrap-icons';
 import MobileSideBar from '../components/SideNavBar/MobileSideBar';
 import { SavedMeasures } from '../../api/savedMeasures/SavedMeasuresCollection';
 import NotificationBill from '../components/notificationRelated/NotifcationBill';
@@ -18,6 +19,8 @@ const Home = () => {
     return SavedMeasures.find().fetch();
   });
 
+  const closeWidth = '62px';
+  const openWidth = '131.5px';
   const [expanded, setExpanded] = useState(false);
   const [upcomingHearings, setUpcomingHearings] = useState([]);
 
@@ -42,17 +45,37 @@ const Home = () => {
   }, []);
   const breakPoint = 800;
 
-  const mainBodyStyle = {
-    paddingLeft: '22%',
-    width: 0.8 * width,
+  const mainBodyWidth = {
+    width: 0.75 * width,
     textAlign: 'center',
+  };
+  const mainBodyLeftMargin = {
+    marginLeft: expanded ? openWidth : closeWidth,
   };
   const mobileMainBody = {
     marginLeft: '60px',
     width: 0.9 * width,
     fontSize: '10px',
   };
-
+  const closedButtonStyle = {
+    backgroundColor: '#2e374f',
+    width: closeWidth,
+    borderRadius: 0,
+    borderWidth: 0,
+    fontWeight: 'normal',
+    fontSize: '20px',
+    boxShadow: 'none',
+  };
+  const buttonStyle = {
+    backgroundColor: '#2e374f',
+    borderWidth: 0,
+    borderRadius: 0,
+    width: openWidth,
+    fontWeight: 'normal',
+    fontSize: '20px',
+    marginTop: 0,
+    boxShadow: 'none',
+  };
   const sectionHeaders = {
     color: 'white',
     backgroundColor: '#37425e',
@@ -61,25 +84,37 @@ const Home = () => {
   function getDesktopSidebar() {
     if (expanded) {
       return (
-        <Col>
-          <Button>hi</Button>
+        <Col className="col-3" style={{ position: 'fixed' }}>
+          <Button
+            onClick={() => setExpanded(false)}
+            className="py-2 px-3 text-end navButtons"
+            style={buttonStyle}
+          >
+            <ChevronLeft />
+          </Button>
           <DesktopSideBarExpanded page="home" />
         </Col>
       );
     }
     return (
-        <Col>
-          <Button>hi</Button>
-          <DesktopSideBarCollapsed page="home" />
-        </Col>
+      <Col style={{ position: 'fixed' }}>
+        <Button
+          onClick={() => setExpanded(true)}
+          className="py-2 px-3 text-center navButtons"
+          style={closedButtonStyle}
+        >
+          <List />
+        </Button>
+        <DesktopSideBarCollapsed page="home" />
+      </Col>
     );
   }
 
   return (
     <div style={{ backgroundColor: '#ece9e9', height: '100%' }}>
       {width < breakPoint ? <MobileSideBar page="home" /> : getDesktopSidebar()}
-      <Col style={width < breakPoint ? mobileMainBody : mainBodyStyle} className="d-flex justify-content-center">
-        <Container>
+      <Col style={width < breakPoint ? mobileMainBody : mainBodyLeftMargin} className="d-flex justify-content-center">
+        <Container style={mainBodyWidth}>
           <h1 className="pt-4 m-0 text-center">
             <b>DOELT</b>
           </h1>

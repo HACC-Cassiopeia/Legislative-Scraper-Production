@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Accordion, Button, ButtonGroup, Col, Dropdown, DropdownButton, Pagination, Row, Table } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Link } from 'react-router-dom';
-import { CaretDownFill, CaretUpFill } from 'react-bootstrap-icons';
+import { CaretDownFill, CaretUpFill, ChevronLeft, List } from 'react-bootstrap-icons';
 import { _ } from 'meteor/underscore';
 import { SavedMeasures } from '../../api/savedMeasures/SavedMeasuresCollection';
 import SavedBill from '../components/SavedBill';
 import LoadingSpinner from '../components/LoadingSpinner';
 import DesktopSideBarCollapsed from '../components/SideNavBar/DesktopSideBarCollapsed';
+import DesktopSideBarExpanded from '../components/SideNavBar/DesktopSideBarExpanded';
 
 /* Renders a table containing all of the Stuff documents. Use <StuffItem> to render each row. */
 const Dashboard = () => {
@@ -26,6 +27,9 @@ const Dashboard = () => {
     currentPage * rowNumber - rowNumber,
   );
   const [lastIndex, setLastIndex] = useState(currentPage * rowNumber);
+  const [expanded, setExpanded] = useState(false);
+  const closeWidth = '62px';
+  const openWidth = '131.5px';
 
   // values: ca = bill code ascending
   //         cd = bill code descending
@@ -229,6 +233,28 @@ const Dashboard = () => {
     color: 'black',
     padding: 0,
   };
+  const mainBodyLeftMargin = {
+    marginLeft: expanded ? openWidth : closeWidth,
+  };
+  const closedButtonStyle = {
+    backgroundColor: '#2e374f',
+    width: closeWidth,
+    borderRadius: 0,
+    borderWidth: 0,
+    fontWeight: 'normal',
+    fontSize: '20px',
+    boxShadow: 'none',
+  };
+  const buttonStyle = {
+    backgroundColor: '#2e374f',
+    borderWidth: 0,
+    borderRadius: 0,
+    width: openWidth,
+    fontWeight: 'normal',
+    fontSize: '20px',
+    marginTop: 0,
+    boxShadow: 'none',
+  };
 
   function getCodeSort() {
     if (sortBy === 'cd') {
@@ -265,6 +291,34 @@ const Dashboard = () => {
       return <CaretUpFill />;
     }
     return '';
+  }
+  function getDesktopSidebar() {
+    if (expanded) {
+      return (
+        <Col className="col-3" style={{ position: 'fixed' }}>
+          <Button
+            onClick={() => setExpanded(false)}
+            className="py-2 px-3 text-end navButtons"
+            style={buttonStyle}
+          >
+            <ChevronLeft />
+          </Button>
+          <DesktopSideBarExpanded page="bills" />
+        </Col>
+      );
+    }
+    return (
+      <Col style={{ position: 'fixed' }}>
+        <Button
+          onClick={() => setExpanded(true)}
+          className="py-2 px-3 text-center navButtons"
+          style={closedButtonStyle}
+        >
+          <List />
+        </Button>
+        <DesktopSideBarCollapsed page="bills" />
+      </Col>
+    );
   }
 
   const returnFilter = () => (
@@ -513,18 +567,18 @@ const Dashboard = () => {
   );
 
   return (
-    <Col>
-      <DesktopSideBarCollapsed page="bills" />
-      <div id="mainBody">
+    <div style={{ backgroundColor: '#ece9e9', height: '100%' }}>
+      {getDesktopSidebar()}
+      <Col style={mainBodyLeftMargin} className="d-flex justify-content-center">
         <Row id="dashboard-screen">
-          <Col>
+          <Col className="mx-3">
             <Row id="dashboard-filter">{returnFilter()}</Row>
             { ready ? <Row id="dashboard-list">{returnList()}</Row> : '' }
             { ready ? '' : <LoadingSpinner /> }
           </Col>
         </Row>
-      </div>
-    </Col>
+      </Col>
+    </div>
   );
 };
 

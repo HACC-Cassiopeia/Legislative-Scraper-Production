@@ -1,18 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Nav, Button, Col } from 'react-bootstrap';
 import {
-  ChevronLeft,
   HouseFill,
   CardList,
   CalendarEventFill,
-  List,
   QuestionCircle,
 } from 'react-bootstrap-icons';
 import PropTypes from 'prop-types';
 import SignoutCheck from '../SignoutCheck';
-import MobileSignOutCheck from '../MobileSignOutCheck';
 
-const DesktopSideBar = (props) => {
+const DesktopSideBarExpanded = (props) => {
   // the width of the screen using React useEffect
   const [width, setWidth] = useState(window.innerWidth);
   // make sure that it changes with the window size
@@ -28,7 +25,6 @@ const DesktopSideBar = (props) => {
   }, []);
 
   const openWidth = '130px';
-  const closeWidth = '62px';
   const { page } = props;
 
   const showSideBarStyle = {
@@ -42,62 +38,10 @@ const DesktopSideBar = (props) => {
     fontSize: '14px',
     zIndex: 300,
   };
-
-  const closeSideBarStyle = {
-    position: 'fixed',
-    width: closeWidth,
-    minWidth: closeWidth,
-    maxWidth: closeWidth,
-    minHeight: '100vh',
-    backgroundColor: '#2e374f',
-    color: 'white',
-    fontSize: '14px',
-    zIndex: 300,
-  };
-
-  const buttonStyle = {
-    backgroundColor: '#2e374f',
-    borderWidth: 0,
-    minWidth: openWidth,
-    fontWeight: 'normal',
-    fontSize: '20px',
-    marginLeft: 0,
-    padding: 0,
-    marginTop: 0,
-    marginRight: '5px',
-    boxShadow: 'none',
-  };
-
-  const closedButtonStyle = {
-    backgroundColor: '#2e374f',
-    width: '60px',
-    borderWidth: 0,
-    fontWeight: 'normal',
-    fontSize: '20px',
-    marginLeft: 0,
-    padding: 0,
-    marginTop: 0,
-    marginRight: '5px',
-    boxShadow: 'none',
-  };
-
-  const closedSelected = {
-    width: '60px',
-    color: 'white',
-    backgroundColor: '#242c41',
-  };
-
-  const closedReg = {
-    width: '60px',
-    color: 'white',
-    backgroundColor: '#2e374f',
-  };
-
   const openSelected = {
     color: 'white',
     backgroundColor: '#242c41',
   };
-
   const openReg = {
     color: 'white',
     backgroundColor: '#2e374f',
@@ -111,12 +55,6 @@ const DesktopSideBar = (props) => {
         activeKey="/home"
       >
         <Nav.Item style={{ width: '100%' }}>
-          <Button
-            className="py-2 ms-2 px-3 text-end navButtons"
-            style={buttonStyle}
-          >
-            <ChevronLeft />
-          </Button>
           <Nav.Link
             href="/"
             className="py-3 navButtons"
@@ -171,8 +109,8 @@ const DesktopSideBar = (props) => {
   );
 };
 
-DesktopSideBar.propTypes = {
+DesktopSideBarExpanded.propTypes = {
   page: PropTypes.string.isRequired,
 };
 
-export default DesktopSideBar;
+export default DesktopSideBarExpanded;
