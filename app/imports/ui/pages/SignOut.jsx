@@ -40,9 +40,9 @@ const SignOut = () => {
             <Col className="d-flex justify-content-center mt-3">
               <Card style={{ width: '30rem', backgroundColor: '#2f374f', color: 'white' }} className="text-center">
                 <Card.Body>
-                  <Card.Header>You have sign out!</Card.Header>
+                  <Card.Header>You have successfully logged out.</Card.Header>
                   <Card.Text>
-                    Click on the button below to enter our system again.
+                    Click the button below to sign in again.
                   </Card.Text>
                   <Button href="/signin">Sign In <DoorOpen /></Button>
                 </Card.Body>
