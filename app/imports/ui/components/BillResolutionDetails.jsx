@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Row, Col, Card, Accordion } from 'react-bootstrap';
-import { Archive, FilePdfFill, Youtube } from 'react-bootstrap-icons';
+import { Container, Row, Col, Card, Accordion, Button } from 'react-bootstrap';
+import { Archive, FileEarmarkPdfFill, FilePdfFill, PlusCircle, Youtube } from 'react-bootstrap-icons';
 import { useTracker } from 'meteor/react-meteor-data';
 import { useParams } from 'react-router';
 // import { Meteor } from 'meteor/meteor';
@@ -130,21 +130,11 @@ const BillResolutionDetails = () => {
     <Container className="text-center border border-1 small mb-5">
       <Row style={{ backgroundColor: '#ddf3dd' }}>
         <Col>
-          {/* EMPTY COL FOR ALIGNMENT */}
-        </Col>
-        <Col>
           <h3 className="pt-2">
             <a href={bill.measureArchiveUrl} target="_blank" rel="noreferrer"><b>{bill.code}</b></a>
               &nbsp;
             <a aria-label="PDF link" href={bill.measurePdfUrl} target="_blank" rel="noreferrer"><FilePdfFill className="pb-1" /></a>
           </h3>
-        </Col>
-        <Col className="text-end">
-          <Card style={billStatusStyle} className="p-2 m-1 float-end flex-row">
-            <Archive className="m-1 me-2" />
-            {/* TODO Status? */}
-            Deferred/Inactive
-          </Card>
         </Col>
       </Row>
       <Row className="py-1">
