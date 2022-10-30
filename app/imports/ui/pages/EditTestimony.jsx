@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Button, Card, Col, Image, Nav, Navbar, Row } from 'react-bootstrap';
-import { AutoForm, ErrorsField, LongTextField, SubmitField, TextField } from 'uniforms-bootstrap5';
+import { AutoForm, ErrorsField, LongTextField, SelectField, SubmitField, TextField } from 'uniforms-bootstrap5';
 import swal from 'sweetalert';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
@@ -9,10 +9,11 @@ import { NavLink } from 'react-router-dom';
 import { EnvelopeFill, FilePdfFill, HddFill } from 'react-bootstrap-icons';
 import { useParams } from 'react-router';
 import { useTracker } from 'meteor/react-meteor-data';
-import { Testimonies } from '../../api/testimony/TestimonyCollection';
+import { Testimonies, testimonyStatuses } from '../../api/testimony/TestimonyCollection';
 import LoadingSpinner from '../components/LoadingSpinner';
 import MobileSideBar from '../components/SideNavBar/MobileSideBar';
 import { updateMethod } from '../../api/base/BaseCollection.methods';
+import DesktopSideBar from '../components/SideNavBar/DesktopSideBar';
 
 // Create a schema to specify the structure of the data to appear in the form.
 const formSchema = new SimpleSchema({
@@ -30,7 +31,7 @@ const formSchema = new SimpleSchema({
   billPurpose: String,
   position: String,
   lastEditedBy: String,
-  status: { type: String, defaultValue: '-' },
+  status: { type: String, allowedValues: testimonyStatuses },
 });
 
 const bridge = new SimpleSchema2Bridge(formSchema);
@@ -51,11 +52,7 @@ const EditTestimony = () => {
     };
   }, false);
 
-  // TODO 'add testimony' pulls from SavedMeasures db, 'edit testimony' pulls from Testimony db
-  //  we should probably make the 'pdf form' bit a component that can be reused in for both pages
-
   useEffect(() => {
-    // todo add _code to edit testimony
     document.title = `DOELT - Editing Testimony for ${_code}`;
   }, []);
 
@@ -78,8 +75,7 @@ const EditTestimony = () => {
     backgroundColor: '#F7F7F7',
     hover: 'green',
     borderBottom: '2px solid #DDDDDD',
-    height: '50px',
-    marginLeft: '14%',
+    zIndex: 200,
   };
 
   const pageStyle = {
@@ -101,15 +97,18 @@ const EditTestimony = () => {
 
   return (ready ? (
     <Col style={{ backgroundColor: '#e6e6e6', minWidth: '800px' }}>
-      <MobileSideBar id="nav" />
+      <DesktopSideBar id="nav" />
       {console.log('testimony', testimony)}
       <Col id="mainBody">
         <AutoForm className="p-5 mt-4 d-flex justify-content-center" ref={ref => { fRef = ref; }} schema={bridge} onSubmit={data => submit(data, fRef)} model={testimony}>
 
-          <Navbar className="fixed-top justify-content-center" style={navBarStyle}>
+          <Navbar className="fixed-top d-flex justify-content-center align-items-center" style={navBarStyle}>
+            <div className="pt-3 px-4 d-flex gap-1 align-items-center justify-content-center">
+              <div className="mb-3">Status:</div>
+              <SelectField name="status" label="" />
+            </div>
             <HddFill />
             <SubmitField className="testimonyNavbarButtons" value="Save Changes" />
-            <Nav.Link className="m-5 testimonyNavbar" as={NavLink} to="#"> <EnvelopeFill className="mb-1" />&nbsp;&nbsp;Send for Review</Nav.Link>
             <FilePdfFill className="ms-3" />
             <Button
               id="generatePdfButton"

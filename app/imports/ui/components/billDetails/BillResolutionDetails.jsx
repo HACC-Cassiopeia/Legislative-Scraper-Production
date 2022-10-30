@@ -87,7 +87,7 @@ const BillResolutionDetails = () => {
   const versions = () => {
     if (billDetails.measureVersions !== undefined && billDetails.measureVersions.length !== 0) {
       return billDetails.measureVersions.map(data => (
-        <div>
+        <div key={data.measureVersionsUrl}>
           <a href={data.measureVersionsUrl} target="_blank" rel="noreferrer noopener">
             {data.measureVersionsText}
           </a>
@@ -100,7 +100,7 @@ const BillResolutionDetails = () => {
   const committeeReports = () => {
     if (billDetails.committeeReports !== undefined && billDetails.committeeReports.length !== 0) {
       return billDetails.committeeReports.map(data => (
-        <div>
+        <div key={data.committeeReportsText}>
           <a href={data.committeeReportsPdf}>{data.committeeReportsText}</a>
         </div>
       ));
@@ -111,7 +111,7 @@ const BillResolutionDetails = () => {
   const youtube = () => {
     if (billDetails.hearingNotices !== undefined && billDetails.hearingNotices.length !== 0) {
       return billDetails.hearingNotices.map(data => (
-        <div>
+        <div key={data.youtubeUrl}>
           <a href={data.youtubeUrl} target="_blank" rel="noreferrer noopener">
             {`${data.committee} ${data.dateTime}`}
           </a>

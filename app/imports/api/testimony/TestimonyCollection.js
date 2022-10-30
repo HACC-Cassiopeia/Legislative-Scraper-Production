@@ -10,6 +10,8 @@ export const testimonyPublications = {
   testimonyAdmin: 'TestimonyAdmin',
 };
 
+export const testimonyStatuses = ['-', 'Awaiting Writer', 'Awaiting Office Approval', 'Awaiting PIPE Approval', 'Awaiting Final Approval', 'Approved'];
+
 class TestimonyCollection extends BaseCollection {
   constructor() {
     super('Testimonies', new SimpleSchema({
@@ -27,7 +29,7 @@ class TestimonyCollection extends BaseCollection {
       billPurpose: String,
       position: String,
       lastEditedBy: String,
-      status: { type: String, defaultValue: '-' },
+      status: { type: String, defaultValue: '-', allowedValues: testimonyStatuses },
     }));
   }
 

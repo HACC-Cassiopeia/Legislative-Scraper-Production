@@ -8,10 +8,8 @@ import swal from 'sweetalert';
 import { AutoForm, ErrorsField, LongTextField, SelectField, SubmitField, TextField } from 'uniforms-bootstrap5';
 import { SavedMeasures } from '../../../api/savedMeasures/SavedMeasuresCollection';
 import LoadingSpinner from '../LoadingSpinner';
-import { Testimonies } from '../../../api/testimony/TestimonyCollection';
+import { Testimonies, testimonyStatuses } from '../../../api/testimony/TestimonyCollection';
 import { defineMethod } from '../../../api/base/BaseCollection.methods';
-
-const statuses = ['-', 'Awaiting Writer', 'Awaiting Office Approval', 'Awaiting PIPE Approval', 'Awaiting Final Approval', 'Approved'];
 
 const formSchema = new SimpleSchema({
   governorName: String,
@@ -28,7 +26,7 @@ const formSchema = new SimpleSchema({
   billPurpose: String,
   position: String,
   lastEditedBy: { type: String, defaultValue: '-' },
-  status: { type: String, defaultValue: '-', allowedValues: statuses },
+  status: { type: String, defaultValue: '-', allowedValues: testimonyStatuses },
 });
 
 const bridge = new SimpleSchema2Bridge(formSchema);
