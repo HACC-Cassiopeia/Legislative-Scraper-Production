@@ -193,7 +193,13 @@ const Home = () => {
                         testimony={testimony}
                         _code={testimony.billCode}
                       />
-                    )) : <tr><td><Spinner animation="border" /></td></tr>}
+                    )) : (
+                      <tr>
+                        <td>
+                          <Spinner animation="border" />
+                        </td>
+                      </tr>
+                    )}
                   </tbody>
                 </Table>
               </Card.Body>
@@ -225,7 +231,15 @@ const Home = () => {
                         <NotificationBill key={bill._id} bills={bill} />
                       ))}
                     </tbody>
-                  ) : <tr><td><Spinner animation="border" /></td></tr>}
+                  ) : (
+                    <tbody>
+                      <tr>
+                        <td>
+                          <Spinner animation="border" />
+                        </td>
+                      </tr>
+                    </tbody>
+                  )}
                 </Table>
               </Card.Body>
             </Card>
