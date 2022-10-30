@@ -1,5 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { Accordion, Button, ButtonGroup, Col, Dropdown, DropdownButton, Pagination, Row, Table } from 'react-bootstrap';
+import {
+  Accordion,
+  Button,
+  ButtonGroup,
+  Col,
+  Dropdown,
+  DropdownButton,
+  Pagination,
+  Row,
+  Table,
+} from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Link } from 'react-router-dom';
 import { CaretDownFill, CaretUpFill } from 'react-bootstrap-icons';
@@ -8,6 +18,7 @@ import { SavedMeasures } from '../../api/savedMeasures/SavedMeasuresCollection';
 import SavedBill from '../components/SavedBill';
 import LoadingSpinner from '../components/LoadingSpinner';
 import DesktopSideBar from '../components/SideNavBar/DesktopSideBar';
+import MobileSideBar from '../components/SideNavBar/MobileSideBar';
 
 /* Renders a table containing all of the Stuff documents. Use <StuffItem> to render each row. */
 const Dashboard = () => {
@@ -26,6 +37,20 @@ const Dashboard = () => {
     currentPage * rowNumber - rowNumber,
   );
   const [lastIndex, setLastIndex] = useState(currentPage * rowNumber);
+
+  // the width of the screen using React useEffect
+  const [width, setWidth] = useState(window.innerWidth);
+  // make sure that it changes with the window size
+  useEffect(() => {
+    const handleResizeWindow = () => setWidth(window.innerWidth);
+    // subscribe to window resize event "onComponentDidMount"
+    window.addEventListener('resize', handleResizeWindow);
+    return () => {
+      // unsubscribe "onComponentDestroy"
+      window.removeEventListener('resize', handleResizeWindow);
+    };
+  }, []);
+  const breakPoint = 800;
 
   // values: ca = bill code ascending
   //         cd = bill code descending
@@ -132,19 +157,25 @@ const Dashboard = () => {
       filtered = _.sortBy(filtered, 'code');
     }
     if (chamber) {
-      filtered = filtered.filter(function (obj) { return obj.statusHorS === chamber; });
+      filtered = filtered.filter(function (obj) {
+        return obj.statusHorS === chamber;
+      });
     }
     if (billNum) {
-      filtered = filtered.filter(function (obj) { return obj.code.toLowerCase().includes(billNum.toLowerCase()); });
+      filtered = filtered.filter(function (obj) {
+        return obj.code.toLowerCase().includes(billNum.toLowerCase());
+      });
     }
     if (title) {
-      filtered = filtered.filter(function (obj) { return obj.measureTitle.toLowerCase().includes(title.toLowerCase()); });
+      filtered = filtered.filter(function (obj) {
+        return obj.measureTitle.toLowerCase().includes(title.toLowerCase());
+      });
     }
     if (keyword) {
       filtered = filtered.filter(function (obj) {
         return (
           obj.description.toLowerCase().includes(keyword.toLowerCase()) ||
-            obj.reportTitle.toLowerCase().includes(keyword.toLowerCase())
+          obj.reportTitle.toLowerCase().includes(keyword.toLowerCase())
         );
       });
     }
@@ -153,8 +184,15 @@ const Dashboard = () => {
       filtered = filtered.filter(function (obj) {
         if (obj.hearingDate) {
           const slash = obj.hearingDate.search('/');
-          const objDate = +`${obj.hearingDate.substring(0, slash)}.${
-            obj.hearingDate.substring(slash + 1, obj.hearingDate.substring(slash + 1).search('/') + obj.hearingDate.substring(0, slash).length + 1)}`;
+          const objDate = +`${obj.hearingDate.substring(
+            0,
+            slash,
+          )}.${obj.hearingDate.substring(
+            slash + 1,
+            obj.hearingDate.substring(slash + 1).search('/') +
+              obj.hearingDate.substring(0, slash).length +
+              1,
+          )}`;
           if (dateSearch === 1) {
             return objDate < +hearingDate;
           }
@@ -167,13 +205,29 @@ const Dashboard = () => {
       });
     }
     if (office) {
-      filtered = filtered.filter(function (obj) { return obj.office ? obj.office.includes(office) : false; });
+      filtered = filtered.filter(function (obj) {
+        return obj.office ? obj.office.includes(office) : false;
+      });
     }
     if (action) {
-      filtered = filtered.filter(function (obj) { return obj.doeAction ? obj.doeAction.toLowerCase().includes(action.toLowerCase()) : false; });
+      filtered = filtered.filter(function (obj) {
+        return obj.doeAction
+          ? obj.doeAction.toLowerCase().includes(action.toLowerCase())
+          : false;
+      });
     }
     setFilteredMeasures(filtered);
-  }, [chamber, billNum, title, keyword, office, action, hearingDate, dateSearch, sortBy]);
+  }, [
+    chamber,
+    billNum,
+    title,
+    keyword,
+    office,
+    action,
+    hearingDate,
+    dateSearch,
+    sortBy,
+  ]);
 
   function chamberTitle() {
     if (chamber === '') return 'Select a Chamber';
@@ -194,23 +248,19 @@ const Dashboard = () => {
         </Pagination.Item>,
       );
     }
+    items.push(<Pagination.Item key="...">...</Pagination.Item>);
     items.push(
-      <Pagination.Item
-        key="..."
-      >
-        ...
-      </Pagination.Item>,
-    );
-    items.push(
-      <Pagination.Item
-        key={Math.ceil(filteredMeasures.length / rowNumber)}
-      >
+      <Pagination.Item key={Math.ceil(filteredMeasures.length / rowNumber)}>
         {Math.ceil(filteredMeasures.length / rowNumber)}
       </Pagination.Item>,
     );
   } else {
     items = [];
-    for (let number = 1; number <= Math.ceil(filteredMeasures.length / rowNumber); number++) {
+    for (
+      let number = 1;
+      number <= Math.ceil(filteredMeasures.length / rowNumber);
+      number++
+    ) {
       items.push(
         <Pagination.Item
           key={number}
@@ -269,10 +319,15 @@ const Dashboard = () => {
 
   const returnFilter = () => (
     <div className="pb-3">
-      <h1 className="mt-4 text-center mb-2"><b>DOE Bills/Measures</b></h1>
+      <h1 className="mt-4 text-center mb-2">
+        <b>DOE Bills/Measures</b>
+      </h1>
       <Row>
         <Col className="d-flex justify-content-center">
-          <Link className="d-flex justify-content-center mb-3 small" to="/view/all">
+          <Link
+            className="d-flex justify-content-center mb-3 small"
+            to="/view/all"
+          >
             View All Bill/Measures
           </Link>
         </Col>
@@ -280,14 +335,15 @@ const Dashboard = () => {
       <div id="filter-border">
         <Accordion>
           <Accordion.Item eventKey="0">
-            <Accordion.Header>
-              Filter Options
-            </Accordion.Header>
+            <Accordion.Header>Filter Options</Accordion.Header>
             <Accordion.Body>
               <Row className="pt-3 px-3">
                 <Col className="d-flex justify-content-center">
                   <label htmlFor="Search by Bill Code">
-                    <Col className="d-flex justify-content-center mb-1 small" style={{ color: '#313131' }}>
+                    <Col
+                      className="d-flex justify-content-center mb-1 small"
+                      style={{ color: '#313131' }}
+                    >
                       Bill Number
                     </Col>
                     <input
@@ -295,13 +351,16 @@ const Dashboard = () => {
                       className="shadow-sm"
                       style={textBoxStyle}
                       placeholder="Enter bill number"
-                      onChange={e => setBillNum(e.target.value)}
+                      onChange={(e) => setBillNum(e.target.value)}
                     />
                   </label>
                 </Col>
                 <Col className="d-flex justify-content-center">
                   <label htmlFor="Search by title">
-                    <Col className="d-flex justify-content-center mb-1 small" style={{ color: '#313131' }}>
+                    <Col
+                      className="d-flex justify-content-center mb-1 small"
+                      style={{ color: '#313131' }}
+                    >
                       Bill Title
                     </Col>
                     <input
@@ -309,13 +368,16 @@ const Dashboard = () => {
                       className="shadow-sm"
                       style={textBoxStyle}
                       placeholder="Relating to..."
-                      onChange={e => setTitle(e.target.value)}
+                      onChange={(e) => setTitle(e.target.value)}
                     />
                   </label>
                 </Col>
                 <Col className="d-flex justify-content-center">
                   <label htmlFor="Search by keyword">
-                    <Col className="d-flex justify-content-center mb-1 small" style={{ color: '#313131' }}>
+                    <Col
+                      className="d-flex justify-content-center mb-1 small"
+                      style={{ color: '#313131' }}
+                    >
                       Keyword
                     </Col>
                     <input
@@ -323,7 +385,7 @@ const Dashboard = () => {
                       className="shadow-sm"
                       style={textBoxStyle}
                       placeholder="Enter keyword"
-                      onChange={e => setKeyword(e.target.value)}
+                      onChange={(e) => setKeyword(e.target.value)}
                     />
                   </label>
                 </Col>
@@ -338,7 +400,7 @@ const Dashboard = () => {
                         className="shadow-sm"
                         style={textBoxStyle}
                         placeholder="Enter date here"
-                        onChange={e => {
+                        onChange={(e) => {
                           const month = e.target.value.substring(5, 7);
                           const day = e.target.value.substring(8);
                           setHearingDate(`${month}.${day}`);
@@ -375,7 +437,10 @@ const Dashboard = () => {
                 <Col className="d-flex justify-content-center">
                   {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                   <label htmlFor="Filter chamber">
-                    <Col className="d-flex justify-content-center mb-1 small" style={{ color: '#313131' }}>
+                    <Col
+                      className="d-flex justify-content-center mb-1 small"
+                      style={{ color: '#313131' }}
+                    >
                       Current Chamber
                     </Col>
                     <DropdownButton
@@ -393,7 +458,10 @@ const Dashboard = () => {
                 <Col className="d-flex justify-content-center">
                   {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                   <label htmlFor="Filter office">
-                    <Col className="d-flex justify-content-center mb-1 small" style={{ color: '#313131' }}>
+                    <Col
+                      className="d-flex justify-content-center mb-1 small"
+                      style={{ color: '#313131' }}
+                    >
                       Office
                     </Col>
                     <DropdownButton
@@ -415,11 +483,13 @@ const Dashboard = () => {
                       <Dropdown.Item eventKey="SUPT">SUPT</Dropdown.Item>
                     </DropdownButton>
                   </label>
-
                 </Col>
                 <Col className="d-flex justify-content-center">
                   <label htmlFor="Search by action">
-                    <Col className="mb-1 small d-flex justify-content-center" style={{ color: '#313131' }}>
+                    <Col
+                      className="mb-1 small d-flex justify-content-center"
+                      style={{ color: '#313131' }}
+                    >
                       Action
                     </Col>
                     <input
@@ -427,7 +497,7 @@ const Dashboard = () => {
                       className="shadow-sm"
                       style={textBoxStyle}
                       placeholder="Enter action here"
-                      onChange={e => setAction(e.target.value)}
+                      onChange={(e) => setAction(e.target.value)}
                     />
                   </label>
                 </Col>
@@ -497,30 +567,56 @@ const Dashboard = () => {
           </tr>
         </thead>
         <tbody>
-          { filteredMeasures.length === 0 ? '' : filteredMeasures
-            .map((bill) => <SavedBill key={bill._id} bill={bill} />)
-            .slice(firstIndex, lastIndex)}
+          {filteredMeasures.length === 0
+            ? ''
+            : filteredMeasures
+              .map((bill) => <SavedBill key={bill._id} bill={bill} />)
+              .slice(firstIndex, lastIndex)}
         </tbody>
       </Table>
-      { filteredMeasures.length === 0 ? <div className="d-flex justify-content-center">No bills/measures found in DOE database</div> : '' }
+      {filteredMeasures.length === 0 ? (
+        <div className="d-flex justify-content-center">
+          No bills/measures found in DOE database
+        </div>
+      ) : (
+        ''
+      )}
       <Col className="d-flex justify-content-center">
-        <Pagination className="pt-3 mb-2" style={{ color: 'black' }}>{items}</Pagination>
+        <Pagination className="pt-3 mb-2" style={{ color: 'black' }}>
+          {items}
+        </Pagination>
       </Col>
       <Row className="d-flex justify-content-center text-center pb-3">
-        { !ready ? ' ' : `${filteredMeasures.length} Results`}
+        {!ready ? ' ' : `${filteredMeasures.length} Results`}
       </Row>
     </div>
   );
 
+  const mainBodyStyle = {
+    marginLeft: '90px',
+    width: 'calc(100% - 135px)',
+    zIndex: '0',
+  };
+
+  const mobileMainBody = {
+    zIndex: 0,
+    fontSize: '10px',
+    paddingBottom: '10px',
+  };
+
   return (
     <Col>
-      <DesktopSideBar page="bills" />
-      <div id="mainBody">
+      {width < breakPoint ? (
+        <MobileSideBar page="bills" />
+      ) : (
+        <DesktopSideBar page="bills" />
+      )}
+      <div style={width < breakPoint ? mobileMainBody : mainBodyStyle}>
         <Row id="dashboard-screen">
           <Col>
             <Row id="dashboard-filter">{returnFilter()}</Row>
-            { ready ? <Row id="dashboard-list">{returnList()}</Row> : '' }
-            { ready ? '' : <LoadingSpinner /> }
+            {ready ? <Row id="dashboard-list">{returnList()}</Row> : ''}
+            {ready ? '' : <LoadingSpinner />}
           </Col>
         </Row>
       </div>

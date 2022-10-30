@@ -31,7 +31,8 @@ a {
   --bs-pagination-hover-color: #2e374f;
 }
 
-html, body {
+html,
+body {
   height: 100%;
 }
 
@@ -55,7 +56,8 @@ html, body {
   border-radius: 8px;
 }
 
-#filter-border .accordion-button:not(.collapsed), .accordion-item:not(.collapsed)  {
+#filter-border .accordion-button:not(.collapsed),
+.accordion-item:not(.collapsed) {
   --bs-accordion-active-bg: #3e465d;
   --bs-accordion-active-color: white;
   --bs-accordion-border-color: #7d828a;
@@ -243,37 +245,38 @@ html, body {
   padding-left: 10px;
   --bs-btn-border-width: 0;
   --bs-btn-color: black;
-  --bs-btn-bg: #F7F7F7;
+  --bs-btn-bg: #f7f7f7;
   --bs-btn-disabled-color: gray;
   --bs-btn-disabled-bg: F7F7F7;
   --bs-btn-hover-color: gray;
-  --bs-btn-hover-bg: #F7F7F7;
-  --bs-btn-focus-shadow-rgb: #F7F7F7;
+  --bs-btn-hover-bg: #f7f7f7;
+  --bs-btn-focus-shadow-rgb: #f7f7f7;
   --bs-btn-active-color: #gray;
-  --bs-btn-active-bg: #F7F7F7;
-  --bs-btn-active-border-color: #F7F7F7;
+  --bs-btn-active-bg: #f7f7f7;
+  --bs-btn-active-border-color: #f7f7f7;
   --bs-btn-active-shadow: none;
-  --bs-btn-disabled-border-color: #F7F7F7;
+  --bs-btn-disabled-border-color: #f7f7f7;
 }
 
 .testimonyNavbarButtons .btn-primary {
   padding-left: 10px;
   --bs-btn-border-width: 0;
   --bs-btn-color: black;
-  --bs-btn-bg: #F7F7F7;
+  --bs-btn-bg: #f7f7f7;
   --bs-btn-disabled-color: gray;
   --bs-btn-disabled-bg: F7F7F7;
   --bs-btn-hover-color: gray;
-  --bs-btn-hover-bg: #F7F7F7;
-  --bs-btn-focus-shadow-rgb: #F7F7F7;
+  --bs-btn-hover-bg: #f7f7f7;
+  --bs-btn-focus-shadow-rgb: #f7f7f7;
   --bs-btn-active-color: #gray;
-  --bs-btn-active-bg: #F7F7F7;
-  --bs-btn-active-border-color: #F7F7F7;
+  --bs-btn-active-bg: #f7f7f7;
+  --bs-btn-active-border-color: #f7f7f7;
   --bs-btn-active-shadow: none;
-  --bs-btn-disabled-border-color: #F7F7F7;
+  --bs-btn-disabled-border-color: #f7f7f7;
 }
 
-.testimonyNavbarButtons .bth.disabled, .btn:disabled {
+.testimonyNavbarButtons .bth.disabled,
+.btn:disabled {
   --bs-btn-disabled-color: black;
   --bs-btn-disabled-bg: F7F7F7;
   --bs-btn-border-width: 0;
@@ -291,11 +294,16 @@ html, body {
 }
 
 #mobileMainBody {
-  margin-left: 60px;
   z-index: 0;
-  font-size: 12px;
+  font-size: 10px;
 }
 
 .expandedNavbar {
   width: 60px;
+}
+
+@media screen and (max-width: 480px) {
+  .text {
+    font-size: 16px;
+  }
 }

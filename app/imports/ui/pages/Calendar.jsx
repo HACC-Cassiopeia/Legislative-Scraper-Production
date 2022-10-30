@@ -8,6 +8,19 @@ import MobileSideBar from '../components/SideNavBar/MobileSideBar';
 import DesktopSideBar from '../components/SideNavBar/DesktopSideBar';
 
 const Calendar = () => {
+  // the width of the screen using React useEffect
+  const [width, setWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    const handleResizeWindow = () => setWidth(window.innerWidth);
+    // subscribe to window resize event "onComponentDidMount"
+    window.addEventListener('resize', handleResizeWindow);
+    return () => {
+      // unsubscribe "onComponentDestroy"
+      window.removeEventListener('resize', handleResizeWindow);
+    };
+  }, []);
+  const breakPoint = 800;
+
   const [upcomingHearings, setUpcomingHearings] = useState([]);
   // modal states
   const [show, setShow] = useState(false);
@@ -21,33 +34,44 @@ const Calendar = () => {
   const handleShow = () => setShow(true);
   useEffect(() => {
     document.title = 'DOELT - Calendar';
-    Legtracker
-      .scrapeUpcomingHearings()
-      .then(initialData => {
-        setUpcomingHearings(initialData.upcomingHearings);
-      });
+    Legtracker.scrapeUpcomingHearings().then((initialData) => {
+      setUpcomingHearings(initialData.upcomingHearings);
+    });
   }, []);
 
   const hasUpcomingHearings = () => {
     if (upcomingHearings.length === 0) {
       return [];
     }
-    return upcomingHearings.map(data => (
-      {
-        title: data.measure,
-        start: data.dateTime,
-        room: data.room,
-        youtube: data.youtubeURL,
-        noticeLink: data.noticeURL,
-        noticePdfLink: data.noticePdfURL,
-      }
-    ));
+    return upcomingHearings.map((data) => ({
+      title: data.measure,
+      start: data.dateTime,
+      room: data.room,
+      youtube: data.youtubeURL,
+      noticeLink: data.noticeURL,
+      noticePdfLink: data.noticePdfURL,
+    }));
+  };
+  const mainBodyStyle = {
+    marginLeft: '90px',
+    width: 'calc(100% - 135px)',
+    zIndex: '0',
+  };
+
+  const mobileMainBody = {
+    paddingTop: 0.2 * window.innerHeight,
+    zIndex: 0,
+    fontSize: '14px',
   };
 
   return (
     <Col>
-      <DesktopSideBar page="calendar" />
-      <div id="mainBody">
+      {width < breakPoint ? (
+        <MobileSideBar page="calendar" />
+      ) : (
+        <DesktopSideBar page="calendar" />
+      )}
+      <div style={width < breakPoint ? mobileMainBody : mainBodyStyle}>
         <CalModal
           show={show}
           handleClose={handleClose}
@@ -84,7 +108,6 @@ const Calendar = () => {
         </Container>
       </div>
     </Col>
-
   );
 };
 

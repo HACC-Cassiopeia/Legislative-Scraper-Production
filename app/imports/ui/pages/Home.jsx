@@ -46,8 +46,7 @@ const Home = () => {
     textAlign: 'center',
   };
   const mobileMainBody = {
-    marginLeft: '60px',
-    width: 0.9 * width,
+    textAlign: 'center',
     fontSize: '10px',
   };
 
@@ -58,8 +57,15 @@ const Home = () => {
 
   return (
     <div style={{ backgroundColor: '#ece9e9', height: '100%' }}>
-      {width < breakPoint ? <MobileSideBar page="home" /> : <DesktopSideBar page="home" />}
-      <Col style={width < breakPoint ? mobileMainBody : mainBodyStyle} className="d-flex justify-content-center">
+      {width < breakPoint ? (
+        <MobileSideBar page="home" />
+      ) : (
+        <DesktopSideBar page="home" />
+      )}
+      <Col
+        style={width < breakPoint ? mobileMainBody : mainBodyStyle}
+        className="d-flex justify-content-center"
+      >
         <Container>
           <h1 className="pt-4 m-0 text-center">
             <b>DOELT</b>
@@ -82,13 +88,23 @@ const Home = () => {
                       <th>PDF</th>
                     </tr>
                   </thead>
-                  { upcomingHearings.length > 0 ? (
+                  {upcomingHearings.length > 0 ? (
                     <tbody>
-                      {upcomingHearings.map((hearing) => <NotificationBody hearing={hearing} />).slice(0, 14)}
+                      {upcomingHearings
+                        .map((hearing) => (
+                          <NotificationBody hearing={hearing} />
+                        ))
+                        .slice(0, 14)}
                     </tbody>
-                  ) : <p /> }
+                  ) : (
+                    <p />
+                  )}
                 </Table>
-                { upcomingHearings.length > 0 ? <p /> : <p>No upcoming hearings found.</p> }
+                {upcomingHearings.length > 0 ? (
+                  <p />
+                ) : (
+                  <p>No upcoming hearings found.</p>
+                )}
               </Card.Body>
             </Card>
           </Row>
@@ -96,7 +112,11 @@ const Home = () => {
           <Row>
             <Card className="p-0">
               <Card.Header style={sectionHeaders}>
-                <Icon.CardChecklist className="mb-1" style={{ fontSize: '20px' }} /> &nbsp; Mini Dashboard
+                <Icon.CardChecklist
+                  className="mb-1"
+                  style={{ fontSize: '20px' }}
+                />{' '}
+                &nbsp; Mini Dashboard
               </Card.Header>
               <Card.Body>
                 <Table>

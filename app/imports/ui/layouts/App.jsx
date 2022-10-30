@@ -30,7 +30,6 @@ import Calendar from '../pages/Calendar';
 import EditTestimony from '../pages/EditTestimony';
 import EditMeasure from '../pages/EditMeasure';
 
-
 const App = () => (
   <Router>
     <div className="d-flex flex-column min-vh-100">
