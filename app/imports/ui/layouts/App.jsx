@@ -5,7 +5,6 @@ import { Roles } from 'meteor/alanning:roles';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import NotFound from '../pages/stuffPages/NotFound';
 import SignUp from '../pages/stuffPages/SignUp';
-import SignOut from '../pages/stuffPages/SignOut';
 import SignIn from '../pages/SignIn';
 import NotAuthorized from '../pages/stuffPages/NotAuthorized';
 import { ROLE } from '../../api/role/Role';
@@ -23,6 +22,7 @@ import BillResolutionTracker from '../pages/BillResolutionTracker';
 import Calendar from '../pages/Calendar';
 import EditTestimony from '../pages/EditTestimony';
 import EditMeasure from '../pages/EditMeasure';
+import SignOut from '../pages/SignOut';
 
 const App = () => (
   <Router>

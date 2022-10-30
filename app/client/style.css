@@ -1,11 +1,12 @@
 /* Use Open Sans as the default sans serif font. */
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,700|Source+Code+Pro:300,400,500,700');
+@import url('https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@100;200&display=swap');
 
 /* Set up some CSS variables to theme the application. */
 :root {
   --matr-navbar-bg: #ececec;
   --matr-navbar-bg-rgb: 236, 236, 236;
-  --bs-body-font-family: 'Oswald', sans-serif !important;
+  --bs-body-font-family: 'Saira Condensed', sans-serif!important;
+  --bs-body-font-size: 18px !important;
 }
 
 /* Change bootstrap variable values.
