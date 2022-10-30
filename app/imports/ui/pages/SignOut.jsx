@@ -2,7 +2,7 @@ import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { Button, Row, Image, Table, Card } from 'react-bootstrap';
 import Col from 'react-bootstrap/Col';
-import { BsDoorOpen } from 'react-icons/bs';
+import { BsDoorOpen } from 'react-bootstrap-icons';
 
 /* After the user clicks the "SignOut" link in the NavBar, log them out and display this page. */
 const SignOut = () => {
