@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, Col, Image, Nav, Navbar, Row } from 'react-bootstrap';
+import { Button, Card, Col, Image, Navbar, Row } from 'react-bootstrap';
 import { AutoForm, ErrorsField, LongTextField, SelectField, SubmitField, TextField } from 'uniforms-bootstrap5';
 import swal from 'sweetalert';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
 import { jsPDF } from 'jspdf';
-import { NavLink } from 'react-router-dom';
-import { ChevronLeft, EnvelopeFill, FilePdfFill, HddFill, List } from 'react-bootstrap-icons';
+import { ChevronLeft, FilePdfFill, HddFill, List } from 'react-bootstrap-icons';
 import { useParams } from 'react-router';
 import { useTracker } from 'meteor/react-meteor-data';
+import { Meteor } from 'meteor/meteor';
+import { Roles } from 'meteor/alanning:roles';
 import { Testimonies, testimonyStatuses } from '../../api/testimony/TestimonyCollection';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { updateMethod } from '../../api/base/BaseCollection.methods';
 import DesktopSideBarExpanded from '../components/SideNavBar/DesktopSideBarExpanded';
 import DesktopSideBarCollapsed from '../components/SideNavBar/DesktopSideBarCollapsed';
+import { ROLE } from '../../api/role/Role';
 
 // Create a schema to specify the structure of the data to appear in the form.
 const formSchema = new SimpleSchema({
@@ -59,6 +61,17 @@ const EditTestimony = () => {
     document.title = `DOELT - Editing Testimony for ${_code}`;
   }, []);
 
+  const showAssigner = () => {
+    const loggedInUser = Meteor.user();
+    if (loggedInUser) {
+      if (!Roles.userIsInRole(loggedInUser, ROLE.ASSIGNER)) {
+        return false;
+      }
+    }
+    return true;
+  };
+
+  showAssigner();
   // On submit, insert the data.
   const submit = (data) => {
     const { governorName, governorTitle, testifier, testifierTitle, hearingDate, hearingTime, hearingLocation, committee, department, billCode, billTitle, billPurpose, position, lastEditedBy, status } = data;
@@ -77,7 +90,7 @@ const EditTestimony = () => {
   const navBarStyle = {
     backgroundColor: '#F7F7F7',
     borderBottom: '2px solid #DDDDDD',
-    marginLeft: expanded ? openWidth : closeWidth
+    marginLeft: expanded ? openWidth : closeWidth,
   };
   const pageStyle = {
     borderRadius: '0px',
@@ -154,7 +167,7 @@ const EditTestimony = () => {
           <Navbar className="fixed-top d-flex justify-content-center align-items-center" style={navBarStyle}>
             <div className="pt-3 px-4 d-flex gap-1 align-items-center justify-content-center">
               <div className="mb-3">Status:</div>
-              <SelectField name="status" label="" />
+              <SelectField name="status" label="" readOnly={showAssigner()} />
             </div>
             <HddFill />
             <SubmitField className="testimonyNavbarButtons" value="Save Changes" />
@@ -167,8 +180,6 @@ const EditTestimony = () => {
                 const doc = new jsPDF('portrait', 'mm', 'letter');
                 const midPage = (doc.internal.pageSize.width / 2);
                 const margins = 25;
-
-                // TODO all variables should be loaded from db
                 // test = testimony
                 const governorName = (testimony.governorName ? testimony.governorName : 'DAVID Y. IGE');
                 const testifierTitle = (testimony.testifierTitle ? testimony.testifierTitle : 'SUPERINTENDENT'); // could also be 'INTERIM SUPERINTENDENT'
@@ -261,8 +272,8 @@ const EditTestimony = () => {
                   <Row className="pt-3">
                     <Col className="d-flex justify-content-center col-3 ps-5">
                       <Row>
-                        <TextField className="m-0 pt-5 p-0 testimonyName" name="governorName" label="" placeholder="DAVID Y. IGE" />
-                        <TextField className="m-0 p-0 testimonyTitle" name="governorTitle" label="" placeholder="GOVERNOR" />
+                        <TextField className="m-0 pt-5 p-0 testimonyName" name="governorName" label="" placeholder="DAVID Y. IGE" readOnly={showAssigner()} />
+                        <TextField className="m-0 p-0 testimonyTitle" name="governorTitle" label="" placeholder="GOVERNOR" readOnly={showAssigner()} />
                       </Row>
                     </Col>
                     <Col className="d-flex justify-content-center mt-5">
@@ -274,8 +285,8 @@ const EditTestimony = () => {
                     </Col>
                     <Col className="d-flex justify-content-center col-3 pe-5">
                       <Row>
-                        <TextField className="m-0 pt-5 p-0 testimonyName" name="testifier" label="" placeholder="KEITH T. HAYASHI" />
-                        <TextField className="m-0 p-0 testimonyTitle" name="testifierTitle" label="" placeholder="SUPERINTENDENT" />
+                        <TextField className="m-0 pt-5 p-0 testimonyName" name="testifier" label="" placeholder="KEITH T. HAYASHI" readOnly={showAssigner()} />
+                        <TextField className="m-0 p-0 testimonyTitle" name="testifierTitle" label="" placeholder="SUPERINTENDENT" readOnly={showAssigner()} />
                       </Row>
                     </Col>
                   </Row>
@@ -294,25 +305,25 @@ const EditTestimony = () => {
                       <Row>
                         <Col className="d-flex justify-content-start">
                           <b style={lilPadding}>Date:</b>
-                          <TextField className="m-0 ps-2" name="hearingDate" label="" placeholder="00/00/0000" />
+                          <TextField className="m-0 ps-2" name="hearingDate" label="" placeholder="00/00/0000" readOnly={showAssigner()} />
                         </Col>
                       </Row>
                       <Row style={{ top: '-18px', position: 'relative' }}>
                         <Col className="d-flex justify-content-start">
                           <b style={lilPadding}>Time:</b>
-                          <TextField className="m-0 ps-2" name="hearingTime" label="" placeholder="00:00 AM" />
+                          <TextField className="m-0 ps-2" name="hearingTime" label="" placeholder="00:00 AM" readOnly={showAssigner()} />
                         </Col>
                       </Row>
                       <Row style={{ top: '-35px', position: 'relative' }}>
                         <Col className="d-flex justify-content-start">
                           <b style={lilPadding}>Location:</b>
-                          <TextField className="m-0 ps-2" name="hearingLocation" label="" placeholder="Hearing Location" />
+                          <TextField className="m-0 ps-2" name="hearingLocation" label="" placeholder="Hearing Location" readOnly={showAssigner()} />
                         </Col>
                       </Row>
                       <Row style={{ top: '-52px', position: 'relative' }}>
                         <Col className="d-flex justify-content-start">
                           <b style={lilPadding}>Committee:</b>
-                          <LongTextField style={{ width: '60%' }} className="m-0 ps-2" name="committee" label="" placeholder="Committee Name" />
+                          <LongTextField style={{ width: '60%' }} className="m-0 ps-2" name="committee" label="" placeholder="Committee Name" readOnly={showAssigner()} />
                         </Col>
                       </Row>
                     </Col>
@@ -322,7 +333,7 @@ const EditTestimony = () => {
                       <b>Department:</b>
                     </Col>
                     <Col>
-                      <TextField style={{ width: '40%' }} name="department" label="" placeholder="Education" />
+                      <TextField style={{ width: '40%' }} name="department" label="" placeholder="Education" readOnly={showAssigner()} />
                     </Col>
                   </Row>
                   <Row style={{ top: '-62px', position: 'relative' }} className="mx-5">
@@ -330,8 +341,8 @@ const EditTestimony = () => {
                       <b>Person Testifying:</b>
                     </Col>
                     <Col>
-                      <TextField style={{ width: '94%' }} name="testifier" label="" placeholder="Keith T. Hayashi" />
-                      <TextField style={{ width: '94%' }} name="testifierTitle" label="" placeholder="Superintendent of Education" />
+                      <TextField style={{ width: '94%' }} name="testifier" label="" placeholder="Keith T. Hayashi" readOnly={showAssigner()} />
+                      <TextField style={{ width: '94%' }} name="testifierTitle" label="" placeholder="Superintendent of Education" readOnly={showAssigner()} />
                     </Col>
                   </Row>
                   <Row style={{ top: '-62px', position: 'relative' }} className="mx-5">
@@ -339,7 +350,7 @@ const EditTestimony = () => {
                       <b>Title of Bill:</b>
                     </Col>
                     <Col>
-                      <TextField style={{ width: '94%' }} name="billTitle" label="" placeholder="Bill Title Goes Here" />
+                      <TextField style={{ width: '94%' }} name="billTitle" label="" placeholder="Bill Title Goes Here" readOnly={showAssigner()} />
                     </Col>
                   </Row>
                   <Row style={{ top: '-62px', position: 'relative' }} className="mx-5">
@@ -347,7 +358,7 @@ const EditTestimony = () => {
                       <b>Purpose of Bill:</b>
                     </Col>
                     <Col>
-                      <LongTextField style={{ width: '94%' }} name="billPurpose" label="" placeholder="Bill Purpose Goes Here" />
+                      <LongTextField style={{ width: '94%' }} name="billPurpose" label="" placeholder="Bill Purpose Goes Here" readOnly={showAssigner()} />
                     </Col>
                   </Row>
                   <Row style={{ top: '-62px', position: 'relative' }} className="mx-5">
@@ -355,7 +366,7 @@ const EditTestimony = () => {
                   </Row>
                   <Row style={{ top: '-62px', position: 'relative' }}>
                     <Col className="d-flex justify-content-center">
-                      <LongTextField className="doePosition" style={{ width: '85.9%' }} name="position" label="" placeholder="Department Position Goes Here" />
+                      <LongTextField className="doePosition" style={{ width: '85.9%' }} name="position" label="" placeholder="Department Position Goes Here" readOnly={showAssigner()} />
                     </Col>
                   </Row>
                 </Card.Body>
