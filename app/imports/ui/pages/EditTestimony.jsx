@@ -24,7 +24,7 @@ const isFinalApprover = () => {
       return testimonyStatuses;
     }
   }
-  return testimonyStatuses.slice(0, testimonyStatuses.length - 2);
+  return testimonyStatuses.slice(0, testimonyStatuses.length - 1);
 };
 
 // Create a schema to specify the structure of the data to appear in the form.
