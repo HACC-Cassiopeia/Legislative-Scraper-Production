@@ -217,8 +217,14 @@ const EditTestimony = () => {
                 const position = (testimony.position ? testimony.position : 'POSITION');
                 const splitPosition = doc.splitTextToSize(position, 218);
 
-                // TODO figure out naming convention for testimonies
-                const fileName = 'Test Testimony.pdf';
+                // BILL NUMBER (Using 4 digits)-DRAFT NUMBER_OFFICIAL DEPT ACRONYM_HEARING DATE_COMMITTEE(s) ACRONYM_POSITION.pdf
+                // Examples:
+                // HB1234_EDN_02-02-21_FIN_Support.pdf
+                // SB0010_EDN_02-14-21_EDU_Oppose.pdf
+                // HCR1875-HD1_EDN_04-01-21_FIN_Comments.pdf
+                // SCR0976-SD2_EDN_04-10-21_WAM-EDU_Comments.pdf
+                // TODO change to actually get these values
+                const fileName = 'HB0410_EDN_02_09_21_FIN_Support.pdf';
 
                 // TODO fix alignment for governor and superintendent so when names change everything still looks good
                 // HEADER

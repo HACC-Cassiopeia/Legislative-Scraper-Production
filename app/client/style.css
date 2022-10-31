@@ -1,11 +1,11 @@
 /* Use Open Sans as the default sans serif font. */
-@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,700|Source+Code+Pro:300,400,500,700');
 
 /* Set up some CSS variables to theme the application. */
 :root {
   --matr-navbar-bg: #ececec;
   --matr-navbar-bg-rgb: 236, 236, 236;
-  --bs-body-font-family: 'Roboto';
+  --bs-body-font-family: 'Oswald', sans-serif !important;
 }
 
 /* Change bootstrap variable values.
