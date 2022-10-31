@@ -1,11 +1,11 @@
 /* Use Open Sans as the default sans serif font. */
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,700|Source+Code+Pro:300,400,500,700');
+@import url('https://fonts.googleapis.com/css?family=Roboto');
 
 /* Set up some CSS variables to theme the application. */
 :root {
   --matr-navbar-bg: #ececec;
   --matr-navbar-bg-rgb: 236, 236, 236;
-  --bs-body-font-family: 'Oswald', sans-serif !important;
+  --bs-body-font-family: 'Roboto';
 }
 
 /* Change bootstrap variable values.
@@ -317,4 +317,20 @@ html, body {
 
 .forgotPw:hover {
   color: #b6bbc5 !important;
+}
+
+#editTestButtons {
+  --bs-btn-border-width: 0;
+  --bs-btn-color: black;
+  --bs-btn-bg: white;
+  --bs-btn-disabled-color: gray;
+  --bs-btn-disabled-bg: F7F7F7;
+  --bs-btn-hover-color: gray;
+  --bs-btn-hover-bg: #F7F7F7;
+  --bs-btn-focus-shadow-rgb: #F7F7F7;
+  --bs-btn-active-color: #gray;
+  --bs-btn-active-bg: #F7F7F7;
+  --bs-btn-active-border-color: #F7F7F7;
+  --bs-btn-active-shadow: none;
+  --bs-btn-disabled-border-color: #F7F7F7;
 }

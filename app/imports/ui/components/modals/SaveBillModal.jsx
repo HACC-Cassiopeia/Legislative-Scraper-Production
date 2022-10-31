@@ -14,14 +14,14 @@ const SaveBillModal = ({ show, onHide, onSubmit }) => {
   const offices = ['BOE', 'OCID', 'OFS', 'OFO', 'OHE', 'OITS', 'OSIP', 'OSSS', 'OTM', 'SUPT'];
 
   const schema = new SimpleSchema({
-    office: { label: 'Office', type: Array, optional: true },
+    office: { label: 'Office', type: Array },
     'office.$': {
       type: String,
       allowedValues: offices,
     },
-    doeAction: { label: 'Action', type: String, optional: true },
-    hearingDate: { label: 'Hearing Date', type: String },
-    hearingTime: { label: 'Hearing Time', type: String },
+    doeAction: { label: 'Action', type: String },
+    hearingDate: { label: 'Hearing Date', type: String, optional: true },
+    hearingTime: { label: 'Hearing Time', type: String, optional: true },
     doePosition: { label: 'Position', type: String, optional: true },
     testifier: { label: 'Testifier', type: String, optional: true },
     doeInternalStatus: { label: 'Status', type: String, optional: true },
@@ -34,7 +34,7 @@ const SaveBillModal = ({ show, onHide, onSubmit }) => {
       <AutoForm schema={bridge} onSubmit={(data) => onSubmit(data)}>
         <Modal.Header closeButton>
           <Modal.Title>
-            <h3>Save Bill</h3>
+            <h3><b>Save Bill</b></h3>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>

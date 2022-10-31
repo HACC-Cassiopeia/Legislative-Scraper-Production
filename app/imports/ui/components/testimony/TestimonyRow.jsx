@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'react-bootstrap';
-import { Pencil } from 'react-bootstrap-icons';
+import { PencilFill } from 'react-bootstrap-icons';
 
 // eslint-disable-next-line react/prop-types
 const TestimonyRow = ({ testimony, _code }) => (
@@ -19,7 +19,9 @@ const TestimonyRow = ({ testimony, _code }) => (
       { testimony.status ? testimony.status : '-'}
     </td>
     <td>
-      <Button href={`/edit-testimony/${_code}/${testimony._id}`}><Pencil /></Button>
+      <Button id="editTestButtons" href={`/edit-testimony/${_code}/${testimony._id}`}>
+        <PencilFill />
+      </Button>
     </td>
   </tr>
 );

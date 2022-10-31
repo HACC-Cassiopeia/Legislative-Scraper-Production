@@ -111,7 +111,7 @@ const Home = () => {
           <Row className="pt-3">
             <Card className="p-0">
               <Card.Header style={sectionHeaders}>
-                <Icon.BellFill className="mb-1" /> &nbsp; Upcoming Hearings
+                <Icon.BellFill className="mb-1 me-2" />Upcoming Hearings
               </Card.Header>
               <Card.Body>
                 <Table>
@@ -144,7 +144,10 @@ const Home = () => {
           <Row>
             <Card className="p-0">
               <Card.Header style={sectionHeaders}>
-                <FileText /> &nbsp; Testimonies
+                <FileText
+                  className="mb-1 me-2"
+                  style={{ fontSize: '20px' }}
+                />Testimonies
               </Card.Header>
               <Card.Body>
                 <Table>
@@ -181,10 +184,9 @@ const Home = () => {
             <Card className="p-0">
               <Card.Header style={sectionHeaders}>
                 <Icon.CardChecklist
-                  className="mb-1"
+                  className="mb-1 me-2"
                   style={{ fontSize: '20px' }}
-                />{' '}
-                &nbsp; Mini Dashboard
+                />Mini Dashboard
               </Card.Header>
               <Card.Body>
                 <Table>
