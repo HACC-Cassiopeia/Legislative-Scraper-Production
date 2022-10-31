@@ -5,7 +5,7 @@ import { AutoField, AutoForm, SubmitField, TextField } from 'uniforms-bootstrap5
 import { useTracker } from 'meteor/react-meteor-data';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import { useParams } from 'react-router';
-import { ChevronLeft, XCircle, HddFill, List, } from 'react-bootstrap-icons';
+import { ChevronLeft, XCircle, HddFill, List } from 'react-bootstrap-icons';
 import { Link } from 'react-router-dom';
 import { SavedMeasures } from '../../api/savedMeasures/SavedMeasuresCollection';
 import { updateMethod } from '../../api/base/BaseCollection.methods';
@@ -58,12 +58,15 @@ const EditMeasure = () => {
       hearingLocation, doePosition, testifier, doeInternalStatus } = data;
     const collectionName = SavedMeasures.getCollectionName();
     // eslint-disable-next-line max-len
-    const updateData = { id: doc._id, office, archive, code, measurePdfUrl, measureArchiveUrl, measureTitle, reportTitle,
+    const updateData = { _id: doc._id, office, archive, code, measurePdfUrl, measureArchiveUrl, measureTitle, reportTitle,
       description, statusHorS, statusDescription, statusDate, introducer, currentReferral, companion, doeAction, hearingDate,
       hearingTime, hearingLocation, doePosition, testifier, doeInternalStatus };
     updateMethod.callPromise({ collectionName, updateData })
-        .catch(error => swal('Error', error.message, 'error'))
-        .then(() => swal('Success', 'Measure updated successfully', 'success'));
+      .catch(error => swal('Error', error.message, 'error'))
+      .then(() => swal('Success', 'Measure updated successfully', 'success')
+        .then(function () {
+          window.location = `/view/${code}`;
+        }));
   };
 
   const navBarStyle = {
@@ -106,7 +109,7 @@ const EditMeasure = () => {
   }
 
   return (
-    <Col id={PAGE_IDS.EDIT_BILL} >
+    <Col id={PAGE_IDS.EDIT_BILL}>
       {width < breakPoint ? <MobileSideBar page="deets" /> : getDesktopSidebar()}
       {ready ? (
         <Col style={width < breakPoint ? mobileMainBody : mainBodyLeftMargin} className="d-flex justify-content-center">
@@ -181,25 +184,24 @@ const EditMeasure = () => {
                 <Col>
                   <Row>
                     <Col className="border border-top-0 border-start-0 border-end-0">
-                      <b>Companion</b>
+                      <b>Status</b>
                     </Col>
                   </Row>
                   <Row className="py-2">
                     <Col>
-                      {doc.companion}
+                      <TextField name="doeInternalStatus" label="" />
                     </Col>
                   </Row>
                 </Col>
                 <Col className="border border-top-0 border-bottom-0 border-end-0">
                   <Row>
                     <Col className="border border-top-0 border-start-0 border-end-0">
-                      <b>Leg Type</b>
+                      <b>Position</b>
                     </Col>
                   </Row>
                   <Row>
                     <Col className="py-2">
-                      {/* LEG TYPE TODO aren't these all bills? Putting this as bill temp. */}
-                      Bill
+                      <TextField name="doePosition" label="" />
                     </Col>
                   </Row>
                 </Col>
@@ -232,12 +234,12 @@ const EditMeasure = () => {
                 <Col className="border border-top-0 border-bottom-0 border-start-0">
                   <Row>
                     <Col className="border border-top-0 border-start-0 border-end-0">
-                      <b>Act #</b>
+                      <b>Companion</b>
                     </Col>
                   </Row>
                   <Row className="py-2">
                     <Col>
-                      {/* TODO act num? not sure what this is */}
+                      {doc.companion}
                     </Col>
                   </Row>
                 </Col>
@@ -265,8 +267,8 @@ const EditMeasure = () => {
                   </Row>
                   <Row className="py-2">
                     <Col>
-                      <TextField name="hearingDate" />
-                      <TextField name="hearingTime" />
+                      <TextField name="hearingDate" label="Date" />
+                      <TextField name="hearingTime" label="Time" />
                     </Col>
                   </Row>
                 </Col>
@@ -278,7 +280,7 @@ const EditMeasure = () => {
                   </Row>
                   <Row className="py-2">
                     <Col>
-                      <TextField name="hearingLocation" />
+                      <TextField name="hearingLocation" label="" />
                     </Col>
                   </Row>
                 </Col>

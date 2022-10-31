@@ -200,26 +200,24 @@ const BillResolutionDetails = () => {
         <Col>
           <Row>
             <Col className="border border-top-0 border-start-0 border-end-0">
-              <b>Companion</b>
+              <b>Status</b>
             </Col>
           </Row>
           <Row className="py-2">
             <Col>
-              {/* TODO this should be a link. need to get link for companion from individual bill page */}
-              {bill.companion}
+              {bill.doeInternalStatus}
             </Col>
           </Row>
         </Col>
         <Col className="border border-top-0 border-bottom-0 border-end-0">
           <Row>
             <Col className="border border-top-0 border-start-0 border-end-0">
-              <b>Leg Type</b>
+              <b>Position</b>
             </Col>
           </Row>
           <Row>
             <Col className="py-2">
-              {/* LEG TYPE TODO aren't these all bills? Putting this as bill temp. */}
-              Bill
+              {bill.doePosition}
             </Col>
           </Row>
         </Col>
@@ -259,12 +257,13 @@ const BillResolutionDetails = () => {
         <Col className="border border-top-0 border-bottom-0 border-start-0">
           <Row>
             <Col className="border border-top-0 border-start-0 border-end-0">
-              <b>Act #</b>
+              <b>Companion</b>
             </Col>
           </Row>
           <Row className="py-2">
             <Col>
-              {/* TODO act num? not sure what this is */}
+              {/* TODO this should be a link. need to get link for companion from individual bill page */}
+              {bill.companion}
             </Col>
           </Row>
         </Col>
