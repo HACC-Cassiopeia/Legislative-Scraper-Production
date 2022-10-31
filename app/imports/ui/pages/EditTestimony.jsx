@@ -6,7 +6,7 @@ import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
 import { jsPDF } from 'jspdf';
 import { ChevronLeft, FilePdfFill, HddFill, List } from 'react-bootstrap-icons';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Meteor } from 'meteor/meteor';
 import { Roles } from 'meteor/alanning:roles';
@@ -65,6 +65,11 @@ const EditTestimony = () => {
       ready: rdy,
     };
   }, false);
+
+  const navigate = useNavigate();
+  if (!testimony && ready) {
+    navigate('/*');
+  }
 
   useEffect(() => {
     document.title = `DOELT - Editing Testimony for ${_code}`;

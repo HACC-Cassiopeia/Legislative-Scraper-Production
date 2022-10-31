@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Navbar, Nav, NavLink } from 'react-bootstrap';
 import { ChevronLeft, PencilSquare, List, FileEarmarkPlusFill, Trash3Fill } from 'react-bootstrap-icons';
-import { useNavigate, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import BillResolutionDetails from '../components/billDetails/BillResolutionDetails';
 import TestimonyTracker from '../components/testimony/TestimonyTracker';

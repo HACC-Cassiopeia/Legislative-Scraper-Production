@@ -2,6 +2,7 @@ import React from 'react';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Container, Table } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router';
 import { Testimonies } from '../../../api/testimony/TestimonyCollection';
 import TestimonyRow from './TestimonyRow';
 import LoadingSpinner from '../LoadingSpinner';
@@ -19,9 +20,13 @@ const TestimonyTracker = ({ _code }) => {
     };
   }, false);
 
+  const navigate = useNavigate();
+  if (!testimonies && ready) {
+    navigate('/*');
+  }
+
   return (ready ? (
     <Container className="text-center">
-      {console.log(_code)}
       <h3>Testimonies</h3>
       <Table striped>
         <thead style={{ zIndex: 200 }}>
