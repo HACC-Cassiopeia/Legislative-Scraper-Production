@@ -1,5 +1,4 @@
 import { Meteor } from 'meteor/meteor';
-import { Stuffs } from '../stuff/StuffCollection';
 import { Testimonies } from '../testimony/TestimonyCollection';
 import { AdminProfiles } from '../user/admin/AdminProfileCollection';
 import { UserProfiles } from '../user/UserProfileCollection';
@@ -29,7 +28,6 @@ class MATPClass {
       PIPEApvProfiles,
       FinalApvProfiles,
       SubmitterProfiles,
-      Stuffs,
       Testimonies,
       SavedMeasures,
     ];
@@ -45,7 +43,6 @@ class MATPClass {
       PIPEApvProfiles,
       FinalApvProfiles,
       SubmitterProfiles,
-      Stuffs,
       Testimonies,
       SavedMeasures,
     ];

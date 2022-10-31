@@ -38,6 +38,3 @@ jobs:
         run: |
           meteor npm install
           meteor npm run lint
-          meteor npm run test-unit
-          meteor npm run test-integration
-          meteor npm run test-acceptance-ci
