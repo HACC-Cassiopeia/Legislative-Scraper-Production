@@ -4,7 +4,7 @@ import { Button, Col, Container, Row, Navbar, Nav } from 'react-bootstrap';
 import { AutoField, AutoForm, SubmitField, TextField } from 'uniforms-bootstrap5';
 import { useTracker } from 'meteor/react-meteor-data';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { ChevronLeft, XCircle, HddFill, List } from 'react-bootstrap-icons';
 import { Link } from 'react-router-dom';
 import { SavedMeasures } from '../../api/savedMeasures/SavedMeasuresCollection';
@@ -23,12 +23,19 @@ const EditMeasure = () => {
   const { doc, ready } = useTracker(() => {
     const subscription = SavedMeasures.subscribeMeasureSaved();
     const rdy = subscription.ready();
-    const document = SavedMeasures.findDoc({ code: _code });
+    const document = SavedMeasures.find({ code: _code }).fetch();
     return {
-      doc: document,
+      doc: document[0],
       ready: rdy,
     };
-  }, [_code]);
+  }, false);
+
+  console.log(doc);
+  const navigate = useNavigate();
+  if (!doc && ready) {
+    navigate('/*');
+  }
+
   const [expanded, setExpanded] = useState(false);
 
   // the width of the screen using React useEffect
