@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
-import { Card, Row, Container, Table, Col, Button } from 'react-bootstrap';
+import { Card, Row, Container, Table, Col, Button, Spinner } from 'react-bootstrap';
 import * as Icon from 'react-bootstrap-icons';
 import { FileText, ChevronLeft, List } from 'react-bootstrap-icons';
 import MobileSideBar from '../components/SideNavBar/MobileSideBar';
@@ -9,7 +8,6 @@ import { SavedMeasures } from '../../api/savedMeasures/SavedMeasuresCollection';
 import NotificationBill from '../components/notificationRelated/NotifcationBill';
 import NotificationBody from '../components/notificationRelated/NotificationBody';
 import Legtracker from '../utilities/Legtracker';
-import LoadingSpinner from '../components/LoadingSpinner';
 import TestimonyRow from '../components/testimony/TestimonyRow';
 import { Testimonies } from '../../api/testimony/TestimonyCollection';
 import DesktopSideBarCollapsed from '../components/SideNavBar/DesktopSideBarCollapsed';
@@ -28,7 +26,6 @@ const Home = () => {
 
   const [expanded, setExpanded] = useState(false);
   const [upcomingHearings, setUpcomingHearings] = useState([]);
-  console.log(Meteor.user());
   useEffect(() => {
     document.title = 'DOELT - Home';
     Legtracker.scrapeUpcomingHearings().then((initialData) => {
@@ -130,17 +127,16 @@ const Home = () => {
                   </thead>
                   { upcomingHearings.length > 0 ? (
                     <tbody>
-                      {upcomingHearings.map((hearing) => <NotificationBody hearing={hearing} />).slice(0, 14)}
+                      {upcomingHearings.map((hearing) => <NotificationBody key={`${hearing.dateTime}`} hearing={hearing} />).slice(0, 14)}
                     </tbody>
                   ) : (
-                    '-'
+                    <tbody>
+                      <tr>
+                        <td>There are currently no hearings</td>
+                      </tr>
+                    </tbody>
                   )}
                 </Table>
-                {upcomingHearings.length > 0 ? (
-                  '-'
-                ) : (
-                  <p>No upcoming hearings found.</p>
-                )}
               </Card.Body>
             </Card>
           </Row>
@@ -168,7 +164,13 @@ const Home = () => {
                         testimony={testimony}
                         _code={testimony.billCode}
                       />
-                    )) : <LoadingSpinner />}
+                    )) : (
+                      <tr>
+                        <td>
+                          <Spinner animation="border" />
+                        </td>
+                      </tr>
+                    )}
                   </tbody>
                 </Table>
               </Card.Body>
@@ -197,10 +199,18 @@ const Home = () => {
                   {ready ? (
                     <tbody>
                       {bills.map((bill) => (
-                        <NotificationBill key={bills._id} bills={bill} />
+                        <NotificationBill key={bill._id} bills={bill} />
                       ))}
                     </tbody>
-                  ) : <LoadingSpinner />}
+                  ) : (
+                    <tbody>
+                      <tr>
+                        <td>
+                          <Spinner animation="border" />
+                        </td>
+                      </tr>
+                    </tbody>
+                  )}
                 </Table>
               </Card.Body>
             </Card>

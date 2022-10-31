@@ -7,16 +7,16 @@ import { Pencil } from 'react-bootstrap-icons';
 const TestimonyRow = ({ testimony, _code }) => (
   <tr>
     <td>
-      <div> {testimony.hearingDate ? testimony.hearingDate : '-'}</div>
+      {testimony.hearingDate ? testimony.hearingDate : '-'}
     </td>
     <td>
-      <div> { testimony.billCode ? testimony.billCode : '-' }</div>
+      { testimony.billCode ? testimony.billCode : '-' }
     </td>
     <td>
-      <div>{ testimony.testifier ? testimony.testifier : '-'}</div>
+      { testimony.testifier ? testimony.testifier : '-'}
     </td>
     <td>
-      <div> { testimony.status ? testimony.status : '-'}</div>
+      { testimony.status ? testimony.status : '-'}
     </td>
     <td>
       <Button href={`/edit-testimony/${_code}/${testimony._id}`}><Pencil /></Button>

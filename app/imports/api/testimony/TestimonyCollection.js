@@ -28,7 +28,7 @@ class TestimonyCollection extends BaseCollection {
       billTitle: String,
       billPurpose: String,
       position: String,
-      lastEditedBy: String,
+      lastEditedBy: { type: String, defaultValue: '-', optional: true },
       status: { type: String, defaultValue: '-', allowedValues: testimonyStatuses },
     }));
   }

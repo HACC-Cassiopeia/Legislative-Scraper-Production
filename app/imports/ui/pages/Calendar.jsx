@@ -4,7 +4,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import { Container, Col, Button } from 'react-bootstrap';
 import { ChevronLeft, List } from 'react-bootstrap-icons';
 import Legtracker from '../utilities/Legtracker';
-import CalModal from '../components/CalModal';
+import CalModal from '../components/modals/CalModal';
 import DesktopSideBarCollapsed from '../components/SideNavBar/DesktopSideBarCollapsed';
 import DesktopSideBarExpanded from '../components/SideNavBar/DesktopSideBarExpanded';
 import MobileSideBar from '../components/SideNavBar/MobileSideBar';

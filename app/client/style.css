@@ -187,6 +187,15 @@ html, body {
   font-weight: bold;
   --bs-btn-bg: #2e374f;
   --bs-btn-border-color: #242c41;
+  --bs-btn-active-color: white;
+  --bs-btn-active-bg: white;
+  --bs-btn-focus-shadow-rgb: none;
+  --bs-btn-active-border-color: #242c41;
+}
+
+.logInButton:hover .btn-primary {
+  background-color: #374054 !important;
+  border-color: #374054 !important;
 }
 
 .halpButton .btn-primary {
@@ -304,4 +313,8 @@ html, body {
 
 .navButtons:hover {
   color: #586586 !important;
+}
+
+.forgotPw:hover {
+  color: #b6bbc5 !important;
 }

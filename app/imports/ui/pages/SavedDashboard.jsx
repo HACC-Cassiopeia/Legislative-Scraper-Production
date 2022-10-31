@@ -545,7 +545,7 @@ const Dashboard = () => {
           </tr>
         </thead>
         <tbody>
-          { filteredMeasures.length === 0 ? '' : filteredMeasures
+          { filteredMeasures.length === 0 ? (<tr><td>-</td></tr>) : filteredMeasures
             .map((bill) => <SavedBill key={bill._id} bill={bill} />)
             .slice(firstIndex, lastIndex)}
         </tbody>
