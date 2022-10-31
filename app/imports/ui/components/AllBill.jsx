@@ -6,7 +6,7 @@ import { useTracker } from 'meteor/react-meteor-data';
 import swal from 'sweetalert';
 import { SavedMeasures } from '../../api/savedMeasures/SavedMeasuresCollection';
 import SmallerSpinner from './SmallerSpinner';
-import SaveBillModal from './SaveBillModal';
+import SaveBillModal from './modals/SaveBillModal';
 import { defineMethod } from '../../api/base/BaseCollection.methods';
 
 /** Renders a single row in the List Stuff table. See pages/ListStuff.jsx. */

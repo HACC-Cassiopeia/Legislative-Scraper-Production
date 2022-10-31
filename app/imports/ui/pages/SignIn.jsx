@@ -11,6 +11,7 @@ import {
   TextField,
 } from 'uniforms-bootstrap5';
 import { COMPONENT_IDS } from '../utilities/ComponentIDs';
+import ForgotPwModal from '../components/modals/ForgotPwModal';
 
 const SignIn = () => {
   const [error, setError] = useState('');
@@ -103,11 +104,11 @@ const SignIn = () => {
                       id={COMPONENT_IDS.SIGN_IN_FORM_SUBMIT}
                       value="Log in"
                     />
+                    <Col className="d-flex justify-content-center">
+                      <ForgotPwModal />
+                    </Col>
                   </Card.Body>
                 </Card>
-                <div className="d-flex justify-content-center small">
-                  Forgot password?
-                </div>
               </AutoForm>
               {error === '' ? (
                 ''
@@ -148,7 +149,8 @@ const SignIn = () => {
             className="p-0 m-0 d-flex justify-content-center text-center"
           >
             <p>
-              <u>Contact Administrator</u>
+              {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+              <a href="#" style={{ color: 'white' }}>Contact Administrator</a>
             </p>
           </div>
         </tr>

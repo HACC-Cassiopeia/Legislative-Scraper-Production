@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Container } from 'react-bootstrap';
 import * as Icon from 'react-bootstrap-icons';
-import SignInModal from '../components/SignInModal';
+import SignInModal from '../components/modals/SignInModal';
 
 // added
 

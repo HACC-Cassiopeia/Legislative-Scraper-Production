@@ -8,7 +8,7 @@ import {
 } from 'react-bootstrap-icons';
 import PropTypes from 'prop-types';
 import MobileSignOutCheck from '../MobileSignOutCheck';
-import HalpModal from '../HelpModal';
+import HalpModal from '../modals/HelpModal';
 
 const DesktopSideBarCollapsed = (props) => {
 

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
-import { QuestionCircle } from 'react-bootstrap-icons';
 
 const HalpModal = () => {
   const [show, setShow] = useState(false);
@@ -9,12 +8,10 @@ const HalpModal = () => {
   const handleShow = () => setShow(true);
 
   const buttonStyle = {
-    backgroundColor: '#2e374f',
-    position: 'absolute',
-    bottom: '8%',
+    backgroundColor: 'transparent',
     borderWidth: 0,
     fontWeight: 'normal',
-    fontSize: '13px',
+    fontSize: '12px',
     marginLeft: 0,
     marginRight: '3px',
     boxShadow: 'none',
@@ -22,15 +19,15 @@ const HalpModal = () => {
 
   return (
     <>
-      <Button className="mt-2 ms-2 navButtons" style={buttonStyle} variant="primary" id="navbar-sign-out" onClick={handleShow}>
-        <QuestionCircle style={{ fontSize: '20px' }} className="mb-1" />
+      <Button className="mt-2 ms-2 forgotPw" style={buttonStyle} onClick={handleShow}>
+        Forgot password?
       </Button>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Information</Modal.Title>
+          <Modal.Title>Forgot Password</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p>For assistance using this application, please watch this demonstration video. If you have additional questions, please contact an administrator.</p>
+          <p>Please contact an administrator to reset your password.</p>
         </Modal.Body>
       </Modal>
     </>
