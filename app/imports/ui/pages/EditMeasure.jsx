@@ -30,7 +30,6 @@ const EditMeasure = () => {
     };
   }, false);
 
-  console.log(doc);
   const navigate = useNavigate();
   if (!doc && ready) {
     navigate('/*');

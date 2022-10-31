@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Container, Row } from 'react-bootstrap';
+import { Button, Col, Container } from 'react-bootstrap';
 import { ChevronLeft, List } from 'react-bootstrap-icons';
 import { PAGE_IDS } from '../utilities/PageIDs';
 import DesktopSideBarExpanded from '../components/SideNavBar/DesktopSideBarExpanded';

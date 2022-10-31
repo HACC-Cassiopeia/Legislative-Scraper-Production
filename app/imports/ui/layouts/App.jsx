@@ -4,7 +4,6 @@ import { Meteor } from 'meteor/meteor';
 import { Roles } from 'meteor/alanning:roles';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import NotFound from '../pages/NotFound';
-import SignUp from '../pages/stuffPages/SignUp';
 import SignIn from '../pages/SignIn';
 import NotAuthorized from '../pages/NotAuthorized';
 import { ROLE } from '../../api/role/Role';
@@ -31,7 +30,6 @@ const App = () => (
         <Route exact path="/signin" element={<SignIn />} />
         <Route exact path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
         <Route path="/signin" element={<SignIn />} />
-        <Route path="/signup" element={<SignUp />} />
         <Route path="/signout" element={<SignOut />} />
         <Route path="/view/all" element={<ProtectedRoute><AllDashboard /></ProtectedRoute>} />
         <Route path="/view/DOE" element={<ProtectedRoute><SavedDashboard /></ProtectedRoute>} />
@@ -40,8 +38,8 @@ const App = () => (
         <Route path="/calendar" element={<ProtectedRoute><Calendar /></ProtectedRoute>} />
         <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
         <Route path="/edit/:_code" element={<ProtectedRoute><EditMeasure /></ProtectedRoute>} />
-        <Route path="/notauthorized" element={<NotAuthorized />} />
-        <Route path="*" element={<NotFound />} />
+        <Route path="/notauthorized" element={<ProtectedRoute><NotAuthorized /></ProtectedRoute>} />
+        <Route path="*" element={<ProtectedRoute><NotFound /></ProtectedRoute>} />
       </Routes>
     </div>
   </Router>

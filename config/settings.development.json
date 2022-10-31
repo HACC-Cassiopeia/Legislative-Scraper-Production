@@ -1,9 +1,5 @@
 {
   "defaultAccounts": [
-    { "email": "ADMIN", "password": "changeme", "role": "ADMIN", "firstName": "Admin", "lastName": "MATRP"
-    },
-    { "email": "USER", "password": "changeme", "role": "USER" , "firstName": "John", "lastName": "Doe"
-    },
     {"email": "ASSIGNER", "password": "changeme", "role": "ASSIGNER" , "firstName": "Assigner", "lastName": "Doe"},
     {"email": "WRITER", "password": "changeme", "role": "WRITER" , "firstName": "Writer", "lastName": "Doe"},
     {"email": "OFFICEAPV", "password": "changeme", "role": "OFFICE_APV" , "firstName": "Office Approver", "lastName": "Doe"},
