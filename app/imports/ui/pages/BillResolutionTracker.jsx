@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Navbar, Nav, NavLink } from 'react-bootstrap';
 import { ChevronLeft, PencilSquare, List, FileEarmarkPlusFill, Trash3Fill } from 'react-bootstrap-icons';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
+import { Link } from 'react-router-dom';
 import BillResolutionDetails from '../components/billDetails/BillResolutionDetails';
 import TestimonyTracker from '../components/testimony/TestimonyTracker';
 import DesktopSideBarExpanded from '../components/SideNavBar/DesktopSideBarExpanded';
 import DesktopSideBarCollapsed from '../components/SideNavBar/DesktopSideBarCollapsed';
 import CreateTestimonyModal from '../components/testimony/CreateTestimonyModal';
 import MobileSideBar from '../components/SideNavBar/MobileSideBar';
-import { Link } from 'react-router-dom';
 
 const BillResolutionTracker = () => {
   const { _code } = useParams();
@@ -29,6 +29,7 @@ const BillResolutionTracker = () => {
       window.removeEventListener('resize', handleResizeWindow);
     };
   }, []);
+
   const breakPoint = 800;
   const mobileMainBody = {
     fontSize: '10px',

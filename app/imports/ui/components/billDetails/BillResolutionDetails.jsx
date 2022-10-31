@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Accordion } from 'react-bootstrap';
 import { FilePdfFill, Youtube } from 'react-bootstrap-icons';
 import { useTracker } from 'meteor/react-meteor-data';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import LoadingSpinner from '../LoadingSpinner';
 import { SavedMeasures } from '../../../api/savedMeasures/SavedMeasuresCollection';
 import Legtracker from '../../utilities/Legtracker';
@@ -19,6 +19,11 @@ const BillResolutionDetails = () => {
       ready: rdy,
     };
   }, false);
+
+  const navigate = useNavigate();
+  if (!bill && ready) {
+    navigate('/*');
+  }
 
   // eslint-disable-next-line consistent-return
   const getScraperParams = (billData) => {

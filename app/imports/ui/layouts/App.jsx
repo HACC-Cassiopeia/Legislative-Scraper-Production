@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { Meteor } from 'meteor/meteor';
 import { Roles } from 'meteor/alanning:roles';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import NotFound from '../pages/stuffPages/NotFound';
+import NotFound from '../pages/NotFound';
 import SignUp from '../pages/stuffPages/SignUp';
 import SignIn from '../pages/SignIn';
-import NotAuthorized from '../pages/stuffPages/NotAuthorized';
+import NotAuthorized from '../pages/NotAuthorized';
 import { ROLE } from '../../api/role/Role';
 
 /*
