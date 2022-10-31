@@ -2,9 +2,9 @@ import React from 'react';
 import { Nav, Col } from 'react-bootstrap';
 import {
   HouseFill,
-  CardList,
+  CardChecklist,
+  ListColumnsReverse,
   CalendarEventFill,
-  Save2,
 } from 'react-bootstrap-icons';
 import PropTypes from 'prop-types';
 import SignoutCheck from '../SignoutCheck';
@@ -58,7 +58,7 @@ const DesktopSideBarExpanded = (props) => {
             className="py-3 navButtons"
             style={page === 'all-bills' ? openSelected : openReg}
           >
-            <CardList className="mb-1 me-3 ms-1" style={{ fontSize: '20px' }} />
+            <ListColumnsReverse className="mb-1 me-3 ms-1" style={{ fontSize: '20px' }} />
             All Bills
           </Nav.Link>
           <Nav.Link
@@ -66,7 +66,7 @@ const DesktopSideBarExpanded = (props) => {
             className="py-3 navButtons"
             style={page === 'doe-bills' ? openSelected : openReg}
           >
-            <Save2
+            <CardChecklist
               style={{ fontSize: '20px' }}
               className="mb-1 me-3 ms-1"
             />DOE Bills
