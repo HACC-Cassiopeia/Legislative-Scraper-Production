@@ -88,8 +88,8 @@ app.get('/api/scrapeMeasures/:year/:mt', async (req, res) => {
         // eslint-disable-next-line no-console
         scrapedData.push({
           code: `${code}`,
-          measurePdfUrl: `${measurePdfUrl}`,
-          measureArchiveUrl: `${measureArchiveUrl}`,
+          measurePdfUrl: `$https://www.capitol.hawaii.gov{measurePdfUrl}`,
+          measureArchiveUrl: `https://www.capitol.hawaii.gov${measureArchiveUrl}`,
           measureTitle: `${measureTitle}`,
           reportTitle: `${reportTitle}`,
           description: `${description}`,
