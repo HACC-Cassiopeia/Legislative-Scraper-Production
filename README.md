@@ -1,3 +1,15 @@
+<h2 align="center">DOELT</h2>
+<h4 align="center">Legislative Tracker</h4>
+
+### TECH STACK
+<p align="center">
+<img src="https://github.com/devicons/devicon/blob/master/icons/javascript/javascript-original.svg" title="Javascript" alt="Javascript" width="52" height="52"/>
+<img src="https://github.com/devicons/devicon/blob/master/icons/react/react-original-wordmark.svg" title="React" alt="React" width="52" height="52"/>
+<img src="https://github.com/devicons/devicon/blob/master/icons/meteor/meteor-original.svg" title="Meteor" alt="Meteor" width="52" height="52"/>
+<img src="https://github.com/devicons/devicon/blob/master/icons/mongodb/mongodb-original-wordmark.svg" title="Mongodb" alt="Mongodb" width="52" height="52"/>
+</p>
+
+
 ## About DOELT 
 
 The Hawaii Department of Education supports our state by promoting student achievement and  fostering educational excellence while ensuring equal access for all. The DOE's Innovation, Planning, and Evaluation Branch manages the department's legislative initiatives. Legislative initiatives are currently handled using a system called IBM Lotus Notes. Our application, DOE Legislative Tracker, or DOELT, modernizes the DOE's outdated tracking system by introducing a modern user interface and improving the access and usability of the system. Because DOELT is a web application, it can be accessed from any location and from any device that is connected to a network.
